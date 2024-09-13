@@ -57,6 +57,30 @@ git clone https://github.com/kiriko123/datn-backend.git
 
 ```
 
+### Cài đặt Front-end
+
+```bash
+# Clone repository về máy
+git clone https://github.com/kiriko123/datn-fromend.git
+
+# Cài đặt các dependencies
+npm i
+# hoặc nếu sử dụng yarn
+yarn install
+
+
+```
+
+## Sử dụng
+
+### Sử dụng Back-end
+
+```bash
+# Khởi động MySQL và tạo 1 database mới với tên DemoSpringSecurity hoặc có thể tự cấu hình tên mới trong file application.yml
+# Chạy dự án
+# Truy cập vào http://localhost:8080/swagger-ui/index.html để quản lý các API
+```
+
 ### Sử dụng Front-end
 
 ```bash
