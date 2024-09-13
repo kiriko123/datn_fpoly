@@ -62,8 +62,6 @@ git clone https://github.com/kiriko123/datn-fromend.git
 
 # Cài đặt các dependencies
 npm i
-# hoặc nếu sử dụng yarn
-yarn install
 
 ```
 
@@ -72,7 +70,7 @@ yarn install
 ### Sử dụng Back-end
 
 ```bash
-# Khởi động MySQL và tạo 1 database mới với tên DemoSpringSecurity hoặc có thể tự cấu hình tên mới trong file application.yml
+# Khởi động MySQL và tạo 1 database mới với tên db_datn hoặc có thể tự cấu hình tên mới trong file application.yml (có thể đổi lại username và password cho phù hợp)
 # Chạy dự án
 # Truy cập vào http://localhost:8080/swagger-ui/index.html để quản lý các API
 
@@ -81,13 +79,8 @@ yarn install
 ### Sử dụng Front-end
 
 ```bash
-# Chạy dự án back-end trên cổng localhost:8080
-# Link dự án back-end: https://github.com/kiriko123/datn-backend.git
-
 # Chạy dự án front-end
 npm run dev
-# hoặc nếu sử dụng yarn
-yarn start
 
 # Truy cập vào http://localhost:3000
 
