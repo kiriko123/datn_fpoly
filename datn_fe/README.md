@@ -33,7 +33,6 @@ From-end của ứng dụng
 
 ```bash
 # Clone repository về máy
-git clone https://github.com/kiriko123/datn-fromend.git
 
 # Cài đặt các dependencies
 npm i
@@ -47,11 +46,9 @@ Hướng dẫn cách sử dụng dự án sau khi cài đặt:
 
 ```bash
 # Chạy dự án back-end trên cổng localhost:8080
-link dự án (https://github.com/kiriko123/datn-backend.git)
+
 # Chạy dự án
 npm run dev
-# hoặc nếu sử dụng yarn
-yarn start
 
 # Truy cập vào http://localhost:3000
 ```
@@ -85,10 +82,6 @@ Hướng dẫn cách đóng góp vào dự án nếu bạn mở rộng dự án 
 
 ## Giấy Phép
 
-Thêm giấy phép sử dụng nếu có, ví dụ:
-
-Dự án này được cấp phép dưới giấy phép MIT. Xem thêm trong LICENSE để biết chi tiết.
-
 ## Tác Giả
-Tên của bạn - khang
+KKhang
 
