@@ -48,26 +48,15 @@ Dự án bao gồm cả phần back-end và front-end.
 ### Cài đặt Back-end
 
 ```bash
-# Clone repository về máy
-git clone https://github.com/kiriko123/datn-backend.git
-
-# Cài đặt các dependencies (vào file pom.xdbo_datn hoặc có thể tự cấu hình tên mới trong file application.yml (có thể đổi lại username và password cho phù hợp)
-# Chạy dự án
-# Truy cập vào http://localhost:8080/swagger-ui/index.html để quản lý các API
+# Cài đặt các dependencies (vào file pom.xml chọn Maven rồi chọn reload project)
 
 ```
 
 ### Cài đặt Front-end
 
 ```bash
-# Clone repository về máy
-git clone https://github.com/kiriko123/datn-fromend.git
-
 # Cài đặt các dependencies
 npm i
-# hoặc nếu sử dụng yarn
-yarn install
-
 
 ```
 
@@ -76,7 +65,7 @@ yarn install
 ### Sử dụng Back-end
 
 ```bash
-# Khởi động MySQL và tạo 1 database mới với tên DemoSpringSecurity hoặc có thể tự cấu hình tên mới trong file application.yml
+# Khởi động MySQL và tạo 1 database mới với tên dbo_datn hoặc có thể tự cấu hình tên mới trong file application.yml
 # Chạy dự án
 # Truy cập vào http://localhost:8080/swagger-ui/index.html để quản lý các API
 ```
@@ -127,7 +116,7 @@ tên_repo/
 ```
 
 ## Đóng Góp
-Hướng dẫn cách đóng góp vào dự án nếu bạn mở rộng dự án cho cộng đồng:
+Hướng dẫn cách đóng góp vào dự án nếu bạn mở rộng dự án:
 
 1: Fork repository
 
@@ -141,9 +130,6 @@ Hướng dẫn cách đóng góp vào dự án nếu bạn mở rộng dự án 
 
 ## Giấy Phép
 
-Thêm giấy phép sử dụng nếu có, ví dụ:
-
-Dự án này được cấp phép dưới giấy phép MIT. Xem thêm trong LICENSE để biết chi tiết.
 
 ## Tác Giả
-Tên của bạn - khang
+Khang
