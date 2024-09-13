@@ -26,7 +26,32 @@ Dự án bao gồm cả phần back-end và front-end.
 ### Back-end
 - Xử lý logic nghiệp vụ.
 - Quản lý người dùng.
-- API cho các tính năng cdbo_datn hoặc có thể tự cấu hình tên mới trong file application.yml (có thể đổi lại username và password cho phù hợp)
+- API cho các tính năng chính.
+
+### Front-end
+- Quản lý giao diện người dùng.
+- Tương tác với các API từ back-end.
+- Các tính năng quản lý user.
+
+## Yêu Cầu Hệ Thống
+
+### Back-end
+- **JDK** phiên bản 17 trở lên
+- **MySQL** 
+
+### Front-end
+- **Node.js** phiên bản v16.20.0 hoặc cao hơn
+- **NPM** hoặc **Yarn**
+
+## Cài Đặt
+
+### Cài đặt Back-end
+
+```bash
+# Clone repository về máy
+git clone https://github.com/kiriko123/datn-backend.git
+
+# Cài đặt các dependencies (vào file pom.xdbo_datn hoặc có thể tự cấu hình tên mới trong file application.yml (có thể đổi lại username và password cho phù hợp)
 # Chạy dự án
 # Truy cập vào http://localhost:8080/swagger-ui/index.html để quản lý các API
 
