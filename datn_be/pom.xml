@@ -44,7 +44,6 @@
             <version>${lombok-mapstruct-binding.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.turkraft.springfilter/jpa -->
         <dependency>
             <groupId>com.turkraft.springfilter</groupId>
             <artifactId>jpa</artifactId>
