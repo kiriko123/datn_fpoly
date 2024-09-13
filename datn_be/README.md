@@ -34,7 +34,6 @@ Hướng dẫn cách cài đặt dự án trên máy của người dùng:
 
 ```bash
 # Clone repository về máy
-git clone https://github.com/kiriko123/datn-backend.git
 
 # Cài đặt các dependencies (vào file pom.xml chọn Maven rùi chọn reload project)
 
@@ -44,7 +43,7 @@ git clone https://github.com/kiriko123/datn-backend.git
 Hướng dẫn cách sử dụng dự án sau khi cài đặt:
 
 ```bash
-# Khởi động MySQL và tạo 1 database mới với tên DemoSpringSecurity hoặc có thể tự cấu hình tên mới trong file application.yml
+# Khởi động MySQL và tạo 1 database mới với tên dbo_datn hoặc có thể tự cấu hình tên mới trong file application.yml
 # Chạy dự án
 # Truy cập vào http://localhost:8080/swagger-ui/index.html để quản lý các api
 ```
@@ -88,10 +87,6 @@ Hướng dẫn cách đóng góp vào dự án nếu bạn mở rộng dự án 
 
 ## Giấy Phép
 
-Thêm giấy phép sử dụng nếu có, ví dụ:
-
-Dự án này được cấp phép dưới giấy phép MIT. Xem thêm trong LICENSE để biết chi tiết.
-
 ## Tác Giả
-Tên của bạn - khang
+KKhang
 
