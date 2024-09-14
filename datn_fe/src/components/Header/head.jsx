@@ -1,23 +1,32 @@
 import React from "react";
 import './head.css';
-
+import '../../i18n.js';
+import {useTranslation} from "react-i18next";
 const Head = () => {
+
+    const { t, i18n } = useTranslation();
+
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+    };
+
     return (
         <section className="head">
             <div className="container d_flex">
                 <div className="left row">
                     <i className="fa fa-phone"></i>
-                    <label>+88012 3456 7894</label>
+                    <label>+84 8813 598</label>
                     <i className="fa fa-envelope"></i>
-                    <label>support@ui-lib.com</label>
+                    <label>tankhang101a@gmail.com</label>
                 </div>
                 <div className="right row RText">
-                    <label>Theme FAQ's</label>
-                    <label>Need Help?</label>
-                    <span role="img" aria-label="flag">🏳️‍⚧️</span>
-                    <label>EN</label>
-                    <span role="img" aria-label="flag">🏳️‍⚧️</span>
-                    <label>VI</label>
+                    <label>{t('faqs')}</label>
+                    <label>{t('need_help')}</label>
+
+                    <label onClick={() => changeLanguage('en')}><span role="img" aria-label="flag">🏳️‍⚧️</span>EN</label>
+
+                    <label onClick={() => changeLanguage('vi')}><span role="img"
+                                                                      aria-label="flag">🏳️‍⚧️</span> VI</label>
                 </div>
             </div>
         </section>

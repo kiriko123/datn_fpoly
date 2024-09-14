@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {FaReact} from 'react-icons/fa'
-import {VscSearchFuzzy} from 'react-icons/vsc';
 import {Divider, Badge, Drawer, message, Button, Anchor} from 'antd';
 import {useDispatch, useSelector} from 'react-redux';
 import {DownOutlined} from '@ant-design/icons';
@@ -19,7 +17,7 @@ import { RiAdminFill } from "react-icons/ri";
 import { FaUserEdit } from "react-icons/fa";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import {FiShoppingCart} from "react-icons/fi";
-import Head from "./head.jsx";
+import {useTranslation} from "react-i18next";
 
 
 const Navbar = () => {
@@ -28,6 +26,7 @@ const Navbar = () => {
     const role = useSelector(state => state.account.user.role.name);
     console.log("check menu", role);
     const user = useSelector(state => state.account.user);
+    const { t, i18n } = useTranslation();
     console.log(user);
     const navigate = useNavigate();
 
@@ -112,16 +111,16 @@ const Navbar = () => {
                     <div className="mobileHidden">
                         <nav>
                             <div>
-                                <span onClick={() => navigate('/')}> <FaHome /> <p>Home</p></span>
+                                <span onClick={() => navigate('/')}> <FaHome /> <p>{t('home')}</p></span>
                             </div>
                             <div>
-                                <span onClick={() => navigate('/1')}> <BiSolidCategoryAlt /> <p>Product</p></span>
+                                <span onClick={() => navigate('/1')}> <BiSolidCategoryAlt /> <p>{t('product')}</p></span>
                             </div>
                             <div>
-                                <span onClick={() => navigate('/2')}> <FaCartShopping /> <p>Cart</p></span>
+                                <span onClick={() => navigate('/2')}> <FaCartShopping /> <p>{t('cart')}</p></span>
                             </div>
                             <div>
-                                <span onClick={() => navigate('/3')}> <MdContactSupport /> <p>About</p></span>
+                                <span onClick={() => navigate('/3')}> <MdContactSupport /> <p>{t('about')}</p></span>
                             </div>
                             {/*<div>*/}
                             {/*<Badge*/}
@@ -133,7 +132,7 @@ const Navbar = () => {
                             {/*</div>*/}
                             <div>
                                 {!isAuthenticated || user === null ?
-                                    <span onClick={() => navigate('/auth')}><RiLoginCircleFill /> <p>Login/Register</p></span>
+                                    <span onClick={() => navigate('/auth')}><RiLoginCircleFill /> <p>{t('login_register')}</p></span>
                                     :
                                     <Dropdown menu={{items}} trigger={['click']}>
                                         <a onClick={(e) => e.preventDefault()}>
@@ -165,16 +164,16 @@ const Navbar = () => {
                         >
                             <nav className="mobileVisible-nav">
                                 <div className="mobileVisible-nav-div" onClick={() => navigate('/')}>
-                                    <span><FaHome /> Home</span>
+                                    <span><FaHome /> {t('login_register')}</span>
                                 </div>
                                 <div className="mobileVisible-nav-div" onClick={() => navigate('/1')}>
-                                    <span> <BiSolidCategoryAlt /> Product</span>
+                                    <span> <BiSolidCategoryAlt /> {t('product')}</span>
                                 </div>
                                 <div className="mobileVisible-nav-div" onClick={() => navigate('/2')}>
-                                    <span> <FaCartShopping /> Cart</span>
+                                    <span> <FaCartShopping /> {t('cart')}</span>
                                 </div>
                                 <div className="mobileVisible-nav-div" onClick={() => navigate('/3')}>
-                                    <span> <MdContactSupport /> About</span>
+                                    <span> <MdContactSupport /> {t('about')}</span>
                                 </div>
                                 {/*<div>*/}
                                 {/*<Badge*/}
@@ -186,7 +185,7 @@ const Navbar = () => {
                                 {/*</div>*/}
                                 <div>
                                     {!isAuthenticated || user === null ?
-                                        <span onClick={() => navigate('/auth')}> <RiLoginCircleFill /> Login/Register</span>
+                                        <span onClick={() => navigate('/auth')}> <RiLoginCircleFill />{t('login_register')}</span>
                                         :
                                         <Dropdown menu={{items}} trigger={['click']}>
                                             <a style={{textDecoration: 'none', color: '#1c1f23'}} onClick={(e) => e.preventDefault()}>

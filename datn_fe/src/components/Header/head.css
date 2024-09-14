@@ -32,6 +32,11 @@
 .head label {
     margin-right: 30px;
     font-size: 13px;
+    cursor: pointer;
+}
+.head label:hover{
+    color: #11998e;
+    opacity: .9;
 }
 
 /* Right section styling */
