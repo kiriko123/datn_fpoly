@@ -7,7 +7,6 @@ import './App.css'
 import {useDispatch, useSelector} from "react-redux";
 import {callFetchAccount, callRegister} from "./services/api.js";
 import {doGetAccountAction} from "./redux/account/accountSlice.js";
-import Header from "./components/Header/index..jsx";
 import Footer from "./components/Footer/index.jsx";
 import Home from "./components/Home/index.jsx";
 import Loading from "./components/Loading/index.jsx";
@@ -17,6 +16,7 @@ import AdminPage from "./pages/admin/index.jsx";
 import ManageUserPage from "./pages/admin/user/index.jsx";
 import Auth from "./pages/auth/index.jsx";
 import Slider from "./pages/slider/slider.jsx";
+import Header from "./components/Header/header.jsx";
 
 
 const Layout = () => {

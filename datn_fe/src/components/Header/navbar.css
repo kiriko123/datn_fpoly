@@ -21,7 +21,7 @@ body {
     background: #fff !important;
 }
 
-.mainLayout .ant-layout-header {
+.mainLayout .ant-layout-nav {
     background: #f8f8f8;
     padding: 0;
     height: auto;
@@ -65,10 +65,10 @@ title holder
 }
 
 /*
-header
+nav
 ------
 */
-.ant-layout-header {
+.ant-layout-nav {
     position: fixed;
     left: 0;
     right: 0;
@@ -76,34 +76,41 @@ header
 }
 
 .header {
+    background-color: #fff; /* Ensure background color for better visibility */
+    position: sticky;
+    top: 0; /* Stick to the top */
+    z-index: 1000; /* Ensure it's on top of other content */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+}
+
+.nav{
+    padding: 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
 }
-
-.header .logo {
+.nav .logo {
     font-size: 22px;
     text-transform: uppercase;
     font-weight: 400;
 }
 
-.header .logo .fas {
+.nav .logo .fas {
     color: #1890ff;
     margin-right: 5px;
     font-size: 28px;
 }
 
-.header .logo a {
+.nav .logo a {
     color: #333;
     text-decoration: none;
 }
-.header .mobileHidden nav{
+.nav .mobileHidden nav{
     display: flex;
     gap: 30px;
     align-items: center;
 }
-.header .mobileHidden nav div span{
+.nav .mobileHidden nav div span{
     display: flex;
 
     align-items: center;
@@ -133,26 +140,26 @@ span{
 span:hover{
     color: #1890ff;
 }
-.header .ant-anchor-wrapper {
+.nav .ant-anchor-wrapper {
     background: none;
 }
 
-.header .ant-anchor {
+.nav .ant-anchor {
     display: flex;
 }
 
-.header .ant-anchor-ink {
+.nav .ant-anchor-ink {
     display: none;
 }
 
-.header .ant-anchor-link {
+.nav .ant-anchor-link {
     padding: 0 20px;
     line-height: 1.4;
     position: relative;
 }
 
-.header .ant-anchor-link:before,
-.header .ant-anchor-link:after {
+.nav .ant-anchor-link:before,
+.nav .ant-anchor-link:after {
     content: '';
     background: #1890ff;
     width: 1px;
@@ -164,36 +171,36 @@ span:hover{
     transition: all 0.3s linear;
 }
 
-.header .ant-anchor-link:after {
+.nav .ant-anchor-link:after {
     left: auto;
     right: 30%;
 }
 
-.header .ant-anchor-link.ant-anchor-link-active:before,
-.header .ant-anchor-link:hover:before {
+.nav .ant-anchor-link.ant-anchor-link-active:before,
+.nav .ant-anchor-link:hover:before {
     left: 5%;
     opacity: 1;
 }
 
-.header .ant-anchor-link.ant-anchor-link-active:after,
-.header .ant-anchor-link:hover:after {
+.nav .ant-anchor-link.ant-anchor-link-active:after,
+.nav .ant-anchor-link:hover:after {
     right: 5%;
     opacity: 1;
 }
 
 /* ant menu */
-.header .ant-menu {
+.nav .ant-menu {
     border: 0;
     background: none !important;
 }
 
-.header .ant-menu li.ant-menu-item {
+.nav .ant-menu li.ant-menu-item {
     position: relative;
     color: #333;
 }
 
-.header .ant-menu li.ant-menu-item:before,
-.header .ant-menu li.ant-menu-item:after {
+.nav .ant-menu li.ant-menu-item:before,
+.nav .ant-menu li.ant-menu-item:after {
     content: '';
     background: #1890ff;
     width: 1px;
@@ -205,30 +212,30 @@ span:hover{
     transition: all 0.3s linear;
 }
 
-.header .ant-menu li.ant-menu-item:after {
+.nav .ant-menu li.ant-menu-item:after {
     left: auto;
     right: 30%;
 }
 
-.header .ant-menu li.ant-menu-item,
-.header .ant-menu li.ant-menu-item-selected {
+.nav .ant-menu li.ant-menu-item,
+.nav .ant-menu li.ant-menu-item-selected {
     border: 0 !important;
 }
 
-.header .ant-menu li.ant-menu-item-selected,
-.header .ant-menu li.ant-menu-item:hover {
+.nav .ant-menu li.ant-menu-item-selected,
+.nav .ant-menu li.ant-menu-item:hover {
     color: #1890ff;
     background: none;
 }
 
-.header .ant-menu li.ant-menu-item-selected:before,
-.header .ant-menu li.ant-menu-item:hover:before {
+.nav .ant-menu li.ant-menu-item-selected:before,
+.nav .ant-menu li.ant-menu-item:hover:before {
     left: 5%;
     opacity: 1;
 }
 
-.header .ant-menu li.ant-menu-item-selected:after,
-.header .ant-menu li.ant-menu-item:hover:after {
+.nav .ant-menu li.ant-menu-item-selected:after,
+.nav .ant-menu li.ant-menu-item:hover:after {
     right: 5%;
     opacity: 1;
 }

@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FaReact} from 'react-icons/fa'
 import {VscSearchFuzzy} from 'react-icons/vsc';
 import {Divider, Badge, Drawer, message, Button, Anchor} from 'antd';
-// import './header.scss';
 import {useDispatch, useSelector} from 'react-redux';
 import {DownOutlined} from '@ant-design/icons';
 import {Dropdown, Space} from 'antd';
 import {Link, useNavigate} from "react-router-dom";
 import {callLogout} from "../../services/api.js";
 import {doLogoutAction} from "../../redux/account/accountSlice.js";
-import './index.css'
+import './navbar.css'
 import { FaHome } from "react-icons/fa";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { FaCartShopping } from "react-icons/fa6";
@@ -20,9 +19,10 @@ import { RiAdminFill } from "react-icons/ri";
 import { FaUserEdit } from "react-icons/fa";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import {FiShoppingCart} from "react-icons/fi";
+import Head from "./head.jsx";
 
 
-const Header = () => {
+const Navbar = () => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const isAuthenticated = useSelector(state => state.account.isAuthenticated);
     const role = useSelector(state => state.account.user.role.name);
@@ -88,10 +88,23 @@ const Header = () => {
     const onClose = () => {
         setVisible(false);
     };
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsSticky(window.scrollY > 100); // Adjust the number as needed
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
     return (
-        <>
+        <div className={`header ${isSticky ? "sticky" : ""}`}>
             <div className="container-fluid">
-                <div className="header">
+                <div className="nav">
                     <div className="logo">
                         <i className="fas fa-bolt"></i>
                         <a href="http://google.com">好不好</a>
@@ -201,8 +214,8 @@ const Header = () => {
 
                 </div>
             </div>
-        </>
+        </div>
     )
 };
 
-export default Header;
+export default Navbar;
