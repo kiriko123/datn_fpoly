@@ -7,6 +7,8 @@ import SignIn from "./SignIn.jsx";
 import SignUp from "./SignUp.jsx";
 import { Typography } from "antd";
 import "./style.less";
+import LoginPage from "./LoginPage.jsx";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 
 export const AuthContext = React.createContext();
 const { Link } = Typography;
@@ -110,6 +112,11 @@ export default function Auth() {
                 )}
               </div>
           )}
+
+
+
+
+
         </div>
     </AuthContext.Provider>
   );
