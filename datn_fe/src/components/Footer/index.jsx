@@ -3,7 +3,7 @@ import {FloatButton} from "antd";
 
 const Footer = () => {
     return (
-        <div className="container-fluid">
+        <div className="">
             <div className="footer">
                 <div className="logo">
                     <i className="fas fa-bolt"></i>

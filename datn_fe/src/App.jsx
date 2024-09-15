@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {createBrowserRouter, Outlet, RouterProvider, useNavigate} from "react-router-dom";
-import LoginPage from "./pages/login/index.jsx";
-import RegisterForm from "./pages/register/index.jsx";
 import NotFound from "./components/NotFound/index.jsx";
 import './App.css'
 import {useDispatch, useSelector} from "react-redux";

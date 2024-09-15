@@ -40,36 +40,6 @@ export default function SignUp() {
     }
   };
 
-  // const onFinish = async (values) => {
-    // try {
-    //   const payload = {
-    //     firstName: get(values, "firstName"),
-    //     lastName: get(values, "lastName"),
-    //     email: get(values, "email"),
-    //     password: get(values, "password"),
-    //   };
-    //
-    //   setLoading(true);
-    //
-    //   const res = await api({
-    //     url: "/users/signup",
-    //     data: payload,
-    //     method: "POST",
-    //   });
-    //
-    //   if (res && res.status === 201) {
-    //     setShowModal(true);
-    //     form.resetFields();
-    //     setLoading(false);
-    //     setChecked(false);
-    //   }
-    // } catch (error) {
-    //   const errorMessage = get(error, "error.message", "Something went wrong!");
-    //   message.error(errorMessage);
-    //   setLoading(false);
-    // }
-
-  // };
 
   const onCheckboxChange = (e) => {
     setChecked(e.target.checked);

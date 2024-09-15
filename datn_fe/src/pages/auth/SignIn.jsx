@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { callLogin } from "../../services/api.js";
 import { doLoginAction } from "../../redux/account/accountSlice.js";
 import CryptoJS from "crypto-js";
-import LoginPage from "./LoginPage.jsx";
+import GoogleLogin from "./GoogleLogin.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google"; // Import thư viện crypto-js
 
 const { Title } = Typography;
@@ -149,7 +149,7 @@ export default function SignIn() {
           </Button>
 
           <GoogleOAuthProvider clientId="824050494772-hq3tch1avqvtbff8chou58hvecpbt3qi.apps.googleusercontent.com">
-            <LoginPage/>
+            <GoogleLogin/>
           </GoogleOAuthProvider>
 
         </Form>
