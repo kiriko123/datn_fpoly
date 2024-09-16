@@ -18,6 +18,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import {FiShoppingCart} from "react-icons/fi";
 import {useTranslation} from "react-i18next";
+import ManageAccount from "../Account/ManageAccount.jsx";
 
 
 const Navbar = () => {
@@ -31,6 +32,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
+    const [showManageAccount, setShowManageAccount] = useState(false);
 
     const handleLogout = async () => {
         const res = await callLogout();
@@ -45,7 +47,9 @@ const Navbar = () => {
     const items = [
         {
             label: <label style={{cursor: 'pointer'}}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}
+                     onClick={() => setShowManageAccount(true)}
+                >
                     <FaUserEdit />
                     <span>Edit profile</span>
                 </div>
@@ -213,6 +217,10 @@ const Navbar = () => {
 
                 </div>
             </div>
+            <ManageAccount
+                isModalOpen={showManageAccount}
+                setIsModalOpen={setShowManageAccount}
+            />
         </div>
     )
 };

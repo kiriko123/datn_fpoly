@@ -30,3 +30,18 @@ export const callBulkCreateUser = (data) => {
 export const callUpdateUser = ({id, name, password}) => {
     return axios.put(`/api/v1/user`, {id, name, password});
 }
+export const callUploadFile = (file, folder) => {
+    // Tạo FormData để đính kèm tệp
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', folder);
+
+    return axios.post('/api/v1/files', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+};
+export const callChangePassword = ({email, password, newPassword, confirmPassword }) => {
+    return axios.post('/api/v1/auth/change-password',{email, password, newPassword, confirmPassword})
+}

@@ -1,5 +1,6 @@
 package com.datn.be.service.impl;
 
+import com.datn.be.dto.request.user.ChangePasswordDTO;
 import com.datn.be.dto.request.user.RegisterRequestDTO;
 import com.datn.be.dto.response.user.UserResponse;
 import com.datn.be.exception.InvalidDataException;
@@ -144,6 +145,23 @@ public class SignupServiceImpl implements SignupService {
         user.setPassword(passwordEncoder.encode(newPassword));
         user.setVerificationCode(null);
         user.setVerificationCodeExpiresAt(null);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void changePassword(ChangePasswordDTO changePasswordDTO) {
+        User user = userRepository.findByEmail(changePasswordDTO.getEmail());
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+
+        if(!passwordEncoder.matches(changePasswordDTO.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Password does not match");
+        }
+        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())) {
+            throw new RuntimeException("Password does not match");
+        }
+        user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         userRepository.save(user);
     }
 

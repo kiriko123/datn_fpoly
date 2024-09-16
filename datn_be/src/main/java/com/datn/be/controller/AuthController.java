@@ -1,10 +1,7 @@
 package com.datn.be.controller;
 
 import com.datn.be.dto.request.GoogleLoginRequest;
-import com.datn.be.dto.request.user.LoginRequestDTO;
-import com.datn.be.dto.request.user.RegisterRequestDTO;
-import com.datn.be.dto.request.user.UserForgotPasswordDTO;
-import com.datn.be.dto.request.user.UserRegisterRequestDTO;
+import com.datn.be.dto.request.user.*;
 import com.datn.be.dto.response.RestResponse;
 import com.datn.be.dto.response.user.LoginResponse;
 import com.datn.be.dto.response.user.UserResponse;
@@ -235,6 +232,11 @@ public class AuthController {
             String firstName = (String) userInfo.get("given_name");
             String lastName = (String) userInfo.get("family_name");
 
+            ///////////////////
+            if(lastName.equals("(FPL HCM)")){
+                throw new RuntimeException("FPOLY === CÚT");
+            }
+            /////////////////////////
             User existingUser = userService.findByEmail(email);
 
             // Nếu user chưa tồn tại, tạo mới với mật khẩu ngẫu nhiên
@@ -311,6 +313,14 @@ public class AuthController {
                 .message("Forgot Password Sent")
                 .build();
     }
+    @PostMapping("/change-password")
+    public RestResponse<?> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO){
+        signupService.changePassword(changePasswordDTO);
 
+        return RestResponse.builder()
+                .statusCode(201)
+                .message("Password have been changed")
+                .build();
+    }
 
 }

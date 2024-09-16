@@ -41,6 +41,8 @@ const GoogleLogin = () => {
                 //window.location.href = '/';
             } catch (error) {
                 console.error('Login failed', error);
+                setLoading(false);
+                message.error(error.response.data.message);
             }
         },
         onError: (error) => {
