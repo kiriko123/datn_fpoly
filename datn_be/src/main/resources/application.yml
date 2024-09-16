@@ -42,5 +42,5 @@ khang:
     base64-secret: ZNsuIEYem0dC12lgBymX2bCpRj8V2FYIJyVdwNjsCr+aZD4xVya98ZmdS9Yv5xwYjTzdQReKJDq5E76AxMebzQ==
     access-token-validity-in-seconds: 900     # 15 minutes = 900 seconds
     refresh-token-validity-in-seconds: 604800  # 7 days = 604800 seconds
-#  upload-file:
-#    base-uri: file:///D:/Study/Java6/upload/
+  upload-file:
+    base-uri: file:///D:/datn/datn_fpoly/upload/
