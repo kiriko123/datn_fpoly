@@ -9,4 +9,6 @@ public interface SignupService {
     void verifyUser(String verificationCode);
     void resendVerificationCode(String email);
     void sendVerificationEmail(User user);
+    void forgotPassword(String email);
+    void resetPassword(String verificationCode, String newPassword);
 }

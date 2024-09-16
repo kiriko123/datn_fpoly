@@ -111,6 +111,60 @@ public class SignupServiceImpl implements SignupService {
         }
     }
 
+    @Override
+    public void forgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+
+        // Generate new verification code
+        user.setVerificationCode(generateVerificationCode());
+        user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
+
+        // Save the updated user
+        userRepository.save(user);
+
+        // Send password reset email
+        sendPasswordResetEmail(user);
+    }
+
+    @Override
+    public void resetPassword(String verificationCode, String newPassword) {
+        User user = userRepository.findByVerificationCode(verificationCode);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+
+        if (user.getVerificationCodeExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Verification code has expired");
+        }
+
+        // Update the user's password and reset verification code
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setVerificationCode(null);
+        user.setVerificationCodeExpiresAt(null);
+        userRepository.save(user);
+    }
+
+    public void sendPasswordResetEmail(User user) {
+        String subject = "Reset Your Password";
+        String resetLink = "http://localhost:8080/api/v1/auth/reset-password?code=" + user.getVerificationCode();
+        String htmlMessage = "<html>"
+                + "<body>"
+                + "<h2>Reset your password</h2>"
+                + "<p>Click the link below to reset your password:</p>"
+                + "<a href=\"" + resetLink + "\">Reset Password</a>"
+                + "</body>"
+                + "</html>";
+
+        try {
+            emailService.sendVerificationEmail(user.getEmail(), subject, htmlMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String generateVerificationCode() {
         Random random = new Random();
         int code = random.nextInt(900000) + 100000;

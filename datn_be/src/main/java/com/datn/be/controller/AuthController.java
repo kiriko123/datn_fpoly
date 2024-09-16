@@ -3,6 +3,7 @@ package com.datn.be.controller;
 import com.datn.be.dto.request.GoogleLoginRequest;
 import com.datn.be.dto.request.user.LoginRequestDTO;
 import com.datn.be.dto.request.user.RegisterRequestDTO;
+import com.datn.be.dto.request.user.UserForgotPasswordDTO;
 import com.datn.be.dto.request.user.UserRegisterRequestDTO;
 import com.datn.be.dto.response.user.LoginResponse;
 import com.datn.be.dto.response.user.UserResponse;
@@ -301,7 +302,11 @@ public class AuthController {
         }
     }
 
-
+    @PostMapping("/forgot")
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody UserForgotPasswordDTO forgotPasswordDTO) {
+        signupService.forgotPassword(forgotPasswordDTO.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body("Forgot Password Sent");
+    }
 
 
 }
