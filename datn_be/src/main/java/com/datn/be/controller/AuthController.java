@@ -5,6 +5,7 @@ import com.datn.be.dto.request.user.LoginRequestDTO;
 import com.datn.be.dto.request.user.RegisterRequestDTO;
 import com.datn.be.dto.request.user.UserForgotPasswordDTO;
 import com.datn.be.dto.request.user.UserRegisterRequestDTO;
+import com.datn.be.dto.response.RestResponse;
 import com.datn.be.dto.response.user.LoginResponse;
 import com.datn.be.dto.response.user.UserResponse;
 import com.datn.be.model.User;
@@ -303,9 +304,12 @@ public class AuthController {
     }
 
     @PostMapping("/forgot")
-    public ResponseEntity<?> forgotPassword(@Valid @RequestBody UserForgotPasswordDTO forgotPasswordDTO) {
+    public RestResponse<?> forgotPassword(@Valid @RequestBody UserForgotPasswordDTO forgotPasswordDTO) {
         signupService.forgotPassword(forgotPasswordDTO.getEmail());
-        return ResponseEntity.status(HttpStatus.OK).body("Forgot Password Sent");
+        return RestResponse.builder()
+                .statusCode(201)
+                .message("Forgot Password Sent")
+                .build();
     }
 
 
