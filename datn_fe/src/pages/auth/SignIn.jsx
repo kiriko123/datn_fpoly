@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, message, notification } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { callLogin } from "../../services/api.js";
 import { doLoginAction } from "../../redux/account/accountSlice.js";
 import CryptoJS from "crypto-js";
@@ -132,9 +132,9 @@ export default function SignIn() {
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
-            <a className="login-form-forgot" href="#">
+            <Link className="login-form-forgot" to="/forgot">
               Forgot password?
-            </a>
+            </Link>
           </Form.Item>
 
           <Button

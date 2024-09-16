@@ -25,7 +25,7 @@ const handleRefreshToken = async () => {
 instance.interceptors.request.use(function (config) {
     const accessToken = window?.localStorage?.getItem('access_token');
     // Không thêm Bearer token cho các endpoint /login và /refresh
-    if (accessToken && config.url !== '/api/v1/auth/login' && config.url !== '/api/v1/auth/refresh' && config.url !== '/api/v1/auth/register') {
+    if (accessToken && config.url !== '/api/v1/auth/login' && config.url !== '/api/v1/auth/refresh' && config.url !== '/api/v1/auth/forgot') {
         config.headers.Authorization = `Bearer ${accessToken}`;
     }
 

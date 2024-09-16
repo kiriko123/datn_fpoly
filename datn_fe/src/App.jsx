@@ -15,6 +15,7 @@ import ManageUserPage from "./pages/admin/user/index.jsx";
 import Auth from "./pages/auth/index.jsx";
 import Slider from "./pages/slider/slider.jsx";
 import Header from "./components/Header/header.jsx";
+import ForgotPage from "./pages/forgot/forgot.jsx";
 
 
 const Layout = () => {
@@ -33,9 +34,9 @@ export default function App() {
     const dispatch = useDispatch();
     const isLoading = useSelector(state => state.account.isLoading)
 
-    const getAccount = async() =>{
+    const getAccount = async () => {
         if (window.location.pathname === "/auth"
-            || window.location.pathname === "/register"
+            || window.location.pathname === "/forgot"
 
         ) {
             return;
@@ -43,7 +44,7 @@ export default function App() {
         const res = await callFetchAccount();
         console.log('this is r', res.statusCode);
 
-        if(res && res.statusCode===200) {
+        if (res && res.statusCode === 200) {
             //console.log('chahahahaha');
             dispatch(doGetAccountAction(res))
         }
@@ -52,12 +53,12 @@ export default function App() {
         getAccount();
     }, []);
 
-    const router =createBrowserRouter([
+    const router = createBrowserRouter([
         {
             path: '/',
             element: <Layout/>,
             errorElement: <NotFound/>,
-            children:[
+            children: [
                 {
                     index: true,
                     element: <Home/>,
@@ -66,31 +67,27 @@ export default function App() {
 
         },
         {
-            path:"/auth",
+            path: "/auth",
             element: <Auth/>,
         },
         {
-            path:"/register",
-            element: <Slider/>,
+            path: "/forgot",
+            element: <ForgotPage/>,
         },
         {
             path: "/admin",
-            element: <ProtectedRoute><LayoutAdmin/></ProtectedRoute> ,
+            element: <ProtectedRoute><LayoutAdmin/></ProtectedRoute>,
             errorElement: <NotFound/>,
             children: [
                 {
                     index: true,
                     element:
-
-                            <AdminPage/>
-
+                        <AdminPage/>
                 },
                 {
                     path: "user",
                     element:
-
-                    <ManageUserPage/>
-
+                        <ManageUserPage/>
                 },
                 // {
                 //     path: "book",
@@ -105,7 +102,7 @@ export default function App() {
             {
                 !isLoading
                 || window.location.pathname === '/auth'
-                || window.location.pathname === '/register'
+                || window.location.pathname === '/forgot'
                 || window.location.pathname === '/'
                     ? <RouterProvider router={router}/>
                     :
