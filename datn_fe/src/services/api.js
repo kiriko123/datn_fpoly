@@ -45,3 +45,6 @@ export const callUploadFile = (file, folder) => {
 export const callChangePassword = ({email, password, newPassword, confirmPassword }) => {
     return axios.post('/api/v1/auth/change-password',{email, password, newPassword, confirmPassword})
 }
+export const callUpdateInfo = ({id, firstName, name, userAvatar, gender, age, phoneNumber, address}) => {
+    return axios.post('/api/v1/auth/update-info', {id, firstName, name, imageUrl: userAvatar, gender, age, phoneNumber, address});
+};

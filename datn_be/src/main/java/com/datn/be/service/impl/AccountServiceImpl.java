@@ -2,6 +2,7 @@ package com.datn.be.service.impl;
 
 import com.datn.be.dto.request.user.ChangePasswordDTO;
 import com.datn.be.dto.request.user.RegisterRequestDTO;
+import com.datn.be.dto.request.user.UserUpdateInfoDTO;
 import com.datn.be.dto.response.user.UserResponse;
 import com.datn.be.exception.InvalidDataException;
 import com.datn.be.exception.ResourceNotFoundException;
@@ -9,7 +10,8 @@ import com.datn.be.model.User;
 import com.datn.be.repository.RoleRepository;
 import com.datn.be.repository.UserRepository;
 import com.datn.be.service.EmailService;
-import com.datn.be.service.SignupService;
+import com.datn.be.service.AccountService;
+import com.datn.be.util.constant.GenderEnum;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +22,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class SignupServiceImpl implements SignupService {
+public class AccountServiceImpl implements AccountService {
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -42,6 +44,8 @@ public class SignupServiceImpl implements SignupService {
                 .role(roleRepository.findByName("ROLE_USER"))
                 .verificationCode(this.generateVerificationCode())
                 .verificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15))
+                .gender(GenderEnum.OTHER)
+                .imageUrl("user.png")
                 .enabled(false)
                 .build();
 
@@ -50,6 +54,28 @@ public class SignupServiceImpl implements SignupService {
         this.sendVerificationEmail(user);
 
         return userResponse;
+    }
+
+    @Override
+    public UserResponse googleRegister(RegisterRequestDTO registerRequestDTO) {
+        if (userRepository.existsByEmail(registerRequestDTO.getEmail())) {
+            throw new InvalidDataException("Email already exists");
+        }
+        if(!registerRequestDTO.getPassword().equals(registerRequestDTO.getConfirmPassword())) {
+            throw new InvalidDataException("Passwords do not match");
+        }
+        User user = User.builder()
+                .email(registerRequestDTO.getEmail())
+                .name(registerRequestDTO.getName())
+                .firstName(registerRequestDTO.getFirstName())
+                .password(passwordEncoder.encode(registerRequestDTO.getPassword()))
+                .role(roleRepository.findByName("ROLE_USER"))
+                .gender(GenderEnum.OTHER)
+                .imageUrl("user.png")
+                .enabled(true)
+                .build();
+
+        return UserResponse.fromUserToUserResponse(userRepository.save(user));
     }
 
     @Override
@@ -163,6 +189,21 @@ public class SignupServiceImpl implements SignupService {
         }
         user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateUserInfo(UserUpdateInfoDTO userUpdateInfoDTO) {
+        User currentUser = userRepository.findById(userUpdateInfoDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        currentUser.setFirstName(userUpdateInfoDTO.getFirstName());
+        currentUser.setGender(userUpdateInfoDTO.getGender());
+        currentUser.setAge(userUpdateInfoDTO.getAge());
+        currentUser.setImageUrl(userUpdateInfoDTO.getImageUrl());
+        currentUser.setAddress(userUpdateInfoDTO.getAddress());
+        currentUser.setName(userUpdateInfoDTO.getName());
+        currentUser.setPhoneNumber(userUpdateInfoDTO.getPhoneNumber());
+
+        userRepository.save(currentUser);
     }
 
     public void sendPasswordResetEmail(User user) {

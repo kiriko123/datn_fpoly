@@ -2,8 +2,7 @@ package com.datn.be.controller;
 
 import com.datn.be.model.User;
 import com.datn.be.repository.UserRepository;
-import com.datn.be.service.SignupService;
-import lombok.RequiredArgsConstructor;
+import com.datn.be.service.AccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/api/v1/auth")
 public class PasswordResetController {
-    private final SignupService signupService;
+    private final AccountService signupService;
     private final UserRepository userRepository;
 
-    public PasswordResetController(SignupService signupService, UserRepository userRepository) {
+    public PasswordResetController(AccountService signupService, UserRepository userRepository) {
         this.signupService = signupService;
         this.userRepository = userRepository;
     }

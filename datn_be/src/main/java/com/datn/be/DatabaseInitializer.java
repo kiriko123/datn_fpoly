@@ -5,6 +5,7 @@ import com.datn.be.model.User;
 import com.datn.be.repository.RoleRepository;
 import com.datn.be.repository.UserRepository;
 import com.datn.be.service.UserService;
+import com.datn.be.util.constant.GenderEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +43,9 @@ public class DatabaseInitializer implements CommandLineRunner {
             admin.setEmail("admin@gmail.com");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setName("admin");
+            admin.setFirstName("admin");
+            admin.setImageUrl("admin.png");
+            admin.setGender(GenderEnum.OTHER);
             admin.setEnabled(true);
             admin.setRole(roleRepository.findByName("ROLE_ADMIN"));
 

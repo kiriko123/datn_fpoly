@@ -1,6 +1,7 @@
 package com.datn.be.dto.response.user;
 
 import com.datn.be.model.Role;
+import com.datn.be.util.constant.GenderEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -20,10 +21,17 @@ public class LoginResponse implements Serializable {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     public static class UserLogin implements Serializable {
         private long id;
         private String email;
         private String name;
+        private String imageUrl;
+        private String firstName;
+        private int age;
+        private String phoneNumber;
+        private String address;
+        private GenderEnum gender;
         private Role role;
     }
     @Getter

@@ -25,26 +25,15 @@ const ChangePassword = (props) => {
                 description: res.message
             })
         }
-        // const res = await callUpdatePassword(email, oldpass, newpass);
-        // if (res && res.data) {
-        //     message.success("Cập nhật mật khẩu thành công");
-        //     form.setFieldValue("oldpass", "")
-        //     form.setFieldValue("newpass", "")
-        // } else {
-        //     notification.error({
-        //         message: "Đã có lỗi xảy ra",
-        //         description: res.message
-        //     })
-        // }
 
         setIsSubmit(false);
     }
 
     return (
-        <div style={{ minHeight: 400 }}>
+        <div style={{ minHeight: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Row>
-                <Col span={1}></Col>
-                <Col span={12}>
+                {/*<Col span={1}></Col>*/}
+                <Col span={24}>
                     <Form
                         name="basic"
                         onFinish={onFinish}

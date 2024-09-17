@@ -6,7 +6,7 @@ import com.datn.be.dto.response.RestResponse;
 import com.datn.be.dto.response.user.LoginResponse;
 import com.datn.be.dto.response.user.UserResponse;
 import com.datn.be.model.User;
-import com.datn.be.service.SignupService;
+import com.datn.be.service.AccountService;
 import com.datn.be.service.UserService;
 import com.datn.be.util.SecurityUtil;
 import com.datn.be.util.annotation.ApiMessage;
@@ -42,9 +42,9 @@ public class AuthController {
 
     private final UserService userService;
 
-    private final SignupService signupService;
-
     private final PasswordEncoder passwordEncoder;
+
+    private final AccountService accountService;
 
     @Value("${khang.jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenExpiration;
@@ -75,9 +75,18 @@ public class AuthController {
                 throw new RuntimeException("User is not enabled, please find our mail in your mail: " + loginRequestDTO.getUsername() +" and click");
             }
 
-            LoginResponse.UserLogin userLogin = new
-                    LoginResponse.UserLogin(currentUser.getId(), currentUser.getEmail(), currentUser.getName(), currentUser.getRole());
-            loginResponse.setUser(userLogin);
+            loginResponse.setUser(LoginResponse.UserLogin.builder()
+                            .id(currentUser.getId())
+                            .role(currentUser.getRole())
+                            .imageUrl(currentUser.getImageUrl())
+                            .email(currentUser.getEmail())
+                            .name(currentUser.getName())
+                            .firstName(currentUser.getFirstName())
+                            .age(currentUser.getAge())
+                            .address(currentUser.getAddress())
+                            .phoneNumber(currentUser.getPhoneNumber())
+                            .gender(currentUser.getGender())
+                    .build());
         }
 
         //create access token
@@ -116,6 +125,12 @@ public class AuthController {
             userLogin.setEmail(currentUser.getEmail());
             userLogin.setName(currentUser.getName());
             userLogin.setRole(currentUser.getRole());
+            userLogin.setImageUrl(currentUser.getImageUrl());
+            userLogin.setFirstName(currentUser.getFirstName());
+            userLogin.setAge(currentUser.getAge());
+            userLogin.setAddress(currentUser.getAddress());
+            userLogin.setPhoneNumber(currentUser.getPhoneNumber());
+            userLogin.setGender(currentUser.getGender());
         }
 
         return ResponseEntity.ok().body(userLogin);
@@ -143,9 +158,18 @@ public class AuthController {
         LoginResponse loginResponse = new LoginResponse();
         User currentUserDB = userService.findByEmail(email);
         if (currentUserDB != null) {
-            LoginResponse.UserLogin userLogin = new
-                    LoginResponse.UserLogin(currentUserDB.getId(), currentUserDB.getEmail(), currentUserDB.getName(), currentUserDB.getRole());
-            loginResponse.setUser(userLogin);
+            loginResponse.setUser(LoginResponse.UserLogin.builder()
+                    .id(currentUser.getId())
+                    .role(currentUser.getRole())
+                    .imageUrl(currentUser.getImageUrl())
+                    .email(currentUser.getEmail())
+                    .name(currentUser.getName())
+                    .firstName(currentUser.getFirstName())
+                    .age(currentUser.getAge())
+                    .address(currentUser.getAddress())
+                    .phoneNumber(currentUser.getPhoneNumber())
+                    .gender(currentUser.getGender())
+                    .build());
         }
 
         //create access token
@@ -199,7 +223,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
         log.info("Create user : {}", registerRequestDTO);
-        UserResponse userResponse = signupService.register(registerRequestDTO);
+        UserResponse userResponse = accountService.register(registerRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 
@@ -207,7 +231,7 @@ public class AuthController {
     @PostMapping("/resend")
     public ResponseEntity<?> resendVerificationCode(@RequestParam String email) {
         try {
-            signupService.resendVerificationCode(email);
+            accountService.resendVerificationCode(email);
             return ResponseEntity.ok("Verification code sent");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -251,10 +275,12 @@ public class AuthController {
                         .createdAt(Instant.now())
                         .build();
 
-                userService.save(UserRegisterRequestDTO.builder()
-                        .email(newUser.getEmail())
-                        .password(newUser.getPassword())
-                        .name(newUser.getName())
+                accountService.googleRegister(RegisterRequestDTO.builder()
+                                .firstName(firstName)
+                                .name(lastName)
+                                .email(email)
+                                .password(newUser.getPassword())
+                                .confirmPassword(newUser.getPassword())
                         .build());
 
                 existingUser = newUser;
@@ -273,8 +299,20 @@ public class AuthController {
 
             // Tạo dữ liệu người dùng cho response
             LoginResponse loginResponse = new LoginResponse();
-            LoginResponse.UserLogin userLogin = new LoginResponse.UserLogin(existingUser.getId(), existingUser.getEmail(), existingUser.getName(), existingUser.getRole());
-            loginResponse.setUser(userLogin);
+//            LoginResponse.UserLogin userLogin = new LoginResponse.UserLogin(existingUser.getId(), existingUser.getEmail(), existingUser.getName(), existingUser.getRole());
+//            loginResponse.setUser(userLogin);
+            loginResponse.setUser(LoginResponse.UserLogin.builder()
+                    .id(existingUser.getId())
+                    .role(existingUser.getRole())
+                    .imageUrl(existingUser.getImageUrl())
+                    .email(existingUser.getEmail())
+                    .name(existingUser.getName())
+                    .firstName(existingUser.getFirstName())
+                    .age(existingUser.getAge())
+                    .address(existingUser.getAddress())
+                    .phoneNumber(existingUser.getPhoneNumber())
+                    .gender(existingUser.getGender())
+                    .build());
 
             // Tạo access token
             String accessTokenInternal = securityUtil.createAccessToken(existingUser.getEmail(), loginResponse);
@@ -307,7 +345,7 @@ public class AuthController {
 
     @PostMapping("/forgot")
     public RestResponse<?> forgotPassword(@Valid @RequestBody UserForgotPasswordDTO forgotPasswordDTO) {
-        signupService.forgotPassword(forgotPasswordDTO.getEmail());
+        accountService.forgotPassword(forgotPasswordDTO.getEmail());
         return RestResponse.builder()
                 .statusCode(201)
                 .message("Forgot Password Sent")
@@ -315,11 +353,20 @@ public class AuthController {
     }
     @PostMapping("/change-password")
     public RestResponse<?> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO){
-        signupService.changePassword(changePasswordDTO);
+        accountService.changePassword(changePasswordDTO);
 
         return RestResponse.builder()
                 .statusCode(201)
                 .message("Password have been changed")
+                .build();
+    }
+    @PostMapping("update-info")
+    public RestResponse<?> updateInfo(@Valid @RequestBody UserUpdateInfoDTO updateInfoDTO){
+        accountService.updateUserInfo(updateInfoDTO);
+
+        return RestResponse.builder()
+                .statusCode(201)
+                .message("Update info successfully")
                 .build();
     }
 

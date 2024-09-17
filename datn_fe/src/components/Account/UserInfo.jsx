@@ -1,41 +1,36 @@
 import { AntDesignOutlined, UploadOutlined } from "@ant-design/icons";
-import { Avatar, Button, Col, Form, Input, Row, Upload, message, notification } from "antd";
+import {Avatar, Button, Col, Form, Input, Row, Upload, message, notification, InputNumber} from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { Radio } from "antd";
 // import { callUpdateAvatar, callUpdateUserInfo } from "../../services/api";
 // import { doUpdateUserInfoAction, doUploadAvatarAction } from "../../redux/account/accountSlice";
 import { useState } from "react";
-import {callUploadFile} from "../../services/api.js";
+import {callUpdateInfo, callUploadFile} from "../../services/api.js";
+import {doUpdateUserInfoAction, doUploadAvatarAction} from "../../redux/account/accountSlice.js";
 
 const UserInfo = (props) => {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
     const user = useSelector(state => state.account.user);
-    // const tempAvatar = useSelector(state => state.account.tempAvatar);
 
-    const [userAvatar, setUserAvatar] = useState(user?.avatar ?? "");
+    const tempAvatar = useSelector(state => state.account.tempAvatar);
+
+    const [userAvatar, setUserAvatar] = useState(user?.imageUrl ?? "");
     const [isSubmit, setIsSubmit] = useState(false);
 
-    // const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/upload/avatar/${tempAvatar || user?.avatar}`;
-    const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/storage/avatar/1726450219209-atmosphere-sky-world-blue-Natural-landscape-azure-2043819-wallhere.com.jpg`;
+    const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/storage/avatar/${tempAvatar || user?.imageUrl}`;
+
     const handleUploadAvatar = async ({ file, onSuccess, onError }) => {
         const res = await callUploadFile(file, 'avatar');
         console.log(res);
         if(res && res.data){
             const newAvatar = res.data.fileName;
+            dispatch(doUploadAvatarAction({ avatar: newAvatar }))
             setUserAvatar(newAvatar);
             onSuccess('ok')
         }else{
             onError('Đã có lỗi khi upload file');
         }
-        // const res = await callUpdateAvatar(file);
-        // if (res && res.data) {
-        //     const newAvatar = res.data.fileUploaded;
-        //     dispatch(doUploadAvatarAction({ avatar: newAvatar }))
-        //     setUserAvatar(newAvatar);
-        //     onSuccess('ok')
-        // } else {
-        //     onError('Đã có lỗi khi upload file');
-        // }
     };
 
     const propsUpload = {
@@ -55,23 +50,33 @@ const UserInfo = (props) => {
     };
 
     const onFinish = async (values) => {
-        const { fullName, phone, _id } = values;
+        const { id, firstName, name, gender, age, phoneNumber, address } = values;
+        console.log(values);
+        console.log(userAvatar)
         setIsSubmit(true)
-        // const res = await callUpdateUserInfo(_id, phone, fullName, userAvatar);
-        //
-        // if (res && res.data) {
-        //     //update redux
-        //     dispatch(doUpdateUserInfoAction({ avatar: userAvatar, phone, fullName }));
-        //     message.success("Cập nhật thông tin user thành công");
-        //
-        //     //force renew token
-        //     localStorage.removeItem('access_token');
-        // } else {
-        //     notification.error({
-        //         message: "Đã có lỗi xảy ra",
-        //         description: res.message
-        //     })
-        // }
+        const res = await callUpdateInfo({id, firstName, name, userAvatar, gender, age, phoneNumber, address});
+
+        console.log(res);
+
+        if (res && res.data) {
+            dispatch(doUpdateUserInfoAction({
+                id,
+                firstName,
+                name,
+                imageUrl: userAvatar,
+                gender,
+                age,
+                phoneNumber,
+                address
+            }));
+            message.success("Cập nhật thông tin user thành công");
+            localStorage.removeItem('access_token');
+        } else {
+            notification.error({
+                message: "Đã có lỗi xảy ra",
+                description: res.message
+            })
+        }
         setIsSubmit(false)
     }
 
@@ -105,8 +110,8 @@ const UserInfo = (props) => {
                         <Form.Item
                             hidden
                             labelCol={{ span: 24 }}
-                            label="Email"
-                            name="_id"
+                            label="Id"
+                            name="id"
                             initialValue={user?.id}
 
                         >
@@ -121,24 +126,70 @@ const UserInfo = (props) => {
                         >
                             <Input disabled />
                         </Form.Item>
+
                         <Form.Item
                             labelCol={{ span: 24 }}
-                            label="Tên hiển thị"
-                            name="fullName"
+                            label="Firstname"
+                            name="firstName"
+                            initialValue={user?.firstName}
+                            rules={[{ required: true, message: 'FirstName không được để trống!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                            labelCol={{ span: 24 }}
+                            label="Lastname"
+                            name="name"
                             initialValue={user?.name}
-                            rules={[{ required: true, message: 'Tên hiển thị không được để trống!' }]}
+                            rules={[{ required: true, message: 'Lastname không được để trống!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                            labelCol={{ span: 24 }}
+                            label="Gender"
+                            name="gender"
+                            initialValue={user?.gender} // Lấy giá trị gender từ Redux
+                            rules={[{ required: true, message: 'Please select your gender!' }]}
+                        >
+                            <Radio.Group>
+                                <Radio value="MALE">Male</Radio>
+                                <Radio value="FEMALE">Female</Radio>
+                                <Radio value="OTHER">Other</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+
+                        <Form.Item
+                            labelCol={{ span: 24 }}
+                            label="Phone number"
+                            name="phoneNumber"
+                            initialValue={user?.phoneNumber}
+                            rules={[{ required: true, message: 'Phone number không được để trống!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                            labelCol={{ span: 24 }}
+                            label="Address"
+                            name="address"
+                            initialValue={user?.address}
+                            rules={[{ required: true, message: 'Address không được để trống!' }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
                             labelCol={{ span: 24 }}
-                            label="Số điện thoại"
-                            name="phone"
-                            initialValue={user?.phone}
-                            rules={[{ required: true, message: 'Số điện thoại không được để trống!' }]}
+                            label="Age"
+                            name="age"
+                            initialValue={user?.age} // Lấy giá trị age từ Redux
+                            rules={[{ required: true, message: 'Please enter your age!' }]}
                         >
-                            <Input />
+                            <InputNumber min={0} max={120} style={{ width: '100%' }} />
                         </Form.Item>
+
                         <Button loading={isSubmit} onClick={() => form.submit()}>Cập nhật</Button>
                     </Form>
                 </Col>

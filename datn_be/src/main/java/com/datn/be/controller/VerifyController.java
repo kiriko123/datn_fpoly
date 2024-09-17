@@ -1,6 +1,6 @@
 package com.datn.be.controller;
 
-import com.datn.be.service.SignupService;
+import com.datn.be.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api/v1/auth")
 public class VerifyController {
 
-    private final SignupService signupService;
+    private final AccountService signupService;
 
     @GetMapping("/verify")
     public String verifyUser(@RequestParam("code") String code, Model model) {

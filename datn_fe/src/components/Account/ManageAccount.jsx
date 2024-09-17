@@ -29,6 +29,7 @@ const ManageAccount = (props) => {
             onCancel={() => setIsModalOpen(false)}
             maskClosable={false}
             width={"70vw"}
+
         >
             <Tabs
                 defaultActiveKey="info"

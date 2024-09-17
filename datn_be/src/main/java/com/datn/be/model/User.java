@@ -1,6 +1,7 @@
 package com.datn.be.model;
 
 import com.datn.be.util.SecurityUtil;
+import com.datn.be.util.constant.GenderEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +27,6 @@ public class User {
     String password;
     String email;
 
-
     @Column(columnDefinition = "MEDIUMTEXT")
     String refreshToken;
 
@@ -36,6 +36,14 @@ public class User {
     LocalDateTime verificationCodeExpiresAt;
     boolean enabled;
 
+    String imageUrl;
+
+    @Enumerated(EnumType.STRING)
+    GenderEnum gender;
+
+    int age;
+    String phoneNumber;
+    String address;
 
     Instant createdAt;
     Instant updatedAt;
