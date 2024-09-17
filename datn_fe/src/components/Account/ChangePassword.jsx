@@ -1,102 +1,109 @@
 import { Button, Col, Form, Input, Row, message, notification } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import {callChangePassword} from "../../services/api.js";
+import { callChangePassword } from "../../services/api.js";
 
 const ChangePassword = (props) => {
     const [form] = Form.useForm();
     const [isSubmit, setIsSubmit] = useState(false);
-    const user = useSelector(state => state.account.user);
+    const user = useSelector((state) => state.account.user);
 
     const onFinish = async (values) => {
         const { email, password, newPassword, confirmPassword } = values;
-        console.log(values);
-        setIsSubmit(true);
-        const res =
-            await callChangePassword({email, password, newPassword, confirmPassword});
 
-        console.log(res);
-        if(res && res.data?.statusCode === 201) {
-            message.success('Change password successfully');
+        if (newPassword !== confirmPassword) {
+            notification.error({
+                message: "Mật khẩu không khớp",
+                description: "Mật khẩu mới và mật khẩu nhập lại không khớp. Vui lòng kiểm tra lại!",
+            });
+            return;
+        }
+
+        setIsSubmit(true);
+        const res = await callChangePassword({ email, password, newPassword, confirmPassword });
+
+        if (res && res.data?.statusCode === 201) {
+            message.success("Đổi mật khẩu thành công");
             form.resetFields();
-        }else {
+        } else {
             notification.error({
                 message: "Đã có lỗi xảy ra",
-                description: res.message
-            })
+                description: res.message || "Không thể đổi mật khẩu. Vui lòng thử lại sau!",
+            });
         }
 
         setIsSubmit(false);
-    }
+    };
 
     return (
-        <div style={{ minHeight: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Row>
-                {/*<Col span={1}></Col>*/}
-                <Col span={24}>
+        <div style={{ minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+            <Row justify="center">
+                <Col span={24}> {/* Tăng chiều rộng lên 12 cột, bạn có thể tăng thêm nếu muốn */}
                     <Form
-                        name="basic"
+                        name="changePassword"
                         onFinish={onFinish}
                         autoComplete="off"
                         form={form}
+                        layout="vertical"
+                        style={{
+                            backgroundColor: "#fff",
+                            padding: "20px",
+                            borderRadius: "8px",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                            width: "50vw" // Đặt chiều rộng cố định lớn hơn
+                        }}
                     >
                         <Form.Item
-                            labelCol={{ span: 24 }} //whole column
                             label="Email"
                             name="email"
                             initialValue={user?.email}
-                            rules={[{ required: true, message: 'Email không được để trống!' }]}
+                            rules={[{ required: true, message: "Email không được để trống!" }]}
                         >
-                            <Input disabled />
+                            <Input disabled style={{ borderRadius: "8px" }} />
                         </Form.Item>
 
                         <Form.Item
-                            labelCol={{ span: 24 }} //whole column
                             label="Mật khẩu hiện tại"
                             name="password"
-                            rules={[{ required: true, message: 'Mật khẩu không được để trống!' }]}
+                            rules={[{ required: true, message: "Mật khẩu không được để trống!" }]}
                         >
-                            <Input.Password />
+                            <Input.Password style={{ borderRadius: "8px" }} />
                         </Form.Item>
 
                         <Form.Item
-                            labelCol={{ span: 24 }} //whole column
                             label="Mật khẩu mới"
                             name="newPassword"
-                            rules={[{ required: true, message: 'Mật khẩu không được để trống!' }]}
+                            rules={[
+                                { required: true, message: "Mật khẩu mới không được để trống!" },
+                                { min: 6, message: "Mật khẩu mới phải có ít nhất 6 ký tự!" },
+                            ]}
                         >
-                            <Input.Password />
+                            <Input.Password style={{ borderRadius: "8px" }} />
                         </Form.Item>
 
                         <Form.Item
-                            labelCol={{ span: 24 }} //whole column
                             label="Nhập lại mật khẩu mới"
                             name="confirmPassword"
-                            rules={[{ required: true, message: 'Nhập lại mật khẩu không được để trống!' }]}
+                            rules={[{ required: true, message: "Nhập lại mật khẩu không được để trống!" }]}
                         >
-                            <Input.Password />
+                            <Input.Password style={{ borderRadius: "8px" }} />
                         </Form.Item>
 
-
-
-
-                        <Form.Item
-                            // wrapperCol={{ offset: 6, span: 16 }}
-                        >
+                        <Form.Item>
                             <Button
                                 type="primary"
                                 htmlType="submit"
                                 loading={isSubmit}
+                                style={{ width: "100%", borderRadius: "8px" }}
                             >
                                 Xác nhận
                             </Button>
                         </Form.Item>
-
                     </Form>
                 </Col>
             </Row>
         </div>
-    )
-}
+    );
+};
 
 export default ChangePassword;

@@ -121,10 +121,12 @@ nav
     flex-direction: column;
     gap: 15px;
 }
+.mobileVisible-nav-div{
+    padding: 10px;
+}
 .mobileVisible-nav .mobileVisible-nav-div:hover {
     background: #477e4f;
     border-radius: 10px;
-    padding: 10px;
     cursor: pointer;
 }
 .mobileVisible-nav .mobileVisible-nav-div span:hover {

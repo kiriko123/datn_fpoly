@@ -8,7 +8,7 @@ import {
     MenuUnfoldOutlined,
     DownOutlined,
 } from '@ant-design/icons';
-import {Layout, Menu, Dropdown, Space, message} from 'antd';
+import {Layout, Menu, Dropdown, Space, message, Avatar} from 'antd';
 import {Outlet, useNavigate, Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {callLogout} from "../../services/api.js";
@@ -17,6 +17,7 @@ import './layout.scss';
 import {FaUserCircle, FaUserEdit} from "react-icons/fa";
 import {RiAdminFill, RiLogoutBoxFill} from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
+import ManageAccount from "../Account/ManageAccount.jsx";
 
 const {Content, Sider} = Layout;
 
@@ -49,6 +50,7 @@ const LayoutAdmin = () => {
     const user = useSelector(state => state.account.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [showManageAccount, setShowManageAccount] = useState(false);
 
     const handleLogout = async () => {
         const res = await callLogout();
@@ -62,7 +64,7 @@ const LayoutAdmin = () => {
     const itemsDropdown = [
         {
             label: <label style={{cursor: 'pointer'}}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}} onClick={() => setShowManageAccount(true)}>
                     <FaUserEdit />
                     <span>Edit profile</span>
                 </div>
@@ -95,9 +97,11 @@ const LayoutAdmin = () => {
         },
     ];
 
+    const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/storage/avatar/${user?.imageUrl}`;
+
     return (
         <Layout
-            style={{minHeight: '100vh', backgroundColor: '#001529'}} // Set background to dark theme
+            style={{minHeight: '100vh', backgroundColor: '#f5f5f5'}} // Nền sáng nhẹ cho toàn bộ trang
             className="layout-admin"
         >
             <Sider
@@ -105,9 +109,9 @@ const LayoutAdmin = () => {
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
-                style={{backgroundColor: '#001529'}} // Ensure the sidebar matches the dark theme
+                style={{backgroundColor: '#1f1f1f'}} // Sidebar màu xám tối
             >
-                <div style={{height: 32, margin: 16, textAlign: 'center', color: 'white', fontSize: 16}}>
+                <div style={{height: 32, margin: 16, textAlign: 'center', color: '#fff', fontSize: 16}}>
                     Admin
                 </div>
                 <Menu
@@ -116,29 +120,26 @@ const LayoutAdmin = () => {
                     mode="inline"
                     items={items}
                     onClick={(e) => setActiveMenu(e.key)}
-                    style={{backgroundColor: '#001529'}} // Ensure menu background matches the dark theme
+                    style={{backgroundColor: '#1f1f1f'}} // Màu nền sidebar menu đồng nhất
                 />
             </Sider>
             <Layout>
-                <div className='admin-header' style={{backgroundColor: '#001529', color: '#fff', padding: '0 16px'}}>
+                <div className='admin-header' style={{backgroundColor: '#4c2b5a', color: '#fff', padding: '0 16px'}}>
                     <span>
                         {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                             className: 'trigger',
-                            style: {color: '#fff'}, // Icon color white for visibility
+                            style: {color: '#fff'}, // Icon màu trắng cho dễ nhìn
                             onClick: () => setCollapsed(!collapsed),
                         })}
                     </span>
                     <Dropdown menu={{items: itemsDropdown}} trigger={['click']}>
                         <a onClick={(e) => e.preventDefault()} style={{color: '#fff'}}>
-                            <Space>
-                                <span style={{fontSize: '15px', display: 'flex', alignItems: 'center', gap: '10px'}}>
-                                                    <FaUserCircle/>
-                                                    <span>
-                                                        Welcome: <span
-                                                        style={{textTransform: 'uppercase'}}> {user?.name} </span>
-                                                    </span>
-                                                </span>
-                                <DownOutlined/>
+                            <Space style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                                <Avatar src={urlAvatar}/>
+                                <span>
+                                    <span>Welcome {user?.name} </span>
+                                    <DownOutlined/>
+                                </span>
                             </Space>
                         </a>
                     </Dropdown>
@@ -148,12 +149,16 @@ const LayoutAdmin = () => {
                         margin: '24px 16px',
                         padding: 24,
                         minHeight: 280,
-                        backgroundColor: '#fff', // Light background for content area
+                        backgroundColor: '#fff', // Vùng content nền trắng sáng
                     }}
                 >
                     <Outlet/>
                 </Content>
             </Layout>
+            <ManageAccount
+                isModalOpen={showManageAccount}
+                setIsModalOpen={setShowManageAccount}
+            />
         </Layout>
     );
 };

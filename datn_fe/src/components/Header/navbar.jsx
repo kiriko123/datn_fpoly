@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Divider, Badge, Drawer, message, Button, Anchor} from 'antd';
+import {Divider, Badge, Drawer, message, Button, Anchor, Avatar, Modal} from 'antd';
 import {useDispatch, useSelector} from 'react-redux';
 import {DownOutlined} from '@ant-design/icons';
 import {Dropdown, Space} from 'antd';
@@ -7,15 +7,15 @@ import {Link, useNavigate} from "react-router-dom";
 import {callLogout} from "../../services/api.js";
 import {doLogoutAction} from "../../redux/account/accountSlice.js";
 import './navbar.css'
-import { FaHome } from "react-icons/fa";
-import { BiSolidCategoryAlt } from "react-icons/bi";
-import { FaCartShopping } from "react-icons/fa6";
-import { MdContactSupport } from "react-icons/md";
-import { FaUserCircle } from "react-icons/fa";
-import { RiLoginCircleFill } from "react-icons/ri";
-import { RiAdminFill } from "react-icons/ri";
-import { FaUserEdit } from "react-icons/fa";
-import { RiLogoutBoxFill } from "react-icons/ri";
+import {FaHome} from "react-icons/fa";
+import {BiSolidCategoryAlt} from "react-icons/bi";
+import {FaCartShopping} from "react-icons/fa6";
+import {MdContactSupport} from "react-icons/md";
+import {FaUserCircle} from "react-icons/fa";
+import {RiLoginCircleFill} from "react-icons/ri";
+import {RiAdminFill} from "react-icons/ri";
+import {FaUserEdit} from "react-icons/fa";
+import {RiLogoutBoxFill} from "react-icons/ri";
 import {FiShoppingCart} from "react-icons/fi";
 import {useTranslation} from "react-i18next";
 import ManageAccount from "../Account/ManageAccount.jsx";
@@ -27,7 +27,7 @@ const Navbar = () => {
     const role = useSelector(state => state.account.user.role.name);
     console.log("check menu", role);
     const user = useSelector(state => state.account.user);
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
     console.log(user);
     const navigate = useNavigate();
 
@@ -50,7 +50,7 @@ const Navbar = () => {
                 <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}
                      onClick={() => setShowManageAccount(true)}
                 >
-                    <FaUserEdit />
+                    <FaUserEdit/>
                     <span>Edit profile</span>
                 </div>
             </label>,
@@ -62,7 +62,7 @@ const Navbar = () => {
                 onClick={() => navigate('/admin')}
             >
                 <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                    <RiAdminFill />
+                    <RiAdminFill/>
                     <span>Admin page</span>
                 </div>
             </label>,
@@ -74,7 +74,7 @@ const Navbar = () => {
                 onClick={() => handleLogout()}
             >
                 <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                    <RiLogoutBoxFill />
+                    <RiLogoutBoxFill/>
                     <span>Logout</span>
                 </div>
             </label>,
@@ -104,6 +104,17 @@ const Navbar = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
+    const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/storage/avatar/${user?.imageUrl}`;
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
     return (
         <div className={`header ${isSticky ? "sticky" : ""}`}>
             <div className="container-fluid">
@@ -115,16 +126,16 @@ const Navbar = () => {
                     <div className="mobileHidden">
                         <nav>
                             <div>
-                                <span onClick={() => navigate('/')}> <FaHome /> <p>{t('home')}</p></span>
+                                <span onClick={() => navigate('/')}> <FaHome/> <p>{t('home')}</p></span>
                             </div>
                             <div>
-                                <span onClick={() => navigate('/1')}> <BiSolidCategoryAlt /> <p>{t('product')}</p></span>
+                                <span onClick={() => navigate('/1')}> <BiSolidCategoryAlt/> <p>{t('product')}</p></span>
                             </div>
                             <div>
-                                <span onClick={() => navigate('/2')}> <FaCartShopping /> <p>{t('cart')}</p></span>
+                                <span onClick={() => navigate('/2')}> <FaCartShopping/> <p>{t('cart')}</p></span>
                             </div>
                             <div>
-                                <span onClick={() => navigate('/3')}> <MdContactSupport /> <p>{t('about')}</p></span>
+                                <span onClick={() => navigate('/3')}> <MdContactSupport/> <p>{t('about')}</p></span>
                             </div>
                             {/*<div>*/}
                             {/*<Badge*/}
@@ -136,21 +147,17 @@ const Navbar = () => {
                             {/*</div>*/}
                             <div>
                                 {!isAuthenticated || user === null ?
-                                    <span onClick={() => navigate('/auth')}><RiLoginCircleFill /> <p>{t('login_register')}</p></span>
+                                    <span
+                                        onClick={() => navigate('/auth')}><RiLoginCircleFill/> <p>{t('login_register')}</p></span>
                                     :
                                     <Dropdown menu={{items}} trigger={['click']}>
-                                        <a onClick={(e) => e.preventDefault()}>
-                                            <Space>
-                                                <span style={{fontSize: '15px', display: 'flex', alignItems: 'center'}}>
-                                                    <FaUserCircle />
-                                                    <span>
-                                                        Welcome: <span
-                                                        style={{textTransform: 'uppercase'}}> {user?.name} </span>
-                                                    </span>
-                                                </span>
+                                        <Space style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                                            <Avatar src={urlAvatar}/>
+                                            <span>
+                                                <span> {user?.name} </span>
                                                 <DownOutlined/>
-                                            </Space>
-                                        </a>
+                                            </span>
+                                        </Space>
                                     </Dropdown>
                                 }
                             </div>
@@ -168,16 +175,16 @@ const Navbar = () => {
                         >
                             <nav className="mobileVisible-nav">
                                 <div className="mobileVisible-nav-div" onClick={() => navigate('/')}>
-                                    <span><FaHome /> {t('login_register')}</span>
+                                    <span><FaHome/> {t('home')}</span>
                                 </div>
                                 <div className="mobileVisible-nav-div" onClick={() => navigate('/1')}>
-                                    <span> <BiSolidCategoryAlt /> {t('product')}</span>
+                                    <span> <BiSolidCategoryAlt/> {t('product')}</span>
                                 </div>
                                 <div className="mobileVisible-nav-div" onClick={() => navigate('/2')}>
-                                    <span> <FaCartShopping /> {t('cart')}</span>
+                                    <span> <FaCartShopping/> {t('cart')}</span>
                                 </div>
                                 <div className="mobileVisible-nav-div" onClick={() => navigate('/3')}>
-                                    <span> <MdContactSupport /> {t('about')}</span>
+                                    <span> <MdContactSupport/> {t('about')}</span>
                                 </div>
                                 {/*<div>*/}
                                 {/*<Badge*/}
@@ -188,28 +195,27 @@ const Navbar = () => {
                                 {/*    </Badge>*/}
                                 {/*</div>*/}
                                 <div>
-                                    {!isAuthenticated || user === null ?
-                                        <span onClick={() => navigate('/auth')}> <RiLoginCircleFill />{t('login_register')}</span>
-                                        :
-                                        <Dropdown menu={{items}} trigger={['click']}>
-                                            <a style={{textDecoration: 'none', color: '#1c1f23'}} onClick={(e) => e.preventDefault()}>
-                                                <Space>
-                                                    <span style={{
-                                                        fontSize: '15px',
-                                                        display: 'flex',
-                                                        alignItems: 'center'
-                                                    }}>
-                                                    <FaUserCircle/>
-                                                    <span>
-                                                        Welcome: <span
-                                                        style={{textTransform: 'uppercase'}}> {user?.name} </span>
-                                                    </span>
-                                                </span>
-                                                    <DownOutlined/>
-                                                </Space>
-                                            </a>
-                                        </Dropdown>
-                                    }
+                                    {!isAuthenticated || user === null ? (
+                                        <div className="mobileVisible-nav-div" onClick={() => navigate('/auth')}>
+                                            <span><RiLoginCircleFill/>Login/Register</span>
+                                        </div>
+                                    ) : (
+                                        <div className="mobileVisible-nav-div" onClick={showModal} style={{cursor: 'pointer'}}>
+                                            <Space style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                                                <Avatar src={urlAvatar}/>
+                                                <span>{user?.name}</span>
+                                            </Space>
+                                        </div>
+                                    )}
+
+                                    <Modal title="User Menu" visible={isModalVisible} onCancel={handleCancel}
+                                           footer={null}>
+                                        {items.map((item) => (
+                                            <div key={item.key} style={{padding: '10px 0'}}>
+                                                {item.label}
+                                            </div>
+                                        ))}
+                                    </Modal>
                                 </div>
                             </nav>
                         </Drawer>
