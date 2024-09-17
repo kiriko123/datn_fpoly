@@ -46,8 +46,6 @@ public class UserResponse implements Serializable {
                 .updatedBy(user.getUpdatedBy())
                 .build();
 
-
-
         if (user.getRole() != null) {
             userResponse.setRole(Role.builder()
                     .id(user.getRole().getId())
