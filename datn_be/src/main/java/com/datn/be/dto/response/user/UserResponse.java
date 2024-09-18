@@ -1,6 +1,7 @@
 package com.datn.be.dto.response.user;
 
 import com.datn.be.model.User;
+import com.datn.be.util.constant.GenderEnum;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,14 @@ public class UserResponse implements Serializable {
 
     private int age;
 
+    private GenderEnum gender;
+
+    private String phoneNumber;
+
+    private boolean enabled;
+
+    private String imageUrl;
+
     private Instant createdAt;
 
     private Instant updatedAt;
@@ -40,6 +49,12 @@ public class UserResponse implements Serializable {
                 .name(user.getName())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
+                .age(user.getAge())
+                .address(user.getAddress())
+                .gender(user.getGender())
+                .phoneNumber(user.getPhoneNumber())
+                .enabled(user.isEnabled())
+                .imageUrl(user.getImageUrl())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .createdBy(user.getCreatedBy())

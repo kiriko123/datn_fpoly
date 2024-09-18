@@ -58,7 +58,18 @@ const UserTable = () => {
         id: true,
         name: true,
         email: true,
+        age: true,
+        firstName: true,
+        gender: true,
+        address: false,
         role: true,
+        phoneNumber: true,
+        enabled: false,
+        imageUrl: false,
+        createdAt: false,
+        updatedAt: false,
+        createdBy: false,
+        updatedBy: false,
         action: true,
     });
 
@@ -96,15 +107,72 @@ const UserTable = () => {
         selectedColumns.id && {
             title: 'Id',
             dataIndex: 'id',
+            sorter: true,
+        },
+        selectedColumns.firstName && {
+            title: 'Firstname',
+            dataIndex: 'firstName',
+            sorter: true,
         },
         selectedColumns.name && {
-            title: 'Name',
+            title: 'Lastname',
             dataIndex: 'name',
             sorter: true,
         },
         selectedColumns.email && {
             title: 'Email',
             dataIndex: 'email',
+            sorter: true,
+        },
+        selectedColumns.age && {
+            title: 'Age',
+            dataIndex: 'age',
+            sorter: true,
+        },
+        selectedColumns.gender && {
+            title: 'Gender',
+            dataIndex: 'gender',
+            sorter: true,
+        },
+        selectedColumns.address && {
+            title: 'Address',
+            dataIndex: 'address',
+            sorter: true,
+        },
+        selectedColumns.phoneNumber && {
+            title: 'Phone number',
+            dataIndex: 'phoneNumber',
+            sorter: true,
+        },
+        selectedColumns.enabled && {
+            title: 'Enabled',
+            dataIndex: 'enabled',
+            sorter: true,
+            render: (enabled) => (enabled ? 'Enabled' : 'Disabled'), // Chuyển đổi giá trị true/false
+        },
+        selectedColumns.imageUrl && {
+            title: 'ImageUrl',
+            dataIndex: 'imageUrl',
+            sorter: true,
+        },
+        selectedColumns.createdAt && {
+            title: 'CreatedAt',
+            dataIndex: 'createdAt',
+            sorter: true,
+        },
+        selectedColumns.updatedAt && {
+            title: 'UpdatedAt',
+            dataIndex: 'updatedAt',
+            sorter: true,
+        },
+        selectedColumns.createdBy && {
+            title: 'CreatedBy',
+            dataIndex: 'createdBy',
+            sorter: true,
+        },
+        selectedColumns.updatedBy && {
+            title: 'UpdatedBy',
+            dataIndex: 'updatedBy',
             sorter: true,
         },
         selectedColumns.role && {

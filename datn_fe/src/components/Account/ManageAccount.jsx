@@ -27,7 +27,7 @@ const ManageAccount = (props) => {
             onCancel={() => setIsModalOpen(false)}
             maskClosable={true}
             width={"80vw"}  // Điều chỉnh chiều rộng
-            bodyStyle={{ padding: '24px' }}  // Giảm padding để hiển thị tốt hơn
+            bodyStyle={{ padding: '10px' }}  // Giảm padding để hiển thị tốt hơn
             centered  // Giữ modal ở giữa màn hình
             className="manage-account-modal"  // Áp dụng class CSS tùy chỉnh
         >
