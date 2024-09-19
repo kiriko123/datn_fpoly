@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Input, Row, theme } from 'antd';
+import { Button, Col, Form, Input, Row, Select, theme } from 'antd';
+
+const { Option } = Select;
 
 const InputSearch = (props) => {
     const { token } = theme.useToken();
@@ -8,10 +10,10 @@ const InputSearch = (props) => {
     const formStyle = {
         maxWidth: '100%',
         padding: '20px',
-        background: `#fff`, // Màu cam nhạt nổi bật
+        background: `#fff`,
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-        color: '#222', // Chữ đậm với màu xám tối
-        fontWeight: 'bold', // Chữ đậm
+        color: '#222',
+        fontWeight: 'bold',
         marginBottom: '24px',
         borderRadius: '20px',
     };
@@ -19,7 +21,6 @@ const InputSearch = (props) => {
     const onFinish = (values) => {
         let queryParts = [];
 
-        // Build query parts
         if (values.fullName) {
             queryParts.push(`name~%27${values.fullName}%27`);
         }
@@ -35,33 +36,22 @@ const InputSearch = (props) => {
         if (values.address) {
             queryParts.push(`address~%27${values.address}%27`);
         }
+        if (values.enabled) {
+            queryParts.push(`enabled~%27${values.enabled}%27`);
+        }
+        if (values.role) {
+            queryParts.push(`role.id~%27${values.role}%27`);
+        }
+        if (values.gender) {
+            queryParts.push(`gender:%27${values.gender}%27`);
+        }
 
-        // if (values.phone) {
-        //     queryParts.push(`phone~%27${values.phone}%27`);
-        // }
-
-        // Join query parts with ' and ' if there are any
         if (queryParts.length > 0) {
             const query = `filter=${queryParts.join('%20and%20')}`;
             console.log("Search query:", query);
             props.handleSearch(query);
         }
-
-        //remove undefined
-        // https://stackoverflow.com/questions/25421233/javascript-removing-undefined-fields-from-an-object
-        // Object.keys(values).forEach(key => {
-        //     if (values[key] === undefined) {
-        //         delete values[key];
-        //     }
-        // });
-
-        // if (values && Object.keys(values).length > 0) {
-        //     // https://stackoverflow.com/questions/1714786/query-string-encoding-of-a-javascript-object
-        //     const params = new URLSearchParams(values).toString();
-        //     props.handleSearch(params);
-        // }
     };
-
 
     return (
         <Form form={form} name="advanced_search" style={formStyle} onFinish={onFinish}>
@@ -69,7 +59,7 @@ const InputSearch = (props) => {
 
                 <Col span={4}>
                     <Form.Item
-                        labelCol={{ span: 24 }} //whole column
+                        labelCol={{ span: 24 }}
                         name={`firstName`}
                         label={`Firstname`}
                     >
@@ -79,17 +69,17 @@ const InputSearch = (props) => {
 
                 <Col span={4}>
                     <Form.Item
-                        labelCol={{ span: 24 }} //whole column
+                        labelCol={{ span: 24 }}
                         name={`fullName`}
                         label={`Lastname`}
                     >
-                        <Input placeholder="Please input firstname!" />
+                        <Input placeholder="Please input lastname!" />
                     </Form.Item>
                 </Col>
 
                 <Col span={5}>
                     <Form.Item
-                        labelCol={{ span: 24 }} //whole column
+                        labelCol={{ span: 24 }}
                         name={`email`}
                         label={`Email`}
                     >
@@ -98,7 +88,7 @@ const InputSearch = (props) => {
                 </Col>
                 <Col span={5}>
                     <Form.Item
-                        labelCol={{ span: 24 }} //whole column
+                        labelCol={{ span: 24 }}
                         name={`phoneNumber`}
                         label={`Phone number`}
                     >
@@ -108,7 +98,7 @@ const InputSearch = (props) => {
 
                 <Col span={6}>
                     <Form.Item
-                        labelCol={{ span: 24 }} //whole column
+                        labelCol={{ span: 24 }}
                         name={`address`}
                         label={`Address`}
                     >
@@ -116,6 +106,45 @@ const InputSearch = (props) => {
                     </Form.Item>
                 </Col>
 
+                <Col span={4}>
+                    <Form.Item
+                        labelCol={{ span: 24 }}
+                        name={`enabled`}
+                        label={`Status`}
+                    >
+                        <Select placeholder="Select status">
+                            <Option value="true">Active</Option>
+                            <Option value="false">Disable</Option>
+                        </Select>
+                    </Form.Item>
+                </Col>
+
+                <Col span={4}>
+                    <Form.Item
+                        labelCol={{ span: 24 }}
+                        name={`role`}
+                        label={`Role`}
+                    >
+                        <Select placeholder="Select role">
+                            <Option value="2">User</Option>
+                            <Option value="1">Admin</Option>
+                        </Select>
+                    </Form.Item>
+                </Col>
+
+                <Col span={4}>
+                    <Form.Item
+                        labelCol={{ span: 24 }}
+                        name={`gender`}
+                        label={`Gender`}
+                    >
+                        <Select placeholder="Select gender">
+                            <Option value="MALE">Male</Option>
+                            <Option value="FEMALE">Female</Option>
+                            <Option value="OTHER">Other</Option>
+                        </Select>
+                    </Form.Item>
+                </Col>
 
             </Row>
             <Row>
@@ -132,19 +161,10 @@ const InputSearch = (props) => {
                     >
                         Clear
                     </Button>
-                    {/* <a
-                        style={{ fontSize: 12 }}
-                        onClick={() => {
-                            setExpand(!expand);
-                        }}
-                    >
-                        {expand ? <UpOutlined /> : <DownOutlined />} Collapse
-                    </a> */}
                 </Col>
             </Row>
         </Form>
     );
 };
-
 
 export default InputSearch;
