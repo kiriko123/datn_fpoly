@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Divider, Form, Input, message, Modal, notification } from 'antd';
+import {Button, Col, Divider, Form, Input, InputNumber, message, Modal, notification, Row, Radio} from 'antd';
 import { callUpdateUser } from '../../../services/api';
 
 const UserModalUpdate = (props) => {
@@ -10,9 +10,10 @@ const UserModalUpdate = (props) => {
     const [form] = Form.useForm();
 
     const onFinish = async (values) => {
-        const { id, name, password } = values;
+        const { id, name, firstName, email, age, gender, address, phoneNumber } = values;
         setIsSubmit(true)
-        const res = await callUpdateUser({id, name, password});
+        const res =
+            await callUpdateUser({id, name, firstName, email, age, gender, address, phoneNumber});
         if (res && res.data) {
             message.success('Cập nhật user thành công');
             setOpenModalUpdate(false);
@@ -55,41 +56,68 @@ const UserModalUpdate = (props) => {
                     autoComplete="off"
                     // initialValues={dataUpdate}
                 >
-                    <Form.Item
-                        hidden
-                        labelCol={{ span: 24 }}
-                        label="Id"
-                        name="id"
-                        rules={[{ required: true, message: 'Vui lòng nhập Id!' }]}
-                    >
+                    <Form.Item hidden labelCol={{ span: 24 }} label="Id" name="id"  rules={[{ required: true, message: 'Vui lòng nhập id!' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item labelCol={{ span: 24 }} label="Email" name="email"  rules={[{ required: true, message: 'Vui lòng nhập email!' }]}>
+                        <Input disabled/>
+                    </Form.Item>
+
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item label="Firstname" name="firstName"  rules={[{ required: true, message: 'Vui lòng nhập firstname!' }]}>
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item label="Lastname" name="name" rules={[{ required: true, message: 'Vui lòng nhập lastname!' }]}>
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    {/*<Row gutter={16}>*/}
+                    {/*    <Col span={12}>*/}
+                    {/*        <Form.Item label="Password" name="password" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}>*/}
+                    {/*            <Input.Password />*/}
+                    {/*        </Form.Item>*/}
+                    {/*    </Col>*/}
+                    {/*    <Col span={12}>*/}
+                    {/*        <Form.Item label="Password confirm" name="passwordConfirm" rules={[{ required: true, message: 'Vui lòng nhập password confirm!' }]}>*/}
+                    {/*            <Input.Password />*/}
+                    {/*        </Form.Item>*/}
+                    {/*    </Col>*/}
+                    {/*</Row>*/}
+
+                    <Form.Item label="Address" name="address" rules={[{ required: true, message: 'Address không được để trống!' }]}>
                         <Input />
                     </Form.Item>
 
-                    <Form.Item
-                        labelCol={{ span: 24 }}
-                        label="Tên hiển thị"
-                        name="name"
-                        rules={[{ required: true, message: 'Vui lòng nhập tên hiển thị!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item label="Phone number" name="phoneNumber" rules={[{ required: true, message: 'Phone number không được để trống!' }]}>
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item label="Age" name="age" rules={[{ required: true, message: 'Please enter your age!' }]}>
+                                <InputNumber min={0} max={120} style={{ width: '100%' }} />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
                     <Form.Item
-                        labelCol={{ span: 24 }}
-                        label="Email"
-                        name="email"
-                        rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+                        labelCol={{span: 24}}
+                        label="Gender"
+                        name="gender"
+                        initialValue={'MALE'}
+                        rules={[{ required: true, message: 'Please select your gender!' }]}
                     >
-                        <Input disabled />
-                    </Form.Item>
-                    <Form.Item
-                        labelCol={{ span: 24 }}
-                        label="Password"
-                        name="password"
-
-                        rules={[{ required: true, message: 'Vui lòng nhập password!' }]}
-                    >
-                        <Input.Password />
+                        <Radio.Group>
+                            <Radio value="MALE">Male</Radio>
+                            <Radio value="FEMALE">Female</Radio>
+                            <Radio value="OTHER">Other</Radio>
+                        </Radio.Group>
                     </Form.Item>
                 </Form>
             </Modal>

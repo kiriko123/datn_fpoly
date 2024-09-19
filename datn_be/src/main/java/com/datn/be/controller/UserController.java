@@ -1,7 +1,8 @@
 package com.datn.be.controller;
 
+import com.datn.be.dto.request.user.AdminCreateUserDTO;
+import com.datn.be.dto.request.user.AdminUpdateUserDTO;
 import com.datn.be.dto.request.user.UserRegisterRequestDTO;
-import com.datn.be.dto.request.user.UserUpdateRequestDTO;
 import com.datn.be.dto.response.RestResponse;
 import com.datn.be.model.User;
 import com.datn.be.service.UserService;
@@ -28,9 +29,9 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping
-    public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateRequestDTO updateRequestDTO) {
-        log.info("updateUser: {}", updateRequestDTO);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.update(updateRequestDTO));
+    public ResponseEntity<?> updateUser(@Valid @RequestBody AdminUpdateUserDTO adminUpdateUserDTO) {
+        log.info("updateUser: {}", adminUpdateUserDTO);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.update(adminUpdateUserDTO));
     }
     @GetMapping
     public ResponseEntity<?> getAllUsers(@Filter Specification<User> specification, Pageable pageable) {
@@ -47,9 +48,9 @@ public class UserController {
                 .build();
     }
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
-        log.info("createUser: {}", userRegisterRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userRegisterRequestDTO));
+    public ResponseEntity<?> createUser(@Valid @RequestBody AdminCreateUserDTO adminCreateUserDTO) {
+        log.info("createUser: {}", adminCreateUserDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(adminCreateUserDTO));
     }
     @PostMapping("/bulk-create")
     public RestResponse<?> createUsers(@RequestBody List<UserRegisterRequestDTO> userRegisterRequestDTOS) {

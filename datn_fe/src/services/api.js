@@ -21,14 +21,14 @@ export const callFetchListUser = (query) =>{
 export const callDeleteUser = (userId) =>{
     return axios.delete(`/api/v1/user/${userId}`);
 }
-export const callCreateUser = ({name, email, password}) => {
-    return axios.post('/api/v1/user', {name, email, password});
+export const callCreateUser = ({name, firstName, email, password, passwordConfirm, age, gender, address, phoneNumber}) => {
+    return axios.post('/api/v1/user', {name, firstName, email, password, passwordConfirm, age, gender, address, phoneNumber});
 }
 export const callBulkCreateUser = (data) => {
     return axios.post('/api/v1/user/bulk-create', data);
 }
-export const callUpdateUser = ({id, name, password}) => {
-    return axios.put(`/api/v1/user`, {id, name, password});
+export const callUpdateUser = ({id, name, firstName, email, age, gender, address, phoneNumber}) => {
+    return axios.put(`/api/v1/user`, {id, name, firstName, email, age, gender, address, phoneNumber});
 }
 export const callUploadFile = (file, folder) => {
     // Tạo FormData để đính kèm tệp

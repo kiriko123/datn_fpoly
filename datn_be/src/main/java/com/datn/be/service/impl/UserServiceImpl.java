@@ -1,7 +1,8 @@
 package com.datn.be.service.impl;
 
+import com.datn.be.dto.request.user.AdminCreateUserDTO;
+import com.datn.be.dto.request.user.AdminUpdateUserDTO;
 import com.datn.be.dto.request.user.UserRegisterRequestDTO;
-import com.datn.be.dto.request.user.UserUpdateRequestDTO;
 import com.datn.be.dto.response.ResultPaginationResponse;
 import com.datn.be.dto.response.user.UserResponse;
 import com.datn.be.mapper.UserMapping;
@@ -32,25 +33,42 @@ public class UserServiceImpl implements UserService {
     private final UserMapping userMapping;
 
     @Override
-    public UserResponse save(UserRegisterRequestDTO userRegisterRequestDTO) {
+    public UserResponse save(AdminCreateUserDTO adminCreateUserDTO) {
 
-        if (userRepository.existsByEmail(userRegisterRequestDTO.getEmail())) {
+        if (userRepository.existsByEmail(adminCreateUserDTO.getEmail())) {
             throw new InvalidDataException("Email already exists");
         }
 
-        User user = userMapping.toUser(userRegisterRequestDTO);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(roleRepository.findByName("ROLE_USER"));
-        user.setEnabled(true);
+        if(!adminCreateUserDTO.getPassword().equals(adminCreateUserDTO.getPasswordConfirm())) {
+            throw new InvalidDataException("Passwords do not match");
+        }
+
+        User user = User.builder()
+                .email(adminCreateUserDTO.getEmail())
+                .password(passwordEncoder.encode(adminCreateUserDTO.getPassword()))
+                .phoneNumber(adminCreateUserDTO.getPhoneNumber())
+                .age(adminCreateUserDTO.getAge())
+                .name(adminCreateUserDTO.getName())
+                .firstName(adminCreateUserDTO.getFirstName())
+                .address(adminCreateUserDTO.getAddress())
+                .gender(adminCreateUserDTO.getGender())
+                .role(roleRepository.findByName("ROLE_USER"))
+                .enabled(true)
+                .imageUrl("user.png")
+                .build();
 
         return UserResponse.fromUserToUserResponse(userRepository.save(user));
     }
 
     @Override
-    public UserResponse update(UserUpdateRequestDTO userUpdateRequestDTO) {
-        User user = this.findById(userUpdateRequestDTO.getId());
-        user.setName(userUpdateRequestDTO.getName());
-        user.setPassword(passwordEncoder.encode(userUpdateRequestDTO.getPassword()));
+    public UserResponse update(AdminUpdateUserDTO adminUpdateUserDTO) {
+        User user = this.findById(adminUpdateUserDTO.getId());
+        user.setName(adminUpdateUserDTO.getName());
+        user.setFirstName(adminUpdateUserDTO.getFirstName());
+        user.setAddress(adminUpdateUserDTO.getAddress());
+        user.setGender(adminUpdateUserDTO.getGender());
+        user.setAge(adminUpdateUserDTO.getAge());
+        user.setPhoneNumber(adminUpdateUserDTO.getPhoneNumber());
         return UserResponse.fromUserToUserResponse(userRepository.save(user));
     }
 
