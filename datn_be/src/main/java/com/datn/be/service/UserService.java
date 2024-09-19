@@ -1,5 +1,6 @@
 package com.datn.be.service;
 
+import com.datn.be.dto.request.user.AdminBulkCreateUserDTO;
 import com.datn.be.dto.request.user.AdminCreateUserDTO;
 import com.datn.be.dto.request.user.AdminUpdateUserDTO;
 import com.datn.be.dto.request.user.UserRegisterRequestDTO;
@@ -20,6 +21,6 @@ public interface UserService {
     User findByEmail(String email);
     void updateUserToken(String token, String email);
     User getUserByEmailAndRefreshToken(String email, String refreshToken);
-    String bulkCreateUser(List<UserRegisterRequestDTO> userRegisterRequestDTOS);
+    String bulkCreateUser(List<AdminBulkCreateUserDTO> adminBulkCreateUserDTOS);
     long countAllUser();
 }

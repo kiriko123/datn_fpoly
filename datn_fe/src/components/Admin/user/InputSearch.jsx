@@ -23,9 +23,17 @@ const InputSearch = (props) => {
         if (values.fullName) {
             queryParts.push(`name~%27${values.fullName}%27`);
         }
-
+        if (values.firstName) {
+            queryParts.push(`firstName~%27${values.firstName}%27`);
+        }
         if (values.email) {
             queryParts.push(`email~%27${values.email}%27`);
+        }
+        if (values.phoneNumber) {
+            queryParts.push(`phoneNumber~%27${values.phoneNumber}%27`);
+        }
+        if (values.address) {
+            queryParts.push(`address~%27${values.address}%27`);
         }
 
         // if (values.phone) {
@@ -58,16 +66,28 @@ const InputSearch = (props) => {
     return (
         <Form form={form} name="advanced_search" style={formStyle} onFinish={onFinish}>
             <Row gutter={24}>
-                <Col span={8}>
+
+                <Col span={4}>
+                    <Form.Item
+                        labelCol={{ span: 24 }} //whole column
+                        name={`firstName`}
+                        label={`Firstname`}
+                    >
+                        <Input placeholder="Please input firstname!" />
+                    </Form.Item>
+                </Col>
+
+                <Col span={4}>
                     <Form.Item
                         labelCol={{ span: 24 }} //whole column
                         name={`fullName`}
-                        label={`Name`}
+                        label={`Lastname`}
                     >
-                        <Input placeholder="Please input name!" />
+                        <Input placeholder="Please input firstname!" />
                     </Form.Item>
                 </Col>
-                <Col span={8}>
+
+                <Col span={5}>
                     <Form.Item
                         labelCol={{ span: 24 }} //whole column
                         name={`email`}
@@ -76,16 +96,27 @@ const InputSearch = (props) => {
                         <Input placeholder="Please input email!" />
                     </Form.Item>
                 </Col>
+                <Col span={5}>
+                    <Form.Item
+                        labelCol={{ span: 24 }} //whole column
+                        name={`phoneNumber`}
+                        label={`Phone number`}
+                    >
+                        <Input placeholder="Please input phone number!" />
+                    </Form.Item>
+                </Col>
 
-                {/*<Col span={8}>*/}
-                {/*    <Form.Item*/}
-                {/*        labelCol={{ span: 24 }} //whole column*/}
-                {/*        name={`phone`}*/}
-                {/*        label={`Add thêm`}*/}
-                {/*    >*/}
-                {/*        <Input placeholder="placeholder" />*/}
-                {/*    </Form.Item>*/}
-                {/*</Col>*/}
+                <Col span={6}>
+                    <Form.Item
+                        labelCol={{ span: 24 }} //whole column
+                        name={`address`}
+                        label={`Address`}
+                    >
+                        <Input placeholder="Please input address!" />
+                    </Form.Item>
+                </Col>
+
+
             </Row>
             <Row>
                 <Col span={24} style={{ textAlign: 'right' }}>

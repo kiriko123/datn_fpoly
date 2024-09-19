@@ -42,7 +42,7 @@ const UserImport = (props) => {
                         const sheet = workbook.Sheets[workbook.SheetNames[0]];
                         // const json = XLSX.utils.sheet_to_json(sheet);
                         const json = XLSX.utils.sheet_to_json(sheet, {
-                            header: ["name", "email", "password"],
+                            header: ["email", "firstName", "name", "password", "address", "phoneNumber", "age", "gender"],
                             range: 1 //skip header row
                         });
                         if (json && json.length > 0) setDataExcel(json)
@@ -79,7 +79,8 @@ const UserImport = (props) => {
     return (
         <>
             <Modal title="Import data user"
-                   width={"50vw"}
+                   width={"80vw"}
+                   centered
                    open={openModalImport}
                    onOk={() => handleSubmit()}
                    onCancel={() => {
@@ -111,9 +112,14 @@ const UserImport = (props) => {
                         dataSource={dataExcel}
                         title={() => <span>Dữ liệu upload:</span>}
                         columns={[
-                            { dataIndex: 'name', title: 'Tên hiển thị' },
                             { dataIndex: 'email', title: 'Email' },
-                            { dataIndex: 'password', title: 'Mật khẩu' },
+                            { dataIndex: 'firstName', title: 'Firstname' },
+                            { dataIndex: 'name', title: 'Lastname' },
+                            { dataIndex: 'password', title: 'Password' },
+                            { dataIndex: 'address', title: 'Address' },
+                            { dataIndex: 'phoneNumber', title: 'Phone Number' },
+                            { dataIndex: 'age', title: 'Age' },
+                            { dataIndex: 'gender', title: 'Gender' },
                         ]}
                     />
                 </div>

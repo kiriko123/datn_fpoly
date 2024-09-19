@@ -1,5 +1,6 @@
 package com.datn.be.controller;
 
+import com.datn.be.dto.request.user.AdminBulkCreateUserDTO;
 import com.datn.be.dto.request.user.AdminCreateUserDTO;
 import com.datn.be.dto.request.user.AdminUpdateUserDTO;
 import com.datn.be.dto.request.user.UserRegisterRequestDTO;
@@ -53,9 +54,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(adminCreateUserDTO));
     }
     @PostMapping("/bulk-create")
-    public RestResponse<?> createUsers(@RequestBody List<UserRegisterRequestDTO> userRegisterRequestDTOS) {
-        log.info("createUsers: {}", userRegisterRequestDTOS);
-        String res = userService.bulkCreateUser(userRegisterRequestDTOS);
+    public RestResponse<?> createUsers(@RequestBody List<AdminBulkCreateUserDTO> adminBulkCreateUserDTOS) {
+        log.info("createUsers: {}", adminBulkCreateUserDTOS);
+        String res = userService.bulkCreateUser(adminBulkCreateUserDTOS);
         return RestResponse.builder()
                 .statusCode(201)
                 .message("Users created")

@@ -1,5 +1,6 @@
 package com.datn.be.service.impl;
 
+import com.datn.be.dto.request.user.AdminBulkCreateUserDTO;
 import com.datn.be.dto.request.user.AdminCreateUserDTO;
 import com.datn.be.dto.request.user.AdminUpdateUserDTO;
 import com.datn.be.dto.request.user.UserRegisterRequestDTO;
@@ -85,7 +86,14 @@ public class UserServiceImpl implements UserService {
         if (user.getRole().getName().equals("ROLE_ADMIN")) {
             throw new RuntimeException("Không thể xóa ADMIN");
         }
-        userRepository.deleteById(id);
+
+        if(user.isEnabled()){
+            user.setEnabled(false);
+            userRepository.save(user);
+        }else{
+            userRepository.delete(user);
+        }
+
     }
 
     @Override
@@ -131,27 +139,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String bulkCreateUser(List<UserRegisterRequestDTO> userRegisterRequestDTOS) {
+    public String bulkCreateUser(List<AdminBulkCreateUserDTO> adminBulkCreateUserDTOS) {
         int error = 0;
         int success = 0;
-        for (UserRegisterRequestDTO userRegisterRequestDTO : userRegisterRequestDTOS) {
-            if(userRepository.existsByEmail(userRegisterRequestDTO.getEmail())) {
+        for (AdminBulkCreateUserDTO adminBulkCreateUserDTO : adminBulkCreateUserDTOS) {
+            if(userRepository.existsByEmail(adminBulkCreateUserDTO.getEmail())) {
                 error++;
                 continue;
             }
-            if(!EmailValidator.isValidEmail(userRegisterRequestDTO.getEmail())){
+            if(!EmailValidator.isValidEmail(adminBulkCreateUserDTO.getEmail())){
                 error++;
                 continue;
             }
-            if(userRegisterRequestDTO.getName().isBlank() || userRegisterRequestDTO.getPassword().isBlank()){
+            if(adminBulkCreateUserDTO.getName().isBlank()
+                    || adminBulkCreateUserDTO.getPassword().isBlank()
+                    || adminBulkCreateUserDTO.getName().isEmpty()
+                    || adminBulkCreateUserDTO.getPassword().isEmpty()
+                    || adminBulkCreateUserDTO.getPhoneNumber().isBlank()
+                    || adminBulkCreateUserDTO.getPhoneNumber().isEmpty()
+                    || adminBulkCreateUserDTO.getFirstName().isBlank()
+                    || adminBulkCreateUserDTO.getFirstName().isEmpty()
+                    || adminBulkCreateUserDTO.getAddress().isBlank()
+                    || adminBulkCreateUserDTO.getAddress().isEmpty()
+            ){
                 error++;
                 continue;
             }
             User user = userRepository.save(
                     User.builder()
-                            .name(userRegisterRequestDTO.getName())
-                            .password(passwordEncoder.encode(userRegisterRequestDTO.getPassword()))
-                            .email(userRegisterRequestDTO.getEmail())
+                            .name(adminBulkCreateUserDTO.getName())
+                            .password(passwordEncoder.encode(adminBulkCreateUserDTO.getPassword()))
+                            .email(adminBulkCreateUserDTO.getEmail())
+                            .gender(adminBulkCreateUserDTO.getGender())
+                            .imageUrl("user.png")
+                            .phoneNumber(adminBulkCreateUserDTO.getPhoneNumber())
+                            .address(adminBulkCreateUserDTO.getAddress())
+                            .age(adminBulkCreateUserDTO.getAge())
+                            .firstName(adminBulkCreateUserDTO.getFirstName())
                             .role(roleRepository.findByName("ROLE_USER"))
                             .enabled(true)
                             .build()

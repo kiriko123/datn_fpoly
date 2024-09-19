@@ -107,7 +107,6 @@ const UserModalUpdate = (props) => {
                     </Row>
 
                     <Form.Item
-                        labelCol={{span: 24}}
                         label="Gender"
                         name="gender"
                         initialValue={'MALE'}
