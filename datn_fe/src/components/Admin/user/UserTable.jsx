@@ -84,7 +84,14 @@ const UserTable = () => {
     };
 
     const columnSelector = (
-        <Menu onClick={handleMenuClick}>
+        <Menu
+            onClick={handleMenuClick}
+            style={{
+                maxHeight: '300px', // Chiều cao tối đa của menu
+                overflowY: 'auto', // Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao
+                width: '200px' // Bạn có thể điều chỉnh rộng tùy theo nhu cầu
+            }}
+        >
             {Object.keys(selectedColumns).map((key) => (
                 <Menu.Item key={key}>
                     <Checkbox
@@ -102,6 +109,7 @@ const UserTable = () => {
             ))}
         </Menu>
     );
+
 
     const columns = [
         selectedColumns.id && {
