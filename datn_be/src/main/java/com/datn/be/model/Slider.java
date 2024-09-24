@@ -1,13 +1,11 @@
 package com.datn.be.model;
 
 import com.datn.be.util.SecurityUtil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
-import java.util.List;
 
 @Getter
 @Setter
@@ -16,30 +14,22 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "categories")
-public class Category {
+@Table(name = "sliders")
+public class Slider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String name;
+    String imgUrl;
 
-    String thumbnail;
+    String title;
 
-    String description;
-
-    boolean hot;
-
-    boolean active;
+    String description ;
 
     Instant createdAt;
     Instant updatedAt;
     String createdBy;
     String updatedBy;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "category")
-    List<Product> products;
 
     @PrePersist
     public void handleBeforeCreate() {

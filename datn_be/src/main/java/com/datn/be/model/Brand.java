@@ -16,8 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "categories")
-public class Category {
+@Table(name = "brands")
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -28,17 +28,13 @@ public class Category {
 
     String description;
 
-    boolean hot;
-
-    boolean active;
-
     Instant createdAt;
     Instant updatedAt;
     String createdBy;
     String updatedBy;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "brand")
     List<Product> products;
 
     @PrePersist

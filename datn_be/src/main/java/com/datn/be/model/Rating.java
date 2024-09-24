@@ -16,30 +16,30 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "categories")
-public class Category {
+@Table(name = "ratings")
+public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String name;
+    String content;
 
-    String thumbnail;
+    int numberStars;
 
-    String description;
 
-    boolean hot;
 
-    boolean active;
+    @ManyToOne
+    @JoinColumn(name = "user_id ")
+    User user;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    Product product;
 
     Instant createdAt;
     Instant updatedAt;
     String createdBy;
     String updatedBy;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "category")
-    List<Product> products;
 
     @PrePersist
     public void handleBeforeCreate() {

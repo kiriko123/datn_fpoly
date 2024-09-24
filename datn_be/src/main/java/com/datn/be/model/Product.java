@@ -1,11 +1,13 @@
 package com.datn.be.model;
 
 import com.datn.be.util.SecurityUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,19 +26,41 @@ public class Product {
 
     float price;
 
-    String imageUrl;
+    float discount;
+
+    String thumbnail;
+
+    int quantity;
+
+    int sold;
 
     String description;
+
+    boolean active;
+
+    boolean sale;
+
+    boolean hot;
+
+    @ElementCollection
+    @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "image_url")
+    List<String> images;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+
     Instant createdAt;
     Instant updatedAt;
     String createdBy;
     String updatedBy;
-    boolean active;
+
 
     @PrePersist
     public void handleBeforeCreate() {

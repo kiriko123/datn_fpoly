@@ -1,7 +1,8 @@
 package com.datn.be.model;
 
 import com.datn.be.util.SecurityUtil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.datn.be.util.constant.GenderEnum;
+import com.datn.be.util.constant.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,30 +17,45 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "categories")
-public class Category {
+@Table(name = "orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    long id;
 
-    String name;
+    String fullName;
 
-    String thumbnail;
+    String email;
+
+    String phoneNumber;
+
+    String address;
+
+    float totalMoney;
+
+    String shippingMethod;
+
+    String shippingAddress;
+
+    Instant shippingDate;
+
+    @Enumerated(EnumType.STRING)
+    OrderStatus status;
 
     String description;
 
-    boolean hot;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
 
-    boolean active;
+    @ManyToOne
+    @JoinColumn(name = "payment_method_id")
+    PaymentMethod paymentMethod;
 
     Instant createdAt;
-    Instant updatedAt;
     String createdBy;
-    String updatedBy;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "category")
-    List<Product> products;
+
 
     @PrePersist
     public void handleBeforeCreate() {
@@ -49,7 +65,6 @@ public class Category {
 
     @PreUpdate
     public void handleBeforeUpdate() {
-        this.updatedAt = Instant.now();
-        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
+
     }
 }
