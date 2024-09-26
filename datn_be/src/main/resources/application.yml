@@ -27,7 +27,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/dbo_datn?useSSL=false&serverTimezone=UTC
     username: root
-    password: 060902
+    password: root
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
@@ -43,4 +43,4 @@ khang:
     access-token-validity-in-seconds: 900     # 15 minutes = 900 seconds
     refresh-token-validity-in-seconds: 604800  # 7 days = 604800 seconds
   upload-file:
-    base-uri: file:///D:/DATN/datn_fpoly/upload/
+    base-uri: file:///D:/datn/datn_fpoly/upload/
