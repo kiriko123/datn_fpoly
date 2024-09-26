@@ -1,10 +1,12 @@
-import Slider from "../slider/slider.jsx";
+import Slider from "../Slider/slider.jsx";
 
 const Home = () => {
     return(
         <>
-            <Slider/>
+            {/*<Slider/>*/}
+            <div style={{height:'600px'}}>
 
+            </div>
         </>
     )
 }

@@ -8,7 +8,7 @@ import com.datn.be.model.User;
 
 public interface AccountService {
     UserResponse register(RegisterRequestDTO registerRequestDTO);
-    UserResponse googleRegister(RegisterRequestDTO registerRequestDTO);
+    void googleRegister(RegisterRequestDTO registerRequestDTO);
     void verifyUser(String verificationCode);
     void resendVerificationCode(String email);
     void sendVerificationEmail(User user);

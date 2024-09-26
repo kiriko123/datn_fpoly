@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute/index.jsx";
 import AdminPage from "./pages/admin/index.jsx";
 import ManageUserPage from "./pages/admin/user/index.jsx";
 import Auth from "./pages/auth/index.jsx";
-import Slider from "./components/slider/slider.jsx";
+import Slider from "./components/Slider/slider.jsx";
 import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
 

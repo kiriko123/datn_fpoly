@@ -57,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public UserResponse googleRegister(RegisterRequestDTO registerRequestDTO) {
+    public void googleRegister(RegisterRequestDTO registerRequestDTO) {
         if (userRepository.existsByEmail(registerRequestDTO.getEmail())) {
             throw new InvalidDataException("Email already exists");
         }
@@ -75,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
                 .enabled(true)
                 .build();
 
-        return UserResponse.fromUserToUserResponse(userRepository.save(user));
+        UserResponse.fromUserToUserResponse(userRepository.save(user));
     }
 
     @Override
