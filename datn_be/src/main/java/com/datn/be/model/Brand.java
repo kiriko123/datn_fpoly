@@ -28,6 +28,7 @@ public class Brand {
 
     String description;
 
+
     Instant createdAt;
     Instant updatedAt;
     String createdBy;

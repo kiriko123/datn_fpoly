@@ -4,10 +4,14 @@ import com.datn.be.dto.request.brand.BrandCreateRequestDTO;
 import com.datn.be.dto.request.brand.BrandUpdateRequestDTO;
 import com.datn.be.dto.response.RestResponse;
 import com.datn.be.model.Brand;
+import com.datn.be.model.User;
 import com.datn.be.service.BrandService;
+import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,9 +29,9 @@ public class BrandController {
     private final BrandService brandService;
 
     @GetMapping
-    public ResponseEntity<List<Brand>> getAllBrands(){
+    public ResponseEntity<?> getAllBrands(@Filter Specification<Brand> specification, Pageable pageable){
         log.info("Get All Brand");
-        return ResponseEntity.ok(brandService.getAllBrands());
+        return ResponseEntity.ok(brandService.getAllBrands(specification, pageable));
     }
 
     @PostMapping

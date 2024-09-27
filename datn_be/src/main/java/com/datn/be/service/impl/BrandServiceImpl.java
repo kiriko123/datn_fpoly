@@ -2,14 +2,20 @@ package com.datn.be.service.impl;
 
 import com.datn.be.dto.request.brand.BrandCreateRequestDTO;
 import com.datn.be.dto.request.brand.BrandUpdateRequestDTO;
+import com.datn.be.dto.response.ResultPaginationResponse;
 import com.datn.be.dto.response.brand.BrandRespone;
+import com.datn.be.dto.response.user.UserResponse;
 import com.datn.be.exception.InvalidDataException;
 import com.datn.be.exception.ResourceNotFoundException;
 import com.datn.be.mapper.BrandMapping;
 import com.datn.be.model.Brand;
+import com.datn.be.model.User;
 import com.datn.be.repository.BrandRepository;
 import com.datn.be.service.BrandService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +29,22 @@ public class BrandServiceImpl implements BrandService {
 
 
     @Override
-    public List<Brand> getAllBrands() {
-        return brandRepository.findAll();
+    public ResultPaginationResponse getAllBrands(Specification<Brand> spec, Pageable pageable) {
+        Page<Brand> brands = brandRepository.findAll(spec, pageable);
+
+        ResultPaginationResponse.Meta meta = ResultPaginationResponse.Meta.builder()
+                .total(brands.getTotalElements())
+                .pages(brands.getTotalPages())
+                .page(pageable.getPageNumber() + 1)
+                .pageSize(pageable.getPageSize())
+                .build();
+
+        List<BrandRespone> brandResponses = brands.getContent().stream().map(BrandRespone::fromBrandToBrandRespone).toList();
+
+        return ResultPaginationResponse.builder()
+                .meta(meta)
+                .result(brandResponses)
+                .build();
     }
 
     @Override
