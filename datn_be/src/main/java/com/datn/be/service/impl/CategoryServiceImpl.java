@@ -25,26 +25,45 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapping categoryMapping;
 
     @Override
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
+    }
+
+    @Override
     public CategoryResponse create(CategoryCreateRequestDTO categoryCreateRequestDTO) {
         if(categoryRepository.existsByName(categoryCreateRequestDTO.getName())) {
             throw new InvalidDataException("Category name already exist");
         }
         Category category = categoryMapping.fromCategoryCreateRequestDTOToCategory(categoryCreateRequestDTO);
         category.setActive(true);
+//        Category category = Category.builder()
+//                .name(categoryCreateRequestDTO.getName())
+//                .thumbnail(categoryCreateRequestDTO.getThumbnail())
+//                .description(categoryCreateRequestDTO.getDescription())
+//                .active(true)
+//                .hot(true)
+//                .build();
         return categoryMapping.fromCategoryToCategoryResponse(categoryRepository.save(category));
     }
 
     @Override
     public CategoryResponse update(CategoryUpdateRequestDTO categoryUpdateRequestDTO) {
-        Category category = getCategoryById(categoryUpdateRequestDTO.getId());
-
-        if(!category.getName().equals(categoryUpdateRequestDTO.getName())) {
-            if(categoryRepository.existsByName(categoryUpdateRequestDTO.getName())) {
-                throw new InvalidDataException("Category name already exist");
-            }
-        }
-
-        categoryMapping.updateCategory(category, categoryUpdateRequestDTO);
+//        Category category = getCategoryById(categoryUpdateRequestDTO.getId());
+//
+//        if(!category.getName().equals(categoryUpdateRequestDTO.getName())) {
+//            if(categoryRepository.existsByName(categoryUpdateRequestDTO.getName())) {
+//                throw new InvalidDataException("Category name already exist");
+//            }
+//        }
+//
+//        categoryMapping.updateCategory(category, categoryUpdateRequestDTO);
+//        return categoryMapping.fromCategoryToCategoryResponse(categoryRepository.save(category));
+        Category category = this.getCategoryById(categoryUpdateRequestDTO.getId());
+        category.setName(categoryUpdateRequestDTO.getName());
+        category.setThumbnail(categoryUpdateRequestDTO.getThumbnail());
+        category.setDescription(categoryUpdateRequestDTO.getDescription());
+        category.setActive(categoryUpdateRequestDTO.isActive());
+        category.setHot(categoryUpdateRequestDTO.isHot());
         return categoryMapping.fromCategoryToCategoryResponse(categoryRepository.save(category));
     }
 
@@ -52,6 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void delete(Long id) {
         Category category = getCategoryById(id);
         category.setActive(false);
+        category.setHot(false);
         categoryRepository.save(category);
     }
 

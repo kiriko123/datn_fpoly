@@ -8,7 +8,10 @@ import com.datn.be.model.Category;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 public interface CategoryService {
+    List<Category> getAllCategories();
     CategoryResponse create(CategoryCreateRequestDTO categoryCreateRequestDTO);
     CategoryResponse update(CategoryUpdateRequestDTO categoryUpdateRequestDTO);
     void delete(Long id);

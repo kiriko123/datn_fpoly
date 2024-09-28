@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -23,6 +25,12 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class CategoryController {
     private final CategoryService categoryService;
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Category>> getAllBrands(){
+        log.info("Get All Brand");
+        return ResponseEntity.ok(categoryService.getAllCategories());
+    }
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody CategoryCreateRequestDTO categoryCreateRequestDTO) {
         log.info("Create category: {}", categoryCreateRequestDTO);
