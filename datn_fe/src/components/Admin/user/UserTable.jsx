@@ -16,7 +16,6 @@ import UserModalCreate from "./UserModalCreate.jsx";
 import UserImport from "./data/UserImport.jsx";
 import * as XLSX from "xlsx";
 import UserModalUpdate from "./UserModalUpdate.jsx";
-import { CgColorPicker } from "react-icons/cg";
 
 const UserTable = () => {
     const [listUser, setListUser] = useState([]);
@@ -34,8 +33,6 @@ const UserTable = () => {
 
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
     const [dataUpdate, setDataUpdate] = useState(null);
-
-
 
     useEffect(() => {
         fetchUsers();
@@ -84,14 +81,7 @@ const UserTable = () => {
     };
 
     const columnSelector = (
-        <Menu
-            onClick={handleMenuClick}
-            style={{
-                maxHeight: '300px', // Chiều cao tối đa của menu
-                overflowY: 'auto', // Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao
-                width: '200px' // Bạn có thể điều chỉnh rộng tùy theo nhu cầu
-            }}
-        >
+        <Menu onClick={handleMenuClick} style={{ maxHeight: '200px', overflowY: 'scroll' }}>
             {Object.keys(selectedColumns).map((key) => (
                 <Menu.Item key={key}>
                     <Checkbox
@@ -109,6 +99,7 @@ const UserTable = () => {
             ))}
         </Menu>
     );
+
 
 
     const columns = [
@@ -286,12 +277,19 @@ const UserTable = () => {
         </div>
     );
 
+    const handleSearch = (query) => {
+        setFilter(query);
+        setCurrent(1);
+    }
+
 
     return (
         <>
             <Row gutter={[20, 20]}>
                 <Col span={24}>
-                    <InputSearch handleSearch={setFilter} />
+                    <InputSearch handleSearch={handleSearch}
+                                 setFilter={setFilter}
+                    />
                 </Col>
                 <Col span={24}>
                     <Table
