@@ -13,6 +13,8 @@ public class CategoryUpdateRequestDTO {
     long id;
     @NotBlank
     String name;
-    String imageUrl;
+    String description;
+    String thumbnail;
+    boolean hot;
     boolean active;
 }
