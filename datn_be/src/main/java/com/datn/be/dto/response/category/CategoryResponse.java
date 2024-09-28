@@ -25,7 +25,7 @@ public class CategoryResponse {
     boolean hot;
 
     public static CategoryResponse fromCategoryToCategoryResponse(Category category) {
-        CategoryResponse categoryResponse = CategoryResponse.builder()
+        return CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
                 .thumbnail(category.getThumbnail())
@@ -37,6 +37,5 @@ public class CategoryResponse {
                 .active(category.isActive())
                 .hot(category.isHot())
                 .build();
-        return categoryResponse;
     }
 }

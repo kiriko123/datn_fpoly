@@ -10,4 +10,5 @@ public class CategoryCreateRequestDTO {
     String name;
     String description;
     String thumbnail;
+    boolean hot;
 }

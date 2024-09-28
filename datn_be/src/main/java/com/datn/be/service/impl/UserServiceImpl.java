@@ -3,10 +3,8 @@ package com.datn.be.service.impl;
 import com.datn.be.dto.request.user.AdminBulkCreateUserDTO;
 import com.datn.be.dto.request.user.AdminCreateUserDTO;
 import com.datn.be.dto.request.user.AdminUpdateUserDTO;
-import com.datn.be.dto.request.user.UserRegisterRequestDTO;
 import com.datn.be.dto.response.ResultPaginationResponse;
 import com.datn.be.dto.response.user.UserResponse;
-import com.datn.be.mapper.UserMapping;
 import com.datn.be.service.UserService;
 import com.datn.be.exception.InvalidDataException;
 import com.datn.be.exception.ResourceNotFoundException;
@@ -31,7 +29,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private final UserMapping userMapping;
 
     @Override
     public UserResponse save(AdminCreateUserDTO adminCreateUserDTO) {

@@ -16,5 +16,4 @@ public class CategoryUpdateRequestDTO {
     String description;
     String thumbnail;
     boolean hot;
-    boolean active;
 }
