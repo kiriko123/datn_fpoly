@@ -33,8 +33,8 @@ const items = [
         icon: <UserOutlined/>,
     },
     {
-        label: <Link to='/admin/book'>Manage ....</Link>,
-        key: 'book',
+        label: <Link to='/admin/category'>Manage Category</Link>,
+        key: 'category',
         icon: <ExceptionOutlined/>
     },
     {
