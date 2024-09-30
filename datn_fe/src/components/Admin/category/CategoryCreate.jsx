@@ -1,21 +1,47 @@
-// eslint-disable-next-line no-unused-vars
-import React, {useState} from 'react';
-import { Divider, Form, Input, message, Modal, notification, Radio} from 'antd';
-import {callCreateCategory} from '../../../services/api';
+import React, { useState } from 'react';
+import { Divider, Form, Input, message, Modal, notification, Radio, Upload, Button } from 'antd';
+import { callCreateCategory, callUploadFile } from '../../../services/api';
+import { UploadOutlined } from '@ant-design/icons';
 
 const CategoryCreate = (props) => {
     // eslint-disable-next-line react/prop-types
     const {openModalCreate, setOpenModalCreate} = props;
     const [isSubmit, setIsSubmit] = useState(false);
+    const [thumbnailUrl, setThumbnailUrl] = useState(null); // Lưu URL của ảnh upload
 
     // https://ant.design/components/form#components-form-demo-control-hooks
     const [form] = Form.useForm();
 
+    // Hàm upload file (thumbnail)
+    const handleUploadThumbnail = async ({ file, onSuccess, onError }) => {
+        const res = await callUploadFile(file, 'category-thumbnail'); // Gọi API upload
+        if (res && res.data) {
+            const newThumbnail = res.data.fileName;
+            setThumbnailUrl(newThumbnail); // Lưu lại URL của ảnh sau khi upload
+            onSuccess('ok');
+        } else {
+            onError('Upload ảnh thất bại');
+        }
+    };
+
+    const propsUploadThumbnail = {
+        maxCount: 1,
+        multiple: false,
+        customRequest: handleUploadThumbnail,
+        onChange(info) {
+            if (info.file.status === 'done') {
+                message.success('Upload ảnh thành công');
+            } else if (info.file.status === 'error') {
+                message.error('Upload ảnh thất bại');
+            }
+        },
+    };
+
     const onFinish = async (values) => {
-        const {name, thumbnail, description, hot} = values;
+        const {name, description, hot} = values;
         setIsSubmit(true);
         const res =
-            await callCreateCategory({name, thumbnail, description, hot});
+            await callCreateCategory({name, thumbnail:thumbnailUrl, description, hot});
         if (res && res.data) {
             message.success('Created successfully');
             form.resetFields();
@@ -34,7 +60,6 @@ const CategoryCreate = (props) => {
 
     return (
         <>
-
             <Modal
                 title="Thêm mới danh mục"
                 open={openModalCreate}
@@ -53,7 +78,6 @@ const CategoryCreate = (props) => {
                     form={form} //quy dinh Form la form khi submit cai model se submit form luon
                     name="basic"
                     style={{maxWidth: 600}}
-
                     onFinish={onFinish}
                     autoComplete="off"
                 >
@@ -61,19 +85,23 @@ const CategoryCreate = (props) => {
                         <Input />
                     </Form.Item>
 
-                    <Form.Item label="Thumbnail" name="thumbnail" rules={[{ required: true, message: 'Thumbnail không được để trống!' }]}>
-                        <Input />
+                    {/* Upload ảnh Thumbnail */}
+                    {/*rules={[{ required: true, message: 'Thumbnail không được để trống!' }]}*/}
+                    <Form.Item label="Thumbnail" name="thumbnail" >
+                        <Upload {...propsUploadThumbnail}>
+                            <Button icon={<UploadOutlined />}>Upload Thumbnail</Button>
+                        </Upload>
                     </Form.Item>
 
                     <Form.Item
                         label="Hot"
                         name="hot"
                         initialValue={'HOT'}
-                        rules={[{ required: true, message: 'Please select hot(Y/N)!' }]}
+                        // rules={[{ required: true, message: 'Please select hot(Y/N)!' }]}
                     >
                         <Radio.Group>
-                            <Radio value="HOT">Male</Radio>
-                            <Radio value="NOHOT">Female</Radio>
+                            <Radio value="true">Yes</Radio>
+                            <Radio value="false">No</Radio>
                         </Radio.Group>
                     </Form.Item>
 

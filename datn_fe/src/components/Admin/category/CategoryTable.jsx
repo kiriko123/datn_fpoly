@@ -53,7 +53,7 @@ const CategoryTable = () => {
     const [selectedColumns, setSelectedColumns] = useState({
         id: true,
         name: true,
-        thumbnail: true,
+        thumbnail: false,
         description: true,
         hot: true,
         active: true,
@@ -61,6 +61,7 @@ const CategoryTable = () => {
         updatedAt: false,
         createdBy: false,
         updatedBy: false,
+        action: true,
     });
 
     const [dropdownVisible, setDropdownVisible] = useState(false); // Trạng thái hiển thị menu
@@ -120,13 +121,13 @@ const CategoryTable = () => {
             title: 'Hot',
             dataIndex: 'hot',
             sorter: true,
-            render: (enabled) => (enabled ? 'Enabled' : 'Disabled'), // Chuyển đổi giá trị true/false
+            render: (enabled) => (enabled ? 'Yes' : 'No'), // Chuyển đổi giá trị true/false
         },
         selectedColumns.active && {
             title: 'Active',
             dataIndex: 'active',
             sorter: true,
-            render: (enabled) => (enabled ? 'Enabled' : 'Disabled'), // Chuyển đổi giá trị true/false
+            render: (enabled) => (enabled ? 'Actived' : 'Disabled'), // Chuyển đổi giá trị true/false
         },
         selectedColumns.createdAt && {
             title: 'CreatedAt',
@@ -192,8 +193,8 @@ const CategoryTable = () => {
         }
     };
 
-    const handleDeleteCategory = async (userId) => {
-        const res = await callDeleteCategory(userId);
+    const handleDeleteCategory = async (categoryId) => {
+        const res = await callDeleteCategory(categoryId);
         if (res?.data?.statusCode === 204) {
             message.success('Xóa category thành công');
             fetchCategories();
@@ -282,11 +283,12 @@ const CategoryTable = () => {
                     setOpenViewDetail={setOpenViewDetail}
                     dataViewDetail={dataViewDetail}
                     setDataViewDetail={setDataViewDetail}
+                    fetchCategory={fetchCategories}
                 />
                 <CategoryCreate
                     openModalCreate={openModalCreate}
                     setOpenModalCreate={setOpenModalCreate}
-                    fetchCategory={fetchCategories()}
+                    fetchCategory={fetchCategories}
                 />
                 {/*<CategoryImport*/}
                 {/*    openModalImport={openModalImport}*/}
@@ -298,7 +300,7 @@ const CategoryTable = () => {
                     setOpenModalUpdate={setOpenModalUpdate}
                     dataUpdate={dataUpdate}
                     setDataUpdate={setDataUpdate}
-                    fetchCategory={fetchCategories()}
+                    fetchCategory={fetchCategories}
                 />
             </Row>
         </>

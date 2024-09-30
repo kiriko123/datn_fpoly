@@ -21,29 +21,20 @@ const InputSearch = (props) => {
     const onFinish = (values) => {
         let queryParts = [];
 
-        if (values.fullName) {
-            queryParts.push(`name~%27${values.fullName}%27`);
+        if (values.name) {
+            queryParts.push(`name~%27${values.name}%27`);
         }
-        if (values.firstName) {
-            queryParts.push(`firstName~%27${values.firstName}%27`);
+        if (values.thumbnail) {
+            queryParts.push(`thumbnail~%27${values.thumbnail}%27`);
         }
-        if (values.email) {
-            queryParts.push(`email~%27${values.email}%27`);
+        if (values.description) {
+            queryParts.push(`description~%27${values.description}%27`);
         }
-        if (values.phoneNumber) {
-            queryParts.push(`phoneNumber~%27${values.phoneNumber}%27`);
+        if (values.hot) {
+            queryParts.push(`hot~%27${values.hot}%27`);
         }
-        if (values.address) {
-            queryParts.push(`address~%27${values.address}%27`);
-        }
-        if (values.enabled) {
-            queryParts.push(`enabled~%27${values.enabled}%27`);
-        }
-        if (values.role) {
-            queryParts.push(`role.id~%27${values.role}%27`);
-        }
-        if (values.gender) {
-            queryParts.push(`gender:%27${values.gender}%27`);
+        if (values.active) {
+            queryParts.push(`active~%27${values.active}%27`);
         }
 
         if (queryParts.length > 0) {
@@ -54,103 +45,71 @@ const InputSearch = (props) => {
     };
 
     return (
-        <Form form={form} name="advanced_search" style={formStyle} onFinish={onFinish}>
+        <Form form={form} name="category_search" style={formStyle} onFinish={onFinish}>
             <Row gutter={24}>
 
-                <Col span={4}>
+                <Col span={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`firstName`}
-                        label={`Firstname`}
+                        name="name"
+                        label="Tên danh mục"
                     >
-                        <Input placeholder="Please input firstname!" />
+                        <Input placeholder="Nhập tên danh mục" />
                     </Form.Item>
                 </Col>
 
-                <Col span={4}>
-                    <Form.Item
-                        labelCol={{ span: 24 }}
-                        name={`fullName`}
-                        label={`Lastname`}
-                    >
-                        <Input placeholder="Please input lastname!" />
-                    </Form.Item>
-                </Col>
+                {/*<Col span={6}>*/}
+                {/*    <Form.Item*/}
+                {/*        labelCol={{ span: 24 }}*/}
+                {/*        name="thumbnail"*/}
+                {/*        label="Ảnh thu nhỏ"*/}
+                {/*    >*/}
+                {/*        <Input placeholder="Nhập URL ảnh thu nhỏ" />*/}
+                {/*    </Form.Item>*/}
+                {/*</Col>*/}
 
-                <Col span={5}>
+                {/*<Col span={6}>*/}
+                {/*    <Form.Item*/}
+                {/*        labelCol={{ span: 24 }}*/}
+                {/*        name="description"*/}
+                {/*        label="Mô tả"*/}
+                {/*    >*/}
+                {/*        <Input placeholder="Nhập mô tả danh mục" />*/}
+                {/*    </Form.Item>*/}
+                {/*</Col>*/}
+
+                <Col span={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`email`}
-                        label={`Email`}
+                        name="hot"
+                        label="Bán chạy"
                     >
-                        <Input placeholder="Please input email!" />
-                    </Form.Item>
-                </Col>
-                <Col span={5}>
-                    <Form.Item
-                        labelCol={{ span: 24 }}
-                        name={`phoneNumber`}
-                        label={`Phone number`}
-                    >
-                        <Input placeholder="Please input phone number!" />
+                        <Select placeholder="Chọn trạng thái bán chạy">
+                            <Option value="true">Có</Option>
+                            <Option value="false">Không</Option>
+                        </Select>
                     </Form.Item>
                 </Col>
 
                 <Col span={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`address`}
-                        label={`Address`}
+                        name="active"
+                        label="Trạng thái"
                     >
-                        <Input placeholder="Please input address!" />
-                    </Form.Item>
-                </Col>
-
-                <Col span={4}>
-                    <Form.Item
-                        labelCol={{ span: 24 }}
-                        name={`enabled`}
-                        label={`Status`}
-                    >
-                        <Select placeholder="Select status">
-                            <Option value="true">Active</Option>
-                            <Option value="false">Disable</Option>
-                        </Select>
-                    </Form.Item>
-                </Col>
-
-                <Col span={4}>
-                    <Form.Item
-                        labelCol={{ span: 24 }}
-                        name={`role`}
-                        label={`Role`}
-                    >
-                        <Select placeholder="Select role">
-                            <Option value="2">User</Option>
-                            <Option value="1">Admin</Option>
-                        </Select>
-                    </Form.Item>
-                </Col>
-
-                <Col span={4}>
-                    <Form.Item
-                        labelCol={{ span: 24 }}
-                        name={`gender`}
-                        label={`Gender`}
-                    >
-                        <Select placeholder="Select gender">
-                            <Option value="MALE">Male</Option>
-                            <Option value="FEMALE">Female</Option>
-                            <Option value="OTHER">Other</Option>
+                        <Select placeholder="Chọn trạng thái">
+                            <Option value="true">Actived</Option>
+                            <Option value="false">Disabled</Option>
                         </Select>
                     </Form.Item>
                 </Col>
 
             </Row>
+
             <Row>
                 <Col span={24} style={{ textAlign: 'right' }}>
                     <Button type="primary" htmlType="submit">
-                        Search
+                        Tìm kiếm
                     </Button>
                     <Button
                         style={{ margin: '0 8px' }}
@@ -159,7 +118,7 @@ const InputSearch = (props) => {
                             props.setFilter("");
                         }}
                     >
-                        Clear
+                        Xóa
                     </Button>
                 </Col>
             </Row>
