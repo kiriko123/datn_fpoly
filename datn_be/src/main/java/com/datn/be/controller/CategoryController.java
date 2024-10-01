@@ -2,6 +2,7 @@ package com.datn.be.controller;
 
 import com.datn.be.dto.request.category.CategoryCreateRequestDTO;
 import com.datn.be.dto.request.category.CategoryUpdateRequestDTO;
+import com.datn.be.dto.response.RestResponse;
 import com.datn.be.model.Category;
 import com.datn.be.service.CategoryService;
 import com.turkraft.springfilter.boot.Filter;
@@ -42,10 +43,13 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(categoryService.update(categoryUpdateRequestDTO));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@Min(1)@PathVariable Long id) {
+    public RestResponse<?> delete(@Min(1)@PathVariable Long id) {
         log.info("Delete category: {}", id);
         categoryService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return RestResponse.builder()
+                .statusCode(204)
+                .message("Category deleted")
+                .build();
     }
     @GetMapping
     public ResponseEntity<?> getAll(@Filter Specification<Category> specification, Pageable pageable) {
