@@ -48,3 +48,18 @@ export const callChangePassword = ({email, password, newPassword, confirmPasswor
 export const callUpdateInfo = ({id, firstName, name, userAvatar, gender, age, phoneNumber, address}) => {
     return axios.post('/api/v1/auth/update-info', {id, firstName, name, imageUrl: userAvatar, gender, age, phoneNumber, address});
 };
+
+
+export const callFetchListBrand = (query) =>{
+    return axios.get(`/api/v1/brand?${query}`);
+}
+export const callDeleteBrand = (brandId) =>{
+    return axios.delete(`/api/v1/brand/${brandId}`);
+}
+export const callCreateBrand = ({name, description, thumbnail}) => {
+    return axios.post('/api/v1/brand', {name, description, thumbnail});
+}
+export const callUpdateBrand = ({id, name, description, thumbnail}) => {
+    return axios.put(`/api/v1/brand`, {id, name, description, thumbnail});
+}
+

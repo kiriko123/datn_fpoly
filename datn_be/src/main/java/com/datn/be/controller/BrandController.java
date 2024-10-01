@@ -2,10 +2,12 @@ package com.datn.be.controller;
 
 import com.datn.be.dto.request.brand.BrandCreateRequestDTO;
 import com.datn.be.dto.request.brand.BrandUpdateRequestDTO;
+import com.datn.be.dto.request.user.AdminUpdateUserDTO;
 import com.datn.be.dto.response.RestResponse;
 import com.datn.be.model.Brand;
 import com.datn.be.model.User;
 import com.datn.be.service.BrandService;
+import com.datn.be.service.FileService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ import java.util.List;
 public class BrandController {
 
     private final BrandService brandService;
+    private final FileService fileService;
 
     @GetMapping
     public ResponseEntity<?> getAllBrands(@Filter Specification<Brand> specification, Pageable pageable){
@@ -45,7 +49,6 @@ public class BrandController {
         log.info("Update Brand: {}", brandUpdateRequestDTO);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(brandService.update(brandUpdateRequestDTO));
     }
-
     @DeleteMapping("/{id}")
     public RestResponse<?> deleteBrand(@PathVariable Long id){
         log.info("Delete Brand: {}", id);

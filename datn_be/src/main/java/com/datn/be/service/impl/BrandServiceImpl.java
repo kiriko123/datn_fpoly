@@ -81,4 +81,6 @@ public class BrandServiceImpl implements BrandService {
     public Brand getBrandById(Long id) {
         return brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
     }
+
+
 }

@@ -19,4 +19,6 @@ public interface BrandService {
     BrandRespone update(BrandUpdateRequestDTO brandUpdateRequestDTO);
     void delete(Long id);
     Brand getBrandById(Long id);
+
+
 }
