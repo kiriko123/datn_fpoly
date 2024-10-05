@@ -16,7 +16,7 @@ import Auth from "./pages/auth/index.jsx";
 import Slider from "./components/Slider/slider.jsx";
 import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
-import ViewOrder from "./components/Order/ViewOrder.jsx";
+import ManageCategoryPage from "./pages/admin/category/index.jsx";
 
 
 const Layout = () => {
@@ -63,11 +63,7 @@ export default function App() {
                 {
                     index: true,
                     element: <Home/>,
-                },
-                {
-                    path: "/order",
-                    element: <ViewOrder/>
-                },
+                }
             ]
 
         },
@@ -93,6 +89,11 @@ export default function App() {
                     path: "user",
                     element:
                         <ManageUserPage/>
+                },
+                {
+                    path: "category",
+                    element:
+                        <ManageCategoryPage/>
                 },
                 // {
                 //     path: "book",

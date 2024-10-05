@@ -137,7 +137,7 @@ const Navbar = () => {
                     {/*})}*/}
                 </div>
                 <div className='pop-cart-footer'>
-                    <button onClick={() => navigate('/order')}>Xem giỏ hàng</button>
+                    <button>Xem giỏ hàng</button>
                 </div>
             </div>
         )}
