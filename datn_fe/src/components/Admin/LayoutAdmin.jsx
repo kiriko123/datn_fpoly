@@ -36,6 +36,10 @@ const items = [
         label: <Link to='/admin/slider'>Manage CRUD</Link>,
         key: 'slider',
         icon: <ExceptionOutlined />
+
+        label: <Link to='/admin/category'>Manage Category</Link>,
+        key: 'category',
+        icon: <ExceptionOutlined/>
     },
     {
         label: <Link to='/admin/order'>Manage ....</Link>,

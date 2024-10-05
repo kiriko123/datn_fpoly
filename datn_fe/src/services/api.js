@@ -48,6 +48,7 @@ export const callChangePassword = ({ email, password, newPassword, confirmPasswo
 export const callUpdateInfo = ({ id, firstName, name, userAvatar, gender, age, phoneNumber, address }) => {
     return axios.post('/api/v1/auth/update-info', { id, firstName, name, imageUrl: userAvatar, gender, age, phoneNumber, address });
 };
+
 // Hàm cho Slider
 export const callGetSliders = () => {
     return axios.get('/api/v1/sliders');
@@ -68,3 +69,20 @@ export const callUpdateSlider = (data) => {
 export const callDeleteSlider = (id) => {
     return axios.delete(`/api/v1/sliders/${id}`);
 };
+
+export const callFetchListCategory = (query) =>{
+    return axios.get(`/api/v1/category?${query}`);
+}
+
+export const callCreateCategory = ({name, thumbnail, description, hot}) => {
+    return axios.post('/api/v1/category', {name, thumbnail, description, hot});
+}
+
+export const callDeleteCategory = (categoryId) =>{
+    return axios.delete(`/api/v1/category/${categoryId}`);
+}
+
+export const callUpdateCategory = ({id, name, thumbnail, description, hot}) => {
+    return axios.put(`/api/v1/category`, {id, name, thumbnail, description, hot});
+}
+

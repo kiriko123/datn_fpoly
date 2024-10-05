@@ -18,6 +18,8 @@ import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
 import ViewOrder from "./components/Order/ViewOrder.jsx";
 import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
+import ManageCategoryPage from "./pages/admin/category/index.jsx";
+
 
 
 const Layout = () => {
@@ -63,12 +65,17 @@ export default function App() {
             children: [
                 {
                     index: true,
+
                     element: <Home />,
                 },
                 {
                     path: "/order",
                     element: <ViewOrder />
                 },
+
+                    element: <Home/>,
+                }
+
             ]
 
         },
@@ -96,9 +103,20 @@ export default function App() {
                         <ManageUserPage />
                 },
                 {
+
                     path: "slider",
                     element: <SliderCRUD />,
                 }
+
+                    path: "category",
+                    element:
+                        <ManageCategoryPage/>
+                },
+                // {
+                //     path: "book",
+                //     element: <Book/>,
+                // }
+
             ]
         },
     ])
