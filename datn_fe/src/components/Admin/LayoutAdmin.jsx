@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
     AppstoreOutlined,
     ExceptionOutlined,
@@ -8,32 +8,36 @@ import {
     MenuUnfoldOutlined,
     DownOutlined,
 } from '@ant-design/icons';
-import {Layout, Menu, Dropdown, Space, message, Avatar} from 'antd';
-import {Outlet, useNavigate, Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {callLogout} from "../../services/api.js";
-import {doLogoutAction} from "../../redux/account/accountSlice.js";
+import { Layout, Menu, Dropdown, Space, message, Avatar } from 'antd';
+import { Outlet, useNavigate, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { callLogout } from "../../services/api.js";
+import { doLogoutAction } from "../../redux/account/accountSlice.js";
 import './layout.scss';
-import {FaUserCircle, FaUserEdit} from "react-icons/fa";
-import {RiAdminFill, RiLogoutBoxFill} from "react-icons/ri";
+import { FaUserCircle, FaUserEdit } from "react-icons/fa";
+import { RiAdminFill, RiLogoutBoxFill } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
 import ManageAccount from "../Account/ManageAccount.jsx";
 
-const {Content, Sider} = Layout;
+const { Content, Sider } = Layout;
 
 const items = [
     {
         label: <Link to='/admin'>Dashboard</Link>,
         key: 'dashboard',
-        icon: <AppstoreOutlined/>
+        icon: <AppstoreOutlined />
     },
     {
         label: <Link to='/admin/user'>Manage Users</Link>,
         key: 'user',
-        icon: <UserOutlined/>,
+        icon: <UserOutlined />,
     },
     {
-
+        label: <Link to='/admin/slider'>Manage CRUD</Link>,
+        key: 'slider',
+        icon: <ExceptionOutlined />
+    },
+    {
         label: <Link to='/admin/brand'>Manage Brands</Link>,
         key: 'brand',
         icon: <UserOutlined/>,
@@ -46,7 +50,7 @@ const items = [
     {
         label: <Link to='/admin/order'>Manage ....</Link>,
         key: 'order',
-        icon: <DollarCircleOutlined/>
+        icon: <DollarCircleOutlined />
     },
 ];
 
@@ -69,8 +73,8 @@ const LayoutAdmin = () => {
 
     const itemsDropdown = [
         {
-            label: <label style={{cursor: 'pointer'}}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}} onClick={() => setShowManageAccount(true)}>
+            label: <label style={{ cursor: 'pointer' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }} onClick={() => setShowManageAccount(true)}>
                     <FaUserEdit />
                     <span>Edit profile</span>
                 </div>
@@ -79,10 +83,10 @@ const LayoutAdmin = () => {
         },
         {
             label: <label
-                style={{cursor: 'pointer'}}
+                style={{ cursor: 'pointer' }}
                 onClick={() => navigate('/')}
             >
-                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <FaHome />
                     <span>Home page</span>
                 </div>
@@ -91,10 +95,10 @@ const LayoutAdmin = () => {
         },
         {
             label: <label
-                style={{cursor: 'pointer'}}
+                style={{ cursor: 'pointer' }}
                 onClick={() => handleLogout()}
             >
-                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <RiLogoutBoxFill />
                     <span>Logout</span>
                 </div>
@@ -107,7 +111,7 @@ const LayoutAdmin = () => {
 
     return (
         <Layout
-            style={{minHeight: '100vh', backgroundColor: '#f5f5f5'}} // Nền sáng nhẹ cho toàn bộ trang
+            style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }} // Nền sáng nhẹ cho toàn bộ trang
             className="layout-admin"
         >
             <Sider
@@ -115,9 +119,9 @@ const LayoutAdmin = () => {
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
-                style={{backgroundColor: '#1f1f1f'}} // Sidebar màu xám tối
+                style={{ backgroundColor: '#1f1f1f' }} // Sidebar màu xám tối
             >
-                <div style={{height: 32, margin: 16, textAlign: 'center', color: '#fff', fontSize: 16}}>
+                <div style={{ height: 32, margin: 16, textAlign: 'center', color: '#fff', fontSize: 16 }}>
                     Admin
                 </div>
                 <Menu
@@ -126,25 +130,25 @@ const LayoutAdmin = () => {
                     mode="inline"
                     items={items}
                     onClick={(e) => setActiveMenu(e.key)}
-                    style={{backgroundColor: '#1f1f1f'}} // Màu nền sidebar menu đồng nhất
+                    style={{ backgroundColor: '#1f1f1f' }} // Màu nền sidebar menu đồng nhất
                 />
             </Sider>
             <Layout>
-                <div className='admin-header' style={{backgroundColor: '#4c2b5a', color: '#fff', padding: '0 16px'}}>
+                <div className='admin-header' style={{ backgroundColor: '#4c2b5a', color: '#fff', padding: '0 16px' }}>
                     <span>
                         {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                             className: 'trigger',
-                            style: {color: '#fff'}, // Icon màu trắng cho dễ nhìn
+                            style: { color: '#fff' }, // Icon màu trắng cho dễ nhìn
                             onClick: () => setCollapsed(!collapsed),
                         })}
                     </span>
-                    <Dropdown menu={{items: itemsDropdown}} trigger={['click']}>
-                        <a onClick={(e) => e.preventDefault()} style={{color: '#fff'}}>
-                            <Space style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                                <Avatar src={urlAvatar}/>
+                    <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
+                        <a onClick={(e) => e.preventDefault()} style={{ color: '#fff' }}>
+                            <Space style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <Avatar src={urlAvatar} />
                                 <span>
                                     <span>Welcome {user?.name} </span>
-                                    <DownOutlined/>
+                                    <DownOutlined />
                                 </span>
                             </Space>
                         </a>
@@ -158,7 +162,7 @@ const LayoutAdmin = () => {
                         backgroundColor: '#fff', // Vùng content nền trắng sáng
                     }}
                 >
-                    <Outlet/>
+                    <Outlet />
                 </Content>
             </Layout>
             <ManageAccount

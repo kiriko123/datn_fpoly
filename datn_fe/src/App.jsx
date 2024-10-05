@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {createBrowserRouter, Outlet, RouterProvider, useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { createBrowserRouter, Outlet, RouterProvider, useNavigate } from "react-router-dom";
 import NotFound from "./components/NotFound/index.jsx";
 import './App.css'
-import {useDispatch, useSelector} from "react-redux";
-import {callFetchAccount, callRegister} from "./services/api.js";
-import {doGetAccountAction} from "./redux/account/accountSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { callFetchAccount, callRegister } from "./services/api.js";
+import { doGetAccountAction } from "./redux/account/accountSlice.js";
 import Footer from "./components/Footer/index.jsx";
 import Home from "./components/Home/index.jsx";
 import Loading from "./components/Loading/index.jsx";
@@ -16,17 +16,19 @@ import Auth from "./pages/auth/index.jsx";
 import Slider from "./components/Slider/slider.jsx";
 import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
+import ViewOrder from "./components/Order/ViewOrder.jsx";
+import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
 import ManageBrandPage from './pages/admin/brand/index.jsx';
-
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
+
 
 
 const Layout = () => {
     return (
         <div className="layout-app">
-            <Header/>
-            <Outlet/>
-            <Footer/>
+            <Header />
+            <Outlet />
+            <Footer />
         </div>
     )
 }
@@ -59,45 +61,59 @@ export default function App() {
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <Layout/>,
-            errorElement: <NotFound/>,
+            element: <Layout />,
+            errorElement: <NotFound />,
             children: [
                 {
                     index: true,
+
+                    element: <Home />,
+                },
+                {
+                    path: "/order",
+                    element: <ViewOrder />
+                },
+
                     element: <Home/>,
                 }
+
             ]
 
         },
         {
             path: "/auth",
-            element: <Auth/>,
+            element: <Auth />,
         },
         {
             path: "/forgot",
-            element: <ForgotPage/>,
+            element: <ForgotPage />,
         },
         {
             path: "/admin",
-            element: <ProtectedRoute><LayoutAdmin/></ProtectedRoute>,
-            errorElement: <NotFound/>,
+            element: <ProtectedRoute><LayoutAdmin /></ProtectedRoute>,
+            errorElement: <NotFound />,
             children: [
                 {
                     index: true,
                     element:
-                        <AdminPage/>
+                        <AdminPage />
                 },
                 {
                     path: "user",
                     element:
-                        <ManageUserPage/>
+                        <ManageUserPage />
                 },
                 {
 
+                    path: "slider",
+                    element: <SliderCRUD />,
+                },
+                {
                     path: "brand",
                     element:
                         <ManageBrandPage/>
-
+                },
+                  {
                     path: "category",
                     element:
                         <ManageCategoryPage/>
@@ -106,6 +122,7 @@ export default function App() {
                 //     path: "book",
                 //     element: <Book/>,
                 // }
+
             ]
         },
     ])
@@ -114,12 +131,12 @@ export default function App() {
         <>
             {
                 !isLoading
-                || window.location.pathname === '/auth'
-                || window.location.pathname === '/forgot'
-                || window.location.pathname === '/'
-                    ? <RouterProvider router={router}/>
+                    || window.location.pathname === '/auth'
+                    || window.location.pathname === '/forgot'
+                    || window.location.pathname === '/'
+                    ? <RouterProvider router={router} />
                     :
-                    <Loading/>
+                    <Loading />
             }
         </>
     );
