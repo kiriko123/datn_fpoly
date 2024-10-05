@@ -50,6 +50,21 @@ export const callUpdateInfo = ({id, firstName, name, userAvatar, gender, age, ph
 };
 
 
+
+export const callFetchListBrand = (query) =>{
+    return axios.get(`/api/v1/brand?${query}`);
+}
+export const callDeleteBrand = (brandId) =>{
+    return axios.delete(`/api/v1/brand/${brandId}`);
+}
+export const callCreateBrand = ({name, description, thumbnail}) => {
+    return axios.post('/api/v1/brand', {name, description, thumbnail});
+}
+export const callUpdateBrand = ({id, name, description, thumbnail}) => {
+    return axios.put(`/api/v1/brand`, {id, name, description, thumbnail});
+}
+
+
 export const callFetchListCategory = (query) =>{
     return axios.get(`/api/v1/category?${query}`);
 }
@@ -65,3 +80,4 @@ export const callDeleteCategory = (categoryId) =>{
 export const callUpdateCategory = ({id, name, thumbnail, description, hot}) => {
     return axios.put(`/api/v1/category`, {id, name, thumbnail, description, hot});
 }
+

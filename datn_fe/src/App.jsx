@@ -16,6 +16,8 @@ import Auth from "./pages/auth/index.jsx";
 import Slider from "./components/Slider/slider.jsx";
 import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
+import ManageBrandPage from './pages/admin/brand/index.jsx';
+
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
 
 
@@ -91,6 +93,11 @@ export default function App() {
                         <ManageUserPage/>
                 },
                 {
+
+                    path: "brand",
+                    element:
+                        <ManageBrandPage/>
+
                     path: "category",
                     element:
                         <ManageCategoryPage/>
@@ -117,4 +124,3 @@ export default function App() {
         </>
     );
 }
-

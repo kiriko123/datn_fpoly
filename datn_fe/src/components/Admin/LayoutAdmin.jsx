@@ -33,6 +33,12 @@ const items = [
         icon: <UserOutlined/>,
     },
     {
+
+        label: <Link to='/admin/brand'>Manage Brands</Link>,
+        key: 'brand',
+        icon: <UserOutlined/>,
+    },
+    {
         label: <Link to='/admin/category'>Manage Category</Link>,
         key: 'category',
         icon: <ExceptionOutlined/>
