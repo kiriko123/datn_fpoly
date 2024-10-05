@@ -235,7 +235,6 @@ const CategoryTable = () => {
                     <Button icon={<EditTwoTone/>} type="primary">Select Columns</Button>
                 </Dropdown>
                 {/*<Button icon={<ExportOutlined />} type="primary" onClick={() => handleExportData()}>Export</Button>*/}
-                {/*<Button icon={<CloudUploadOutlined />} type="primary" onClick={() => setOpenModalImport(true)}>Import</Button>*/}
                 <Button icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>Thêm mới</Button>
                 <Button type="ghost" onClick={() => {
                     setFilter("");
@@ -269,6 +268,7 @@ const CategoryTable = () => {
                         dataSource={listCategory}
                         onChange={onChange}
                         rowKey="id"
+                        scroll={{ x: 800 }}
                         pagination={{
                             current,
                             pageSize,

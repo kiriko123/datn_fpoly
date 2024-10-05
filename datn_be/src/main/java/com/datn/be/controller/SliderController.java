@@ -4,19 +4,19 @@ import com.datn.be.dto.request.sliders.SliderRequestDTO;
 import com.datn.be.dto.response.sliders.SliderResponseDTO;
 
 import com.datn.be.service.SliderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/sliders")
+@RequiredArgsConstructor
 public class SliderController {
 
-    @Autowired
-    private SliderService sliderService;
+    private final SliderService sliderService;
 
 
 
