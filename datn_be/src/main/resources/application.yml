@@ -44,3 +44,4 @@ khang:
     refresh-token-validity-in-seconds: 604800  # 7 days = 604800 seconds
   upload-file:
     base-uri: file:///C:/datn_fpoly/upload/
+

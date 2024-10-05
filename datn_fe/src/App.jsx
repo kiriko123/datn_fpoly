@@ -18,6 +18,7 @@ import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
 import ViewOrder from "./components/Order/ViewOrder.jsx";
 import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
+import ManageBrandPage from './pages/admin/brand/index.jsx';
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
 
 
@@ -106,8 +107,13 @@ export default function App() {
 
                     path: "slider",
                     element: <SliderCRUD />,
-                }
-
+                },
+                {
+                    path: "brand",
+                    element:
+                        <ManageBrandPage/>
+                },
+                  {
                     path: "category",
                     element:
                         <ManageCategoryPage/>
@@ -135,4 +141,3 @@ export default function App() {
         </>
     );
 }
-
