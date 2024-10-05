@@ -28,7 +28,7 @@ public class Brand {
 
     String description;
 
-
+    boolean active;
     Instant createdAt;
     Instant updatedAt;
     String createdBy;

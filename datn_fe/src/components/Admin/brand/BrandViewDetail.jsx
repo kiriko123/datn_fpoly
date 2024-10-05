@@ -1,27 +1,49 @@
-import { Avatar, Badge, Descriptions, Drawer, Modal } from "antd";
+import { Avatar, Badge, Descriptions, Divider, Drawer, Modal, Upload } from "antd";
 import moment from 'moment';
 import { AntDesignOutlined } from "@ant-design/icons";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const BrandViewDetail = (props) => {
     const { openViewDetail, setOpenViewDetail, dataViewDetail, setDataViewDetail } = props;
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const onClose = () => {
         setOpenViewDetail(false);
         setDataViewDetail(null);
     }
 
-    const handleAvatarClick = () => {
-        setIsModalOpen(true);
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
+
+    const [fileList, setFileList] = useState([]);
+
+    useEffect(() => {
+        if (dataViewDetail) {
+            let imgThumbnail = {};
+            if (dataViewDetail.thumbnail) {
+                imgThumbnail = {
+                    uid: uuidv4(),
+                    name: dataViewDetail.thumbnail,
+                    status: 'done',
+                    url: `${import.meta.env.VITE_BACKEND_URL}/storage/brand/${dataViewDetail.thumbnail}`,
+                }
+            }
+            setFileList([imgThumbnail])
+        }
+    }, [dataViewDetail])
+
+    const handleCancel = () => setPreviewOpen(false);
+
+    const handlePreview = async (file) => {
+        setPreviewImage(file.url);
+        setPreviewOpen(true);
+        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
     };
 
-    const handleModalClose = () => {
-        setIsModalOpen(false);
-    };
-
-    const urlThumbnail = `${import.meta.env.VITE_BACKEND_URL}/storage/brand/${dataViewDetail?.thumbnail}`;
+    const handleChange = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    }
 
     return (
         <>
@@ -35,16 +57,6 @@ const BrandViewDetail = (props) => {
                     bordered
                     column={2}
                 >
-                    <Descriptions.Item label="Thumbnail" span={2}>
-                        <Avatar
-                            size={100}
-                            icon={<AntDesignOutlined />}
-                            src={urlThumbnail}
-                            shape="circle"
-                            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', margin: '0 auto', display: 'block', cursor: 'pointer' }}
-                            onClick={handleAvatarClick}
-                        />
-                    </Descriptions.Item>
                     <Descriptions.Item label="Id">{dataViewDetail?.id}</Descriptions.Item>
                     <Descriptions.Item label="Name">{dataViewDetail?.name}</Descriptions.Item>
                     <Descriptions.Item label="Description" span={2}>{dataViewDetail?.description}</Descriptions.Item>
@@ -61,19 +73,23 @@ const BrandViewDetail = (props) => {
                         {dataViewDetail?.updatedBy}
                     </Descriptions.Item>
                 </Descriptions>
-            </Drawer>
+                <Divider orientation="left" > Brand image </Divider>
 
-            <Modal
-                open={isModalOpen}
-                onCancel={handleModalClose}
-                footer={null}
-            >
-                <img
-                    src={urlThumbnail}
-                    alt="Thumbnail"
-                    style={{ width: '100%' }}
-                />
-            </Modal>
+                <Upload
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                    showUploadList={
+                        { showRemoveIcon: false }
+                    }
+                >
+                </Upload>
+                <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel} centered>
+                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
+            </Drawer>
         </>
     );
 }

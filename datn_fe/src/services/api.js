@@ -71,6 +71,7 @@ export const callDeleteSlider = (id) => {
 };
 
 
+
 export const callFetchListBrand = (query) =>{
     return axios.get(`/api/v1/brand?${query}`);
 }

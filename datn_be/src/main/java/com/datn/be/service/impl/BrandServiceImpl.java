@@ -56,6 +56,7 @@ public class BrandServiceImpl implements BrandService {
             .name(brandCreateRequestDTO.getName())
             .description(brandCreateRequestDTO.getDescription())
             .thumbnail(brandCreateRequestDTO.getThumbnail())
+            .active(true)
             .build();
     return BrandRespone.fromBrandToBrandRespone(brandRepository.save(brand));
     }
@@ -74,7 +75,8 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public void delete(Long id) {
         Brand brand = getBrandById(id);
-        brandRepository.delete(brand);
+        brand.setActive(false);
+        brandRepository.save(brand);
     }
 
     @Override
