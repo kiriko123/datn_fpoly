@@ -16,7 +16,8 @@ import Auth from "./pages/auth/index.jsx";
 import Slider from "./components/Slider/slider.jsx";
 import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
-import ViewOrder from "./components/Order/ViewOrder.jsx";
+
+// import ViewOrder from "./components/Order/ViewOrder.jsx";
 import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
 import ManageBrandPage from './pages/admin/brand/index.jsx';
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
@@ -73,6 +74,7 @@ export default function App() {
                     path: "/order",
                     element: <ViewOrder />
                 },
+                {
 
                     element: <Home/>,
                 }
@@ -108,6 +110,7 @@ export default function App() {
                     path: "slider",
                     element: <SliderCRUD />,
                 },
+
                 {
                     path: "brand",
                     element:
@@ -118,6 +121,7 @@ export default function App() {
                     element:
                         <ManageCategoryPage/>
                 },
+
                 // {
                 //     path: "book",
                 //     element: <Book/>,
@@ -141,3 +145,4 @@ export default function App() {
         </>
     );
 }
+

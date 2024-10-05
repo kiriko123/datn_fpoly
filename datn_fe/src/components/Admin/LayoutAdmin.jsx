@@ -38,6 +38,7 @@ const items = [
         icon: <ExceptionOutlined />
     },
     {
+
         label: <Link to='/admin/brand'>Manage Brands</Link>,
         key: 'brand',
         icon: <UserOutlined/>,
@@ -45,6 +46,11 @@ const items = [
     {
         label: <Link to='/admin/category'>Manage Category</Link>,
         key: 'category',
+    },
+    {
+        label: <Link to='/admin/book'>Manage ....</Link>,
+        key: 'book',
+
         icon: <ExceptionOutlined/>
     },
     {
