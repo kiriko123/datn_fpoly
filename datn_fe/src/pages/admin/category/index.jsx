@@ -7,7 +7,6 @@ const ManageCategoryPage = () => {
             <CategoryTable/>
         </div>
     )
-
 }
 
 export default ManageCategoryPage;
