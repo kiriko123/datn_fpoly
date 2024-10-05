@@ -18,6 +18,7 @@ import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
 import ManageBrandPage from './pages/admin/brand/index.jsx';
 
+import ManageCategoryPage from "./pages/admin/category/index.jsx";
 
 
 const Layout = () => {
@@ -92,9 +93,14 @@ export default function App() {
                         <ManageUserPage/>
                 },
                 {
+
                     path: "brand",
                     element:
                         <ManageBrandPage/>
+
+                    path: "category",
+                    element:
+                        <ManageCategoryPage/>
                 },
                 // {
                 //     path: "book",

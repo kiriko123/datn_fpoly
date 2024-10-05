@@ -1,24 +1,23 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import { Table, Row, Col, Popconfirm, Button, message, notification, Dropdown, Checkbox, Menu } from 'antd';
 import {
-    ExportOutlined,
-    CloudUploadOutlined,
     PlusOutlined,
     ReloadOutlined,
     DeleteTwoTone,
     EditTwoTone
 } from '@ant-design/icons';
-import { callDeleteUser, callFetchListUser } from "../../../services/api.js";
+import { callDeleteCategory, callFetchListCategory } from "../../../services/api.js";
 import { FaEye } from "react-icons/fa";
 import InputSearch from './InputSearch';
-import UserViewDetail from "./UserViewDetail.jsx";
-import UserModalCreate from "./UserModalCreate.jsx";
-import UserImport from "./data/UserImport.jsx";
-import * as XLSX from "xlsx";
-import UserModalUpdate from "./UserModalUpdate.jsx";
+import CategoryViewDetail from "./CategoryViewDetail.jsx";
+import CategoryCreate from "./CategoryCreate.jsx";
+// import CategoryImport from "./data/CategoryImport.jsx";
+// import * as XLSX from "xlsx";
+import CategoryUpdate from "./CategoryUpdate.jsx";
 
-const UserTable = () => {
-    const [listUser, setListUser] = useState([]);
+const CategoryTable = () => {
+    const [listCategory, setListCategory] = useState([]);
     const [current, setCurrent] = useState(1);
     const [pageSize, setPageSize] = useState(2);
     const [total, setTotal] = useState(0);
@@ -29,23 +28,23 @@ const UserTable = () => {
     const [dataViewDetail, setDataViewDetail] = useState(null);
     const [openModalCreate, setOpenModalCreate] = useState(false);
 
-    const [openModalImport, setOpenModalImport] = useState(false);
+    // const [openModalImport, setOpenModalImport] = useState(false);
 
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
     const [dataUpdate, setDataUpdate] = useState(null);
 
     useEffect(() => {
-        fetchUsers();
+        fetchCategories();
     }, [current, pageSize, filter, sortQuery]);
 
-    const fetchUsers = async () => {
+    const fetchCategories = async () => {
         setIsLoading(true);
         let query = `page=${current}&size=${pageSize}`;
         if (filter) query += `&${filter}`;
         if (sortQuery) query += `&${sortQuery}`;
-        const res = await callFetchListUser(query);
+        const res = await callFetchListCategory(query);
         if (res && res.data) {
-            setListUser(res.data.result);
+            setListCategory(res.data.result);
             setTotal(res.data.meta.total);
         }
         setIsLoading(false);
@@ -54,15 +53,10 @@ const UserTable = () => {
     const [selectedColumns, setSelectedColumns] = useState({
         id: true,
         name: true,
-        email: true,
-        age: true,
-        firstName: true,
-        gender: true,
-        address: false,
-        role: true,
-        phoneNumber: true,
-        enabled: false,
-        imageUrl: false,
+        thumbnail: false,
+        description: true,
+        hot: true,
+        active: true,
         createdAt: false,
         updatedAt: false,
         createdBy: false,
@@ -108,51 +102,32 @@ const UserTable = () => {
             dataIndex: 'id',
             sorter: true,
         },
-        selectedColumns.firstName && {
-            title: 'Firstname',
-            dataIndex: 'firstName',
-            sorter: true,
-        },
         selectedColumns.name && {
-            title: 'Lastname',
+            title: 'Name',
             dataIndex: 'name',
             sorter: true,
         },
-        selectedColumns.email && {
-            title: 'Email',
-            dataIndex: 'email',
+        selectedColumns.thumbnail && {
+            title: 'Thumbnail',
+            dataIndex: 'thumbnail',
             sorter: true,
         },
-        selectedColumns.age && {
-            title: 'Age',
-            dataIndex: 'age',
+        selectedColumns.description && {
+            title: 'Description',
+            dataIndex: 'description',
             sorter: true,
         },
-        selectedColumns.gender && {
-            title: 'Gender',
-            dataIndex: 'gender',
+        selectedColumns.hot && {
+            title: 'Hot',
+            dataIndex: 'hot',
             sorter: true,
+            render: (enabled) => (enabled ? 'Yes' : 'No'), // Chuyển đổi giá trị true/false
         },
-        selectedColumns.address && {
-            title: 'Address',
-            dataIndex: 'address',
+        selectedColumns.active && {
+            title: 'Active',
+            dataIndex: 'active',
             sorter: true,
-        },
-        selectedColumns.phoneNumber && {
-            title: 'Phone number',
-            dataIndex: 'phoneNumber',
-            sorter: true,
-        },
-        selectedColumns.enabled && {
-            title: 'Enabled',
-            dataIndex: 'enabled',
-            sorter: true,
-            render: (enabled) => (enabled ? 'Enabled' : 'Disabled'), // Chuyển đổi giá trị true/false
-        },
-        selectedColumns.imageUrl && {
-            title: 'ImageUrl',
-            dataIndex: 'imageUrl',
-            sorter: true,
+            render: (enabled) => (enabled ? 'Actived' : 'Disabled'), // Chuyển đổi giá trị true/false
         },
         selectedColumns.createdAt && {
             title: 'CreatedAt',
@@ -174,11 +149,6 @@ const UserTable = () => {
             dataIndex: 'updatedBy',
             sorter: true,
         },
-        selectedColumns.role && {
-            title: 'Role',
-            dataIndex: ['role', 'name'],
-            sorter: true,
-        },
         selectedColumns.action && {
             title: 'Action',
             render: (text, record) => (
@@ -189,9 +159,9 @@ const UserTable = () => {
                     }} />
                     <Popconfirm
                         placement="leftTop"
-                        title="Xác nhận xóa user"
-                        description="Bạn có chắc chắn muốn xóa user này?"
-                        onConfirm={() => handleDeleteUser(record.id)}
+                        title="Xác nhận xóa category"
+                        description="Bạn có chắc chắn muốn xóa category này?"
+                        onConfirm={() => handleDeleteCategory(record.id)}
                         okText="Xác nhận"
                         cancelText="Hủy"
                     >
@@ -223,11 +193,11 @@ const UserTable = () => {
         }
     };
 
-    const handleDeleteUser = async (userId) => {
-        const res = await callDeleteUser(userId);
+    const handleDeleteCategory = async (categoryId) => {
+        const res = await callDeleteCategory(categoryId);
         if (res?.data?.statusCode === 204) {
-            message.success('Xóa user thành công');
-            fetchUsers();
+            message.success('Xóa category thành công');
+            fetchCategories();
         } else {
             notification.error({
                 message: 'Có lỗi xảy ra',
@@ -236,20 +206,20 @@ const UserTable = () => {
         }
     };
 
-    const handleExportData = () => {
-        if (listUser.length > 0) {
-            // Tạo bản sao của listUser và điều chỉnh dữ liệu trước khi xuất
-            const exportData = listUser.map(user => ({
-                ...user,
-                role: user.role?.name || '', // Lấy giá trị từ role.name hoặc để trống nếu không có
-            }));
-
-            const worksheet = XLSX.utils.json_to_sheet(exportData);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-            XLSX.writeFile(workbook, "ExportUser.csv");
-        }
-    }
+    // const handleExportData = () => {
+    //     if (listCategory.length > 0) {
+    //         // Tạo bản sao của listUser và điều chỉnh dữ liệu trước khi xuất
+    //         const exportData = listCategory.map(user => ({
+    //             ...user,
+    //             role: user.role?.name || '', // Lấy giá trị từ role.name hoặc để trống nếu không có
+    //         }));
+    //
+    //         const worksheet = XLSX.utils.json_to_sheet(exportData);
+    //         const workbook = XLSX.utils.book_new();
+    //         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    //         XLSX.writeFile(workbook, "ExportUser.csv");
+    //     }
+    // }
 
 
     const renderHeader = () => (
@@ -264,8 +234,8 @@ const UserTable = () => {
                 >
                     <Button icon={<EditTwoTone/>} type="primary">Select Columns</Button>
                 </Dropdown>
-                <Button icon={<ExportOutlined />} type="primary" onClick={() => handleExportData()}>Export</Button>
-                <Button icon={<CloudUploadOutlined />} type="primary" onClick={() => setOpenModalImport(true)}>Import</Button>
+                {/*<Button icon={<ExportOutlined />} type="primary" onClick={() => handleExportData()}>Export</Button>*/}
+                {/*<Button icon={<CloudUploadOutlined />} type="primary" onClick={() => setOpenModalImport(true)}>Import</Button>*/}
                 <Button icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>Thêm mới</Button>
                 <Button type="ghost" onClick={() => {
                     setFilter("");
@@ -296,7 +266,7 @@ const UserTable = () => {
                         title={renderHeader}
                         loading={isLoading}
                         columns={columns}
-                        dataSource={listUser}
+                        dataSource={listCategory}
                         onChange={onChange}
                         rowKey="id"
                         pagination={{
@@ -308,32 +278,33 @@ const UserTable = () => {
                         }}
                     />
                 </Col>
-                <UserViewDetail
+                <CategoryViewDetail
                     openViewDetail={openViewDetail}
                     setOpenViewDetail={setOpenViewDetail}
                     dataViewDetail={dataViewDetail}
                     setDataViewDetail={setDataViewDetail}
+                    fetchCategory={fetchCategories}
                 />
-                <UserModalCreate
+                <CategoryCreate
                     openModalCreate={openModalCreate}
                     setOpenModalCreate={setOpenModalCreate}
-                    fetchUser={fetchUsers}
+                    fetchCategory={fetchCategories}
                 />
-                <UserImport
-                    openModalImport={openModalImport}
-                    setOpenModalImport={setOpenModalImport}
-                    fetchUser={fetchUsers}
-                />
-                <UserModalUpdate
+                {/*<CategoryImport*/}
+                {/*    openModalImport={openModalImport}*/}
+                {/*    setOpenModalImport={setOpenModalImport}*/}
+                {/*    fetchCategory={fetchCategories()}*/}
+                {/*/>*/}
+                <CategoryUpdate
                     openModalUpdate={openModalUpdate}
                     setOpenModalUpdate={setOpenModalUpdate}
                     dataUpdate={dataUpdate}
                     setDataUpdate={setDataUpdate}
-                    fetchUser={fetchUsers}
+                    fetchCategory={fetchCategories}
                 />
             </Row>
         </>
     );
 };
 
-export default UserTable;
+export default CategoryTable;

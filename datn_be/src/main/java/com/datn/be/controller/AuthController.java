@@ -147,7 +147,7 @@ public class AuthController {
     public ResponseEntity<?> getRefreshToken(@CookieValue(name = "refresh_token", defaultValue = "abc") String refresh_token) {
         log.info("Call refresh_token");
         if (refresh_token.equals("abc")) {
-            throw new AccessDeniedException("Ko co refresh token trong cookies");
+            throw new AccessDeniedException("Vui long dang nhap");
         }
         //check valid
         Jwt decodedToken = securityUtil.checkValidRefreshToken(refresh_token);
