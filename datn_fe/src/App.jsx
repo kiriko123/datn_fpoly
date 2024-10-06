@@ -16,10 +16,12 @@ import Auth from "./pages/auth/index.jsx";
 import Slider from "./components/Slider/slider.jsx";
 import Header from "./components/Header/header.jsx";
 import ForgotPage from "./pages/forgot/forgot.jsx";
-import ViewOrder from "./components/Order/ViewOrder.jsx";
-import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
+// import ViewOrder from "./components/Order/ViewOrder.jsx";
+// import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
 import ManageBrandPage from './pages/admin/brand/index.jsx';
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
+import ManageSliderPage from "./pages/admin/slider/index.jsx";
+
 
 
 
@@ -66,16 +68,13 @@ export default function App() {
             children: [
                 {
                     index: true,
-
                     element: <Home />,
                 },
-                {
-                    path: "/order",
-                    element: <ViewOrder />
-                },
+                // {
+                //     path: "/order",
+                //     element: <ViewOrder />
+                // },
 
-                    element: <Home/>,
-                }
 
             ]
 
@@ -106,17 +105,17 @@ export default function App() {
                 {
 
                     path: "slider",
-                    element: <SliderCRUD />,
+                    element: <ManageSliderPage />,
                 },
                 {
                     path: "brand",
                     element:
-                        <ManageBrandPage/>
+                        <ManageBrandPage />
                 },
-                  {
+                {
                     path: "category",
                     element:
-                        <ManageCategoryPage/>
+                        <ManageCategoryPage />
                 },
                 // {
                 //     path: "book",

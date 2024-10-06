@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import { Button, Col, Form, Input, Row, Select, theme } from 'antd';
+import React from 'react';
+import { Button, Col, Form, Input, Row, theme } from 'antd';
 
-const { Option } = Select;
-
-const InputSearch = (props) => {
+const SliderSearch = (props) => {
     const { token } = theme.useToken();
     const [form] = Form.useForm();
 
     const formStyle = {
         maxWidth: '100%',
         padding: '20px',
-        background: `#fff`,
+        background: '#fff',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
         color: '#222',
         fontWeight: 'bold',
@@ -19,29 +17,20 @@ const InputSearch = (props) => {
     };
 
     const onFinish = (values) => {
-        let queryParts = [];
+        const queryParts = [];
 
-        // Thay đổi trường tìm kiếm cho phù hợp với Slider
-        if (values.title) {
-            queryParts.push(`title~%27${values.title}%27`);
+        if (values.name) {
+            queryParts.push(`name~%27${values.name}%27`);
         }
         if (values.description) {
             queryParts.push(`description~%27${values.description}%27`);
         }
-        if (values.imgUrl) {
-            queryParts.push(`imgUrl~%27${values.imgUrl}%27`);
+        if (values.createdBy) {
+            queryParts.push(`createdBy~%27${values.createdBy}%27`);
         }
-
-        // Không cần các trường khác trong Slider entity
-        // if (values.enabled) {
-        //     queryParts.push(`enabled~%27${values.enabled}%27`);
-        // }
-        // if (values.role) {
-        //     queryParts.push(`role.id~%27${values.role}%27`);
-        // }
-        // if (values.gender) {
-        //     queryParts.push(`gender:%27${values.gender}%27`);
-        // }
+        if (values.updatedBy) {
+            queryParts.push(`updatedBy~%27${values.updatedBy}%27`);
+        }
 
         if (queryParts.length > 0) {
             const query = `filter=${queryParts.join('%20and%20')}`;
@@ -51,40 +40,49 @@ const InputSearch = (props) => {
     };
 
     return (
-        <Form form={form} name="advanced_search" style={formStyle} onFinish={onFinish}>
+        <Form form={form} name="slider_search" style={formStyle} onFinish={onFinish}>
             <Row gutter={24}>
-
-                <Col span={8}>
+                <Col span={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`title`}
-                        label={`Title`}
+                        name="name"
+                        label="Slider Name"
                     >
-                        <Input placeholder="Please input title!" />
+                        <Input placeholder="Please input slider name!" />
                     </Form.Item>
                 </Col>
 
-                <Col span={8}>
+                <Col span={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`description`}
-                        label={`Description`}
+                        name="description"
+                        label="Description"
                     >
                         <Input placeholder="Please input description!" />
                     </Form.Item>
                 </Col>
 
-                <Col span={8}>
+                <Col span={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`imgUrl`}
-                        label={`Image URL`}
+                        name="createdBy"
+                        label="Created By"
                     >
-                        <Input placeholder="Please input image URL!" />
+                        <Input placeholder="Please input creator's name!" />
                     </Form.Item>
                 </Col>
 
+                <Col span={6}>
+                    <Form.Item
+                        labelCol={{ span: 24 }}
+                        name="updatedBy"
+                        label="Updated By"
+                    >
+                        <Input placeholder="Please input updater's name!" />
+                    </Form.Item>
+                </Col>
             </Row>
+
             <Row>
                 <Col span={24} style={{ textAlign: 'right' }}>
                     <Button type="primary" htmlType="submit">
@@ -105,4 +103,4 @@ const InputSearch = (props) => {
     );
 };
 
-export default InputSearch;
+export default SliderSearch;

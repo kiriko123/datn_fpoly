@@ -43,5 +43,5 @@ khang:
     access-token-validity-in-seconds: 900     # 15 minutes = 900 seconds
     refresh-token-validity-in-seconds: 604800  # 7 days = 604800 seconds
   upload-file:
-    base-uri: file:///C:/datn_fpoly/upload/
+    base-uri: file:///C:/datn/datn_fpoly/upload/
 

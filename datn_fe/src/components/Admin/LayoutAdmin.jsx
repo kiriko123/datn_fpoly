@@ -33,19 +33,19 @@ const items = [
         icon: <UserOutlined />,
     },
     {
-        label: <Link to='/admin/slider'>Manage CRUD</Link>,
+        label: <Link to='/admin/slider'>Manage Sliders</Link>,
         key: 'slider',
         icon: <ExceptionOutlined />
     },
     {
         label: <Link to='/admin/brand'>Manage Brands</Link>,
         key: 'brand',
-        icon: <UserOutlined/>,
+        icon: <UserOutlined />,
     },
     {
         label: <Link to='/admin/category'>Manage Category</Link>,
         key: 'category',
-        icon: <ExceptionOutlined/>
+        icon: <ExceptionOutlined />
     },
     {
         label: <Link to='/admin/order'>Manage ....</Link>,

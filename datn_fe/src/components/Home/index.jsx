@@ -3,8 +3,8 @@ import Slider from "../Slider/slider.jsx";
 const Home = () => {
     return (
         <>
-            {<Slider />}
-            <div style={{ height: '600px' }}>
+            <Slider />
+            <div style={{ height: '300px' }}>
 
             </div>
         </>
