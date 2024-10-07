@@ -98,7 +98,7 @@ export const callDeleteCategory = (categoryId) =>{
     return axios.delete(`/api/v1/category/${categoryId}`);
 }
 
-export const callUpdateCategory = ({id, name, thumbnail, description, hot}) => {
-    return axios.put(`/api/v1/category`, {id, name, thumbnail, description, hot});
+export const callUpdateCategory = ({id, name, thumbnail, description, hot, active}) => {
+    return axios.put(`/api/v1/category`, {id, name, thumbnail, description, hot, active});
 }
 

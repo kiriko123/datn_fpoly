@@ -29,6 +29,7 @@ const CategoryModalUpdate = ({ openModalUpdate, setOpenModalUpdate, dataUpdate, 
                 description: dataUpdate.description,
                 thumbnail: arrThumbnail,
                 hot: dataUpdate.hot === "true" || dataUpdate.hot === true,
+                active: dataUpdate.active,
             };
             setInitForm(init);
             setDataThumbnail(arrThumbnail);
@@ -48,12 +49,12 @@ const CategoryModalUpdate = ({ openModalUpdate, setOpenModalUpdate, dataUpdate, 
             return;
         }
 
-        const { id, name, description,hot } = values;
+        const { id, name, description, hot, active } = values;
         const thumbnail = dataThumbnail[0].name;
 
         setIsSubmit(true);
         try {
-            const res = await callUpdateCategory({ id, name, description, thumbnail, hot});
+            const res = await callUpdateCategory({ id, name, description, thumbnail, hot, active});
             if (res && res.data) {
                 message.success('Cập nhật danh mục thành công');
                 form.resetFields();
@@ -62,7 +63,7 @@ const CategoryModalUpdate = ({ openModalUpdate, setOpenModalUpdate, dataUpdate, 
                 setOpenModalUpdate(false);
                 await fetchCategory();
             } else {
-                throw new Error(res.message || 'Không thể cập nhật thương hiệu');
+                throw new Error(res.message || 'Không thể cập nhật danh mục');
             }
         } catch (error) {
             notification.error({
@@ -184,6 +185,28 @@ const CategoryModalUpdate = ({ openModalUpdate, setOpenModalUpdate, dataUpdate, 
                                 </Radio.Group>
                             </Form.Item>
                         </Col>
+                        {/*<Col span={24}>*/}
+                        {/*    <Form.Item*/}
+                        {/*        label="Active"*/}
+                        {/*        name="active"*/}
+                        {/*    >*/}
+                        {/*        <Radio.Group>*/}
+                        {/*            <Radio value={true}>Actived</Radio>*/}
+                        {/*        </Radio.Group>*/}
+                        {/*    </Form.Item>*/}
+                        {/*</Col>*/}
+                        {!form.getFieldValue('active') && (
+                            <Col span={24}>
+                                <Form.Item
+                                    label="Active"
+                                    name="active"
+                                >
+                                    <Radio.Group>
+                                        <Radio value={true}>Actived</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                            </Col>
+                        )}
                         <Col span={24}>
                             <Form.Item
                                 name="thumbnail"
