@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
-import { Table, Row, Col, Popconfirm, Button, message, notification, Dropdown, Checkbox, Menu } from 'antd';
+import {Table, Row, Col, Popconfirm, Button, message, notification, Dropdown, Checkbox, Menu, Image} from 'antd';
 import {
+    ExportOutlined,
     PlusOutlined,
     ReloadOutlined,
     DeleteTwoTone,
@@ -12,9 +13,9 @@ import { FaEye } from "react-icons/fa";
 import InputSearch from './InputSearch';
 import CategoryViewDetail from "./CategoryViewDetail.jsx";
 import CategoryCreate from "./CategoryCreate.jsx";
-// import CategoryImport from "./data/CategoryImport.jsx";
-// import * as XLSX from "xlsx";
+import * as XLSX from "xlsx";
 import CategoryUpdate from "./CategoryUpdate.jsx";
+
 
 const CategoryTable = () => {
     const [listCategory, setListCategory] = useState([]);
@@ -107,10 +108,26 @@ const CategoryTable = () => {
             dataIndex: 'name',
             sorter: true,
         },
+        // selectedColumns.thumbnail && {
+        //     title: 'Thumbnail',
+        //     dataIndex: 'thumbnail',
+        //     sorter: true,
+        // },
         selectedColumns.thumbnail && {
             title: 'Thumbnail',
             dataIndex: 'thumbnail',
             sorter: true,
+            render: (text, record) => {
+                return (
+                    <Image
+                        width={100}
+                        src={`${import.meta.env.VITE_BACKEND_URL}/storage/category-thumbnail/${record.thumbnail}`}
+                        preview={{
+                            src: `${import.meta.env.VITE_BACKEND_URL}/storage/category-thumbnail/${record.thumbnail}`,
+                        }}
+                    />
+                );
+            }
         },
         selectedColumns.description && {
             title: 'Description',
@@ -172,8 +189,8 @@ const CategoryTable = () => {
                     <EditTwoTone
                         twoToneColor="#f57800" style={{cursor: "pointer"}}
                         onClick={() => {
-                            setOpenModalUpdate(true);
                             setDataUpdate(record);
+                            setOpenModalUpdate(true);
                         }}
                     />
                 </div>
@@ -221,6 +238,19 @@ const CategoryTable = () => {
     //     }
     // }
 
+    const handleExportData = () => {
+        if (listCategory.length > 0) {
+            const exportData = listCategory.map(brand => ({
+                ...brand,
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, "ExportCategory.csv");
+        }
+    }
+
 
     const renderHeader = () => (
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 15 }}>
@@ -234,7 +264,7 @@ const CategoryTable = () => {
                 >
                     <Button icon={<EditTwoTone/>} type="primary">Select Columns</Button>
                 </Dropdown>
-                {/*<Button icon={<ExportOutlined />} type="primary" onClick={() => handleExportData()}>Export</Button>*/}
+                <Button icon={<ExportOutlined />} type="primary" onClick={() => handleExportData()}>Export</Button>
                 <Button icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>Thêm mới</Button>
                 <Button type="ghost" onClick={() => {
                     setFilter("");
