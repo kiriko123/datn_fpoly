@@ -4,12 +4,9 @@ import com.datn.be.dto.request.brand.BrandCreateRequestDTO;
 import com.datn.be.dto.request.brand.BrandUpdateRequestDTO;
 import com.datn.be.dto.response.ResultPaginationResponse;
 import com.datn.be.dto.response.brand.BrandRespone;
-import com.datn.be.dto.response.user.UserResponse;
 import com.datn.be.exception.InvalidDataException;
 import com.datn.be.exception.ResourceNotFoundException;
-import com.datn.be.mapper.BrandMapping;
 import com.datn.be.model.Brand;
-import com.datn.be.model.User;
 import com.datn.be.repository.BrandRepository;
 import com.datn.be.service.BrandService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +22,6 @@ import java.util.List;
 public class BrandServiceImpl implements BrandService {
 
     private final BrandRepository brandRepository;
-    private final BrandMapping brandMapping;
-
 
     @Override
     public ResultPaginationResponse getAllBrands(Specification<Brand> spec, Pageable pageable) {
@@ -69,7 +64,8 @@ public class BrandServiceImpl implements BrandService {
         brand.setName(brandUpdateRequestDTO.getName());
         brand.setDescription(brandUpdateRequestDTO.getDescription());
         brand.setThumbnail(brandUpdateRequestDTO.getThumbnail());
-        return brandMapping.fromBrandToBrandResponse(brandRepository.save(brand));
+
+        return BrandRespone.fromBrandToBrandRespone(brandRepository.save(brand));
     }
 
     @Override
@@ -84,5 +80,9 @@ public class BrandServiceImpl implements BrandService {
         return brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
     }
 
+    @Override
+    public List<Brand> getAllBrand() {
+        return brandRepository.findAll();
+    }
 
 }

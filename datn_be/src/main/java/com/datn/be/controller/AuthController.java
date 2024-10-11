@@ -76,16 +76,16 @@ public class AuthController {
             }
 
             loginResponse.setUser(LoginResponse.UserLogin.builder()
-                            .id(currentUser.getId())
-                            .role(currentUser.getRole())
-                            .imageUrl(currentUser.getImageUrl())
-                            .email(currentUser.getEmail())
-                            .name(currentUser.getName())
-                            .firstName(currentUser.getFirstName())
-                            .age(currentUser.getAge())
-                            .address(currentUser.getAddress())
-                            .phoneNumber(currentUser.getPhoneNumber())
-                            .gender(currentUser.getGender())
+                    .id(currentUser.getId())
+                    .role(currentUser.getRole())
+                    .imageUrl(currentUser.getImageUrl())
+                    .email(currentUser.getEmail())
+                    .name(currentUser.getName())
+                    .firstName(currentUser.getFirstName())
+                    .age(currentUser.getAge())
+                    .address(currentUser.getAddress())
+                    .phoneNumber(currentUser.getPhoneNumber())
+                    .gender(currentUser.getGender())
                     .build());
         }
 
@@ -106,12 +106,6 @@ public class AuthController {
                 .path("/")
                 .maxAge(refreshTokenExpiration)
                 .build();
-        
-        try {
-            Thread.sleep(3000);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
@@ -137,6 +131,7 @@ public class AuthController {
             userLogin.setAddress(currentUser.getAddress());
             userLogin.setPhoneNumber(currentUser.getPhoneNumber());
             userLogin.setGender(currentUser.getGender());
+            userLogin.setGoogleAccount(currentUser.isGoogleAccount());
         }
 
         return ResponseEntity.ok().body(userLogin);
@@ -175,6 +170,7 @@ public class AuthController {
                     .address(currentUser.getAddress())
                     .phoneNumber(currentUser.getPhoneNumber())
                     .gender(currentUser.getGender())
+                    .googleAccount(currentUser.isGoogleAccount())
                     .build());
         }
 
@@ -262,11 +258,6 @@ public class AuthController {
             String firstName = (String) userInfo.get("given_name");
             String lastName = (String) userInfo.get("family_name");
 
-            ///////////////////
-            if(lastName.equals("(FPL HCM)")){
-                throw new RuntimeException("FPOLY === CÚT");
-            }
-            /////////////////////////
             User existingUser = userService.findByEmail(email);
 
             // Nếu user chưa tồn tại, tạo mới với mật khẩu ngẫu nhiên
@@ -282,11 +273,11 @@ public class AuthController {
                         .build();
 
                 accountService.googleRegister(RegisterRequestDTO.builder()
-                                .firstName(firstName)
-                                .name(lastName)
-                                .email(email)
-                                .password(newUser.getPassword())
-                                .confirmPassword(newUser.getPassword())
+                        .firstName(firstName)
+                        .name(lastName)
+                        .email(email)
+                        .password(newUser.getPassword())
+                        .confirmPassword(newUser.getPassword())
                         .build());
 
                 existingUser = newUser;
@@ -318,6 +309,7 @@ public class AuthController {
                     .address(existingUser.getAddress())
                     .phoneNumber(existingUser.getPhoneNumber())
                     .gender(existingUser.getGender())
+                    .googleAccount(existingUser.isGoogleAccount())
                     .build());
 
             // Tạo access token
