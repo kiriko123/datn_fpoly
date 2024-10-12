@@ -23,9 +23,7 @@ import ManageBrandPage from './pages/admin/brand/index.jsx';
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
 import ManageSliderPage from "./pages/admin/slider/index.jsx";
 
-import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
-import ManageBrandPage from './pages/admin/brand/index.jsx';
-import ManageCategoryPage from "./pages/admin/category/index.jsx";
+ // Thêm import cho SliderCRUD
 import ViewOrder from "./components/Order/ViewOrder.jsx";
 import ManageProductPage from "./pages/admin/product/index.jsx";
 import Navbar from "./components/Header/navbar.jsx";
