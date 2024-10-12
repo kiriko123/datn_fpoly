@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Input, Row, Select } from 'antd'; // Loại bỏ theme nếu không cần thiết
+import { Button, Col, Form, Input, Row, Select, theme } from 'antd';
 const { Option } = Select;
 
 const InputSearch = (props) => {
+    const { token } = theme.useToken();
     const [form] = Form.useForm();
 
-    // Style của form
     const formStyle = {
         maxWidth: '100%',
         padding: '20px',
-        background: '#fff',
+        background: `#fff`,
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-        color: '#222',
+        color: token.colorTextBase,
         fontWeight: 'bold',
         marginBottom: '24px',
         borderRadius: '20px',
     };
 
-    // Xử lý khi nhấn nút "Search"
     const onFinish = (values) => {
         let queryParts = [];
 
@@ -55,12 +54,12 @@ const InputSearch = (props) => {
 
     return (
         <Form form={form} name="advanced_search" style={formStyle} onFinish={onFinish}>
-            <Row gutter={24} justify="center">
+            <Row gutter={24} justify={"center"}>
                 <Col xs={12} sm={12} md={8} lg={4}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name="firstName"
-                        label="Firstname"
+                        name={`firstName`}
+                        label={`Firstname`}
                     >
                         <Input placeholder="Please input firstname!" />
                     </Form.Item>
@@ -69,8 +68,8 @@ const InputSearch = (props) => {
                 <Col xs={12} sm={12} md={8} lg={4}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name="fullName"
-                        label="Lastname"
+                        name={`fullName`}
+                        label={`Lastname`}
                     >
                         <Input placeholder="Please input lastname!" />
                     </Form.Item>
@@ -79,17 +78,18 @@ const InputSearch = (props) => {
                 <Col xs={12} sm={12} md={12} lg={5}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name="email"
-                        label="Email"
+                        name={`email`}
+                        label={`Email`}
                     >
                         <Input placeholder="Please input email!" />
                     </Form.Item>
                 </Col>
 
-                <Col xs={12} sm={12} md={12} lg={5}><Form.Item
+                <Col xs={12} sm={12} md={12} lg={5}>
+                    <Form.Item
                         labelCol={{ span: 24 }}
-                        name="phoneNumber"
-                        label="Phone number"
+                        name={`phoneNumber`}
+                        label={`Phone number`}
                     >
                         <Input placeholder="Please input phone number!" />
                     </Form.Item>
@@ -98,8 +98,8 @@ const InputSearch = (props) => {
                 <Col xs={12} sm={12} md={12} lg={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name="address"
-                        label="Address"
+                        name={`address`}
+                        label={`Address`}
                     >
                         <Input placeholder="Please input address!" />
                     </Form.Item>
@@ -108,8 +108,8 @@ const InputSearch = (props) => {
                 <Col xs={12} sm={12} md={8} lg={4}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name="enabled"
-                        label="Status"
+                        name={`enabled`}
+                        label={`Status`}
                     >
                         <Select placeholder="Select status">
                             <Option value="true">Active</Option>
@@ -121,8 +121,8 @@ const InputSearch = (props) => {
                 <Col xs={12} sm={12} md={8} lg={4}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name="role"
-                        label="Role"
+                        name={`role`}
+                        label={`Role`}
                     >
                         <Select placeholder="Select role">
                             <Option value="2">User</Option>
@@ -134,8 +134,8 @@ const InputSearch = (props) => {
                 <Col xs={12} sm={12} md={8} lg={4}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name="gender"
-                        label="Gender"
+                        name={`gender`}
+                        label={`Gender`}
                     >
                         <Select placeholder="Select gender">
                             <Option value="MALE">Male</Option>
