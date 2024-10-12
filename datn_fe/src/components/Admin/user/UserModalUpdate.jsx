@@ -112,3 +112,6 @@ const UserModalUpdate = (props) => {
 };
 
 export default UserModalUpdate;
+};
+
+export default SliderModalUpdate;

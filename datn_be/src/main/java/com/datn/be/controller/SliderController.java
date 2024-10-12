@@ -1,18 +1,39 @@
 package com.datn.be.controller;
 
-import com.datn.be.dto.request.sliders.SliderRequestDTO;
-import com.datn.be.dto.response.sliders.SliderResponseDTO;
-
+import com.datn.be.dto.request.sliders.SliderCreateRequestDTO;
+import com.datn.be.dto.request.sliders.SliderUpdateRequestDTO;
+import com.datn.be.dto.response.RestResponse;
+import com.datn.be.model.Slider;
 import com.datn.be.service.SliderService;
+
+import com.datn.be.service.FileService;
+import com.turkraft.springfilter.boot.Filter;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+
 
 import java.util.List;
 
+
 @RestController
+@RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/v1/sliders")
+
+@Validated
+
 @RequiredArgsConstructor
 public class SliderController {
 
@@ -20,31 +41,36 @@ public class SliderController {
 
 
 
+
+    // Phương thức để lấy tất cả sliders với hỗ trợ phân trang
     @GetMapping
-    public ResponseEntity<List<SliderResponseDTO>> getAllSliders() {
-        List<SliderResponseDTO> sliders = sliderService.getAllSliders();
-        return ResponseEntity.ok(sliders);
+    public ResponseEntity<?> getAllSliders(@Filter Specification<Slider> specification, Pageable pageable) {
+        log.info("Get All Sliders");
+        return ResponseEntity.ok(sliderService.getAllSliders(specification, pageable));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SliderResponseDTO> getSliderById(@PathVariable Long id) {
-        SliderResponseDTO slider = sliderService.getSliderById(id);
-        return ResponseEntity.ok(slider);
-    }
-
+    // Phương thức để tạo mới slider
     @PostMapping
-    public ResponseEntity<SliderResponseDTO> createSlider(@RequestBody SliderRequestDTO sliderRequest) {
-        return ResponseEntity.ok(sliderService.createSlider(sliderRequest));
+    public ResponseEntity<?> createSlider(@Valid @RequestBody SliderCreateRequestDTO sliderCreateRequestDTO) {
+        log.info("Create Sliders: {}", sliderCreateRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(sliderService.create(sliderCreateRequestDTO));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<SliderResponseDTO> updateSlider(@PathVariable Long id, @RequestBody SliderRequestDTO sliderRequest) {
-        return ResponseEntity.ok(sliderService.updateSlider(id, sliderRequest));
+    // Phương thức để cập nhật slider
+    @PutMapping
+    public ResponseEntity<?> updateSlider(@Valid @RequestBody SliderUpdateRequestDTO sliderUpdateRequestDTO) {
+        log.info("Update Sliders: {}", sliderUpdateRequestDTO);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(sliderService.update(sliderUpdateRequestDTO));
     }
 
+    // Phương thức để xóa slider theo ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSlider(@PathVariable Long id) {
-        sliderService.deleteSlider(id);
-        return ResponseEntity.ok().build();
+    public RestResponse<?> deleteSlider(@PathVariable Long id) {
+        log.info("Delete Sliders: {}", id);
+        sliderService.delete(id);
+        return RestResponse.builder()
+                .statusCode(204)
+                .message("Slider Deleted")
+                .build();
     }
 }

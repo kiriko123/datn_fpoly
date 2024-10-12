@@ -17,12 +17,19 @@ import Slider from "./components/Slider/slider.jsx";
 
 import ForgotPage from "./pages/forgot/forgot.jsx";
 // import ViewOrder from "./components/Order/ViewOrder.jsx";
+
+// import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
+import ManageBrandPage from './pages/admin/brand/index.jsx';
+import ManageCategoryPage from "./pages/admin/category/index.jsx";
+import ManageSliderPage from "./pages/admin/slider/index.jsx";
+
 import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
 import ManageBrandPage from './pages/admin/brand/index.jsx';
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
 import ViewOrder from "./components/Order/ViewOrder.jsx";
 import ManageProductPage from "./pages/admin/product/index.jsx";
 import Navbar from "./components/Header/navbar.jsx";
+
 
 
 
@@ -71,10 +78,14 @@ export default function App() {
                     index: true,
                     element: <Home />,
                 },
-                {
-                    path: "/order",
-                    element: <ViewOrder/>
-                }
+
+                // {
+                //     path: "/order",
+                //     element: <ViewOrder />
+                // },
+
+
+
             ]
 
         },
@@ -104,17 +115,17 @@ export default function App() {
                 {
 
                     path: "slider",
-                    element: <SliderCRUD />,
+                    element: <ManageSliderPage />,
                 },
                 {
                     path: "brand",
                     element:
-                        <ManageBrandPage/>
+                        <ManageBrandPage />
                 },
-                  {
+                {
                     path: "category",
                     element:
-                        <ManageCategoryPage/>
+                        <ManageCategoryPage />
                 },
                 {
                     path: "product",

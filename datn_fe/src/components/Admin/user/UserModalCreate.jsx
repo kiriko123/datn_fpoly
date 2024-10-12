@@ -1,20 +1,22 @@
-import React, {useState} from 'react';
-import {Button, Col, Divider, Form, Input, InputNumber, message, Modal, notification, Radio, Row} from 'antd';
-import {callCreateUser} from '../../../services/api';
+import React, { useState } from 'react';
+import { Button, Col, Divider, Form, Input, InputNumber, message, Modal, notification, Radio, Row } from 'antd';
+import { callCreateUser } from '../../../services/api';
 
 const UserModalCreate = (props) => {
-    const {openModalCreate, setOpenModalCreate} = props;
+    const { openModalCreate, setOpenModalCreate } = props;
     const [isSubmit, setIsSubmit] = useState(false);
 
     // https://ant.design/components/form#components-form-demo-control-hooks
     const [form] = Form.useForm();
 
     const onFinish = async (values) => {
-        const {name, firstName, email, password, passwordConfirm, age, gender, address, phoneNumber} = values;
+        const { name, firstName, email, password, passwordConfirm, age, gender, address, phoneNumber } = values;
         setIsSubmit(true);
         const res =
-            await callCreateUser({name, firstName, email,
-                password, passwordConfirm, age, gender, address, phoneNumber});
+            await callCreateUser({
+                name, firstName, email,
+                password, passwordConfirm, age, gender, address, phoneNumber
+            });
         if (res && res.data) {
             message.success('Created successfully');
             form.resetFields();
@@ -45,17 +47,17 @@ const UserModalCreate = (props) => {
                 confirmLoading={isSubmit}
                 centered
             >
-                <Divider/>
+                <Divider />
 
                 <Form
                     form={form} //quy dinh Form la form khi submit cai model se submit form luon
                     name="basic"
-                    style={{maxWidth: 600}}
+                    style={{ maxWidth: 600 }}
 
                     onFinish={onFinish}
                     autoComplete="off"
                 >
-                    <Form.Item  label="Email" name="email" rules={[{ required: true, message: 'Vui lòng nhập email!' }]}>
+                    <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Vui lòng nhập email!' }]}>
                         <Input />
                     </Form.Item>
 

@@ -37,6 +37,7 @@ const items = [
         icon: <UserOutlined/>,
     },
     {
+
         label: <Link to='/admin/category'>Categories</Link>,
         key: 'category',
         icon: <BiCategoryAlt/>
@@ -50,6 +51,7 @@ const items = [
         label: <Link to='/admin/slider'>Slider</Link>,
         key: 'slider',
         icon: <TfiLayoutSlider />
+
     },
     {
         label: <Link to='/admin/brand'>Brand</Link>,
