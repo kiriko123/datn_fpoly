@@ -34,7 +34,6 @@ import java.util.List;
 
 @Validated
 
-@RequiredArgsConstructor
 public class SliderController {
 
     private final SliderService sliderService;
