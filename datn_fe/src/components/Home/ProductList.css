@@ -1,0 +1,219 @@
+.product-list-container {
+    padding: 20px;
+    background-color: #f0f0f0;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-options {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .filter-options span {
+    margin-right: 10px;
+  }
+  
+  .filter-options button, .filter-options select {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Thay đổi này */
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Media query cho màn hình nhỏ hơn */
+  @media (max-width: 1200px) {
+    .product-grid {
+      grid-template-columns: repeat(3, 1fr); /* Điều chỉnh số cột cho màn hình nhỏ hơn */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr); /* Điều chỉnh số cột cho màn hình nhỏ hơn */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .product-grid {
+      grid-template-columns: repeat(1, 1fr); /* Điều chỉnh số cột cho màn hình rất nhỏ */
+    }
+  }
+  
+  .product-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .original-price-discount {
+    display: flex;
+    align-items: center;
+  }
+  
+  .original-price {
+    margin-right: 10px;
+  }
+  
+  .discount {
+    display: inline-block;
+  }
+  
+  /* Styles cho container của pagination */
+  .ant-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  /* Styles cho các nút trong pagination */
+  .ant-pagination-item,
+  .ant-pagination-prev,
+  .ant-pagination-next,
+  .ant-pagination-jump-prev,
+  .ant-pagination-jump-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    font-family: Arial, sans-serif;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* Styles cho nút được chọn */
+  .ant-pagination-item-active {
+    font-weight: 500;
+    background: #1890ff;
+    border-color: #1890ff;
+  }
+
+  .ant-pagination-item-active a {
+    color: #fff;
+  }
+
+  /* Hover effect cho các nút */
+  .ant-pagination-item:hover,
+  .ant-pagination-prev:hover .ant-pagination-item-link,
+  .ant-pagination-next:hover .ant-pagination-item-link {
+    border-color: #1890ff;
+    transition: all 0.3s;
+  }
+
+  /* Styles cho dropdown chọn số items mỗi trang */
+  .ant-pagination-options {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+  }
+
+  .ant-pagination-options-size-changer.ant-select {
+    margin-right: 8px;
+  }
+
+  /* Styles cho text hiển thị tổng số items */
+  .ant-pagination-total-text {
+    display: inline-block;
+    height: 32px;
+    margin-right: 8px;
+    line-height: 30px;
+    vertical-align: middle;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+
+  .page-item {
+    margin: 0 5px;
+  }
+
+  .page-link {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .page-link:hover {
+    background-color: #f8f9fa;
+  }
+
+  .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+
+  .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  .page-item:first-child .page-link,
+  .page-item:last-child .page-link {
+    font-weight: bold;
+  }
+
+  /* Thêm hiệu ứng khi hover */
+  .page-link:hover:not(.active) {
+    background-color: #e9ecef;
+  }
+
+  /* Thêm cursor pointer cho các item có thể click */
+  .page-item:not(.disabled) .page-link {
+    cursor: pointer;
+  }
+
+  /* Tùy chỉnh cho nút Previous và Next */
+  .page-item:first-child .page-link,
+  .page-item:last-child .page-link {
+    background-color: #f8f9fa;
+  }
+
+  /* Responsive design cho màn hình nhỏ */
+  @media (max-width: 576px) {
+    .pagination {
+      flex-wrap: wrap;
+    }
+    
+    .page-item {
+      margin: 2px;
+    }
+    
+    .page-link {
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+  }

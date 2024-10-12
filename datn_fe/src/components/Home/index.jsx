@@ -1,12 +1,17 @@
+
 import Slider from "../Slider/slider.jsx";
+import BrandList from "./BrandList.jsx";
+import ImageLayout from "./ImageLayout.jsx";
+import ProductList from "./ProductList.jsx";
 
 const Home = () => {
     return (
         <>
             <Slider />
-            <div style={{ height: '300px' }}>
-
-            </div>
+            
+            <BrandList/>
+            <ProductList/>
+           <ImageLayout/>
         </>
     )
 }
