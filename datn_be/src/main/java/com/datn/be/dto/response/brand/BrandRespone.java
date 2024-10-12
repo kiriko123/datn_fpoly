@@ -17,6 +17,7 @@ public class BrandRespone {
     String name;
     String description;
     String thumbnail;
+    boolean active;
     Instant createdAt;
     Instant updatedAt;
     String createdBy;
@@ -28,6 +29,7 @@ public class BrandRespone {
                 .name(brand.getName())
                 .description(brand.getDescription())
                 .thumbnail(brand.getThumbnail())
+                .active(brand.isActive())
                 .createdAt(brand.getCreatedAt())
                 .updatedAt(brand.getUpdatedAt())
                 .createdBy(brand.getCreatedBy())

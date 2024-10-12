@@ -83,8 +83,10 @@ export const callUpdateSlider = ({ id, title, description, imgUrl }) => {
     return axios.put(`/api/v1/sliders`, { id, title, description, imgUrl });
 }
 
-// Hàm cho Brand
-export const callFetchListBrand = (query) => {
+
+
+export const callFetchListBrand = (query) =>{
+
     return axios.get(`/api/v1/brand?${query}`);
 }
 
@@ -116,3 +118,25 @@ export const callDeleteCategory = (categoryId) => {
 export const callUpdateCategory = ({ id, name, thumbnail, description, hot }) => {
     return axios.put(`/api/v1/category`, { id, name, thumbnail, description, hot });
 }
+
+////////////////////////// product crud api//////////////////////////////////
+export const callFetchCategory = () => {
+    return axios.get(`/api/v1/category/getAll`);
+}
+export const callFetchBrand = () => {
+    return axios.get(`/api/v1/brand/getAll`);
+}
+export const callFetchProduct = (query) =>{
+    return axios.get(`/api/v1/product?${query}`);
+}
+export const callCreateProduct = ({name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId}) => {
+    return axios.post('/api/v1/product', {name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId});
+}
+export const callUpdateProduct = ({id, name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId, active}) => {
+    return axios.put('/api/v1/product', {id, name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId, active});
+}
+export const callDeleteProduct = (productId) =>{
+    return axios.delete(`/api/v1/product/${productId}`);
+}
+////////////////////////////////////////////////////////////////////////////////
+

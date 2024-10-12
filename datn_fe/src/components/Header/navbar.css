@@ -1,7 +1,4 @@
-/*
-general
--------
-*/
+
 body {
     font-size: 16px;
     line-height: 1.6;
@@ -90,20 +87,44 @@ nav
     align-items: center;
 }
 .nav .logo {
-    font-size: 22px;
-    text-transform: uppercase;
-    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav .logo .fas {
     color: #1890ff;
     margin-right: 5px;
     font-size: 28px;
+    cursor: pointer;
 }
 
-.nav .logo a {
-    color: #333;
-    text-decoration: none;
+.logo a {
+    font-family: 'Poppins', sans-serif; /* Chọn font chữ đẹp */
+    font-size: 1.3rem; /* Tăng kích thước chữ */
+    font-weight: bold; /* Làm chữ đậm */
+
+    text-decoration: none; /* Bỏ gạch chân */
+    letter-spacing: 1.5px; /* Giãn khoảng cách giữa các chữ cái */
+    text-transform: uppercase; /* Viết hoa tất cả chữ */
+    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt khi hover */
+}
+
+.logo a:hover {
+    color: #ff3300; /* Màu khi hover */
+}
+.search-bar {
+    flex: 1;
+    max-width: 400px; /* Adjust width as necessary */
+    margin: 0 auto; /* Center the search bar */
+}
+
+.search-bar .ant-input {
+    border-radius: 20px; /* Rounded corners */
+}
+
+.search-bar .ant-input:hover, .search-bar .ant-input:focus {
+    border-color: #1890ff; /* Change border color on hover/focus */
 }
 .nav .mobileHidden nav{
     display: flex;

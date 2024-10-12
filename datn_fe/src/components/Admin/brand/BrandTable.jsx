@@ -8,7 +8,7 @@ import {
     DeleteTwoTone,
     EditTwoTone
 } from '@ant-design/icons';
-import { callDeleteBrand, callFetchListBrand } from "../../../services/api.js";
+import { callFetchListBrand, callUpdateBrand, callDeleteBrand } from "../../../services/api.js";
 import { FaEye } from "react-icons/fa";
 import InputSearch from './InputSearch.jsx';
 import BrandViewDetail from "./BrandViewDetail.jsx";
@@ -56,6 +56,7 @@ const BrandTable = () => {
         name: true,
         description: true,
         thumbnail: false,
+        active: true,
         createdAt: false,
         updatedAt: false,
         createdBy: false,
@@ -133,6 +134,12 @@ const BrandTable = () => {
                 );
             }
         },
+        selectedColumns.active && {
+            title: 'Active',
+            dataIndex: 'active',
+            sorter: true,
+            render: (enabled) => (enabled ? 'Actived' : 'Disabled'), // Chuyển đổi giá trị true/false
+        },
         selectedColumns.createdAt && {
             title: 'CreatedAt',
             dataIndex: 'createdAt',
@@ -164,7 +171,7 @@ const BrandTable = () => {
                     }} />
                     <Popconfirm
                         placement="leftTop"
-                        title="Xác nhận xóa user"
+                        title="Xác nhận xóa thương hiệu"
                         description="Bạn có chắc chắn muốn xóa thương hiệu này?"
                         onConfirm={() => handleDeleteBrand(record.id)}
                         okText="Xác nhận"
@@ -196,6 +203,24 @@ const BrandTable = () => {
         if (sorter.field) {
             const q = sorter.order === 'ascend' ? `sort=${sorter.field},asc` : `sort=${sorter.field},desc`;
             setSortQuery(q);
+        }
+    };
+
+    const handleDeactivateBrand = async (record) => {
+        try {
+            const updatedBrand = { ...record, active: false };
+            const res = await callUpdateBrand(record.id, updatedBrand);
+            if (res?.data) {
+                message.success('Vô hiệu hóa thương hiệu thành công');
+                fetchBrands();
+            } else {
+                throw new Error(res.message);
+            }
+        } catch (error) {
+            notification.error({
+                message: 'Có lỗi xảy ra',
+                description: error.message,
+            });
         }
     };
 
@@ -238,7 +263,7 @@ const BrandTable = () => {
                     <Button icon={<EditTwoTone />} type="primary">Select Columns</Button>
                 </Dropdown>
                 <Button icon={<ExportOutlined />} type="primary" onClick={() => handleExportData()}>Export</Button>
-                <Button icon={<CloudUploadOutlined />} type="primary" onClick={() => setOpenModalImport(true)}>Import</Button>
+                {/*<Button icon={<CloudUploadOutlined />} type="primary" onClick={() => setOpenModalImport(true)}>Import</Button>*/}
                 <Button icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>Thêm mới</Button>
                 <Button type="ghost" onClick={() => {
                     setFilter("");
@@ -264,6 +289,7 @@ const BrandTable = () => {
                         dataSource={listBrand}
                         onChange={onChange}
                         rowKey="id"
+                        scroll={{ x: 800 }}
                         pagination={{
                             current,
                             pageSize,

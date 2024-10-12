@@ -299,6 +299,7 @@ const UserTable = () => {
                         dataSource={listUser}
                         onChange={onChange}
                         rowKey="id"
+                        scroll={{ x: 800 }}
                         pagination={{
                             current,
                             pageSize,

@@ -5,6 +5,7 @@ import com.datn.be.dto.request.sliders.SliderUpdateRequestDTO;
 import com.datn.be.dto.response.RestResponse;
 import com.datn.be.model.Slider;
 import com.datn.be.service.SliderService;
+
 import com.datn.be.service.FileService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
@@ -13,18 +14,32 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+
+
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/api/v1/sliders")
+
 @Validated
+
+@RequiredArgsConstructor
 public class SliderController {
 
     private final SliderService sliderService;
+
+
 
 
     // Phương thức để lấy tất cả sliders với hỗ trợ phân trang

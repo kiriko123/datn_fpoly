@@ -2,10 +2,8 @@ package com.datn.be.controller;
 
 import com.datn.be.dto.request.brand.BrandCreateRequestDTO;
 import com.datn.be.dto.request.brand.BrandUpdateRequestDTO;
-import com.datn.be.dto.request.user.AdminUpdateUserDTO;
 import com.datn.be.dto.response.RestResponse;
 import com.datn.be.model.Brand;
-import com.datn.be.model.User;
 import com.datn.be.service.BrandService;
 import com.datn.be.service.FileService;
 import com.turkraft.springfilter.boot.Filter;
@@ -18,9 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,5 +52,11 @@ public class BrandController {
                 .statusCode(204)
                 .message("Brand Deleted")
                 .build();
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAllBrands(){
+        log.info("Get All Brands");
+        return ResponseEntity.ok(brandService.getAllBrand());
     }
 }

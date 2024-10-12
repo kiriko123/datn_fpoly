@@ -14,13 +14,21 @@ import AdminPage from "./pages/admin/index.jsx";
 import ManageUserPage from "./pages/admin/user/index.jsx";
 import Auth from "./pages/auth/index.jsx";
 import Slider from "./components/Slider/slider.jsx";
-import Header from "./components/Header/header.jsx";
+
 import ForgotPage from "./pages/forgot/forgot.jsx";
 // import ViewOrder from "./components/Order/ViewOrder.jsx";
+
 // import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
 import ManageBrandPage from './pages/admin/brand/index.jsx';
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
 import ManageSliderPage from "./pages/admin/slider/index.jsx";
+
+import SliderCRUD from "./components/Account/SliderCRUD.jsx"; // Thêm import cho SliderCRUD
+import ManageBrandPage from './pages/admin/brand/index.jsx';
+import ManageCategoryPage from "./pages/admin/category/index.jsx";
+import ViewOrder from "./components/Order/ViewOrder.jsx";
+import ManageProductPage from "./pages/admin/product/index.jsx";
+import Navbar from "./components/Header/navbar.jsx";
 
 
 
@@ -28,7 +36,7 @@ import ManageSliderPage from "./pages/admin/slider/index.jsx";
 const Layout = () => {
     return (
         <div className="layout-app">
-            <Header />
+            <Navbar />
             <Outlet />
             <Footer />
         </div>
@@ -70,10 +78,12 @@ export default function App() {
                     index: true,
                     element: <Home />,
                 },
+
                 // {
                 //     path: "/order",
                 //     element: <ViewOrder />
                 // },
+
 
 
             ]
@@ -117,10 +127,10 @@ export default function App() {
                     element:
                         <ManageCategoryPage />
                 },
-                // {
-                //     path: "book",
-                //     element: <Book/>,
-                // }
+                {
+                    path: "product",
+                    element: <ManageProductPage/>,
+                }
 
             ]
         },

@@ -191,6 +191,7 @@ const BrandModalCreate = ({ openModalCreate, setOpenModalCreate, fetchBrands }) 
                                 </Upload>
                             </Form.Item>
                         </Col>
+                        
                     </Row>
                 </Form>
             </Modal>
