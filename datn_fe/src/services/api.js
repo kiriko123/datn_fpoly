@@ -118,7 +118,6 @@ export const callDeleteCategory = (categoryId) => {
 export const callUpdateCategory = ({ id, name, thumbnail, description, hot }) => {
     return axios.put(`/api/v1/category`, { id, name, thumbnail, description, hot });
 }
-
 ////////////////////////// product crud api//////////////////////////////////
 export const callFetchCategory = () => {
     return axios.get(`/api/v1/category/getAll`);
@@ -137,6 +136,9 @@ export const callUpdateProduct = ({id, name, price, discount, thumbnail, quantit
 }
 export const callDeleteProduct = (productId) =>{
     return axios.delete(`/api/v1/product/${productId}`);
+}
+export const callFetchProductById = (id) => {
+    return axios.get(`api/v1/product/${id}`)
 }
 ////////////////////////////////////////////////////////////////////////////////
 

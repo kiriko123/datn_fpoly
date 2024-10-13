@@ -183,7 +183,7 @@ const Navbar = (props) => {
                                     <span onClick={() => navigate('/')}> <FaHome/> <p>{t('home')}</p></span>
                                 </div>
                                 <div>
-                                    <span onClick={() => navigate('/')}> <GrProductHunt /> <p>Product</p></span>
+                                    <span onClick={() => navigate('/product')}> <GrProductHunt /> <p>Product</p></span>
                                 </div>
                                 <div>
                                     <span onClick={() => navigate('/3')}> <MdContactSupport/> <p>{t('about')}</p></span>

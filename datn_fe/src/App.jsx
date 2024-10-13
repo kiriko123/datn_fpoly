@@ -27,6 +27,8 @@ import ManageSliderPage from "./pages/admin/slider/index.jsx";
 import ViewOrder from "./components/Order/ViewOrder.jsx";
 import ManageProductPage from "./pages/admin/product/index.jsx";
 import Navbar from "./components/Header/navbar.jsx";
+import Product from "./components/Product/index.jsx";
+import ProductDetail from "./pages/productDetail/index.jsx";
 
 
 
@@ -77,13 +79,18 @@ export default function App() {
                     element: <Home />,
                 },
 
-                // {
-                //     path: "/order",
-                //     element: <ViewOrder />
-                // },
-
-
-
+                {
+                    path: "/order", //Làm rùi mà :(
+                    element: <ViewOrder />
+                },
+                {
+                    path: "/product",
+                    element: <Product/>
+                },
+                {
+                    path: "product/:slug",
+                    element: <ProductDetail/>
+                },
             ]
 
         },

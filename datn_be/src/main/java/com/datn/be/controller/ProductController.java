@@ -49,4 +49,9 @@ public class ProductController {
         log.info("Get all products");
         return ResponseEntity.status(HttpStatus.OK).body(productService.findAll(specification, pageable));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@Min(1) @PathVariable long id) {
+        log.info("Get product : {}", id);
+        return ResponseEntity.ok(productService.getProduct(id));
+    }
 }

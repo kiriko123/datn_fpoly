@@ -4,11 +4,11 @@
     --bg: #f5f5f5;
 }
 
-html {
-    font-size: 62.5%;
-    scroll-behavior: smooth;
-    /*zoom: 1.5*/
-}
+/*html {*/
+/*    !*font-size: 62.5%;*!*/
+/*    scroll-behavior: smooth;*/
+/*    !*zoom: 1.5*!*/
+/*}*/
 
 /*@media (min-width: 1440px) {*/
 /*    html {*/
