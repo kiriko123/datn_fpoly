@@ -51,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setDescription(categoryUpdateRequestDTO.getDescription());
         category.setHot(categoryUpdateRequestDTO.isHot());
         category.setActive(categoryUpdateRequestDTO.isActive());
+
         return CategoryResponse.fromCategoryToCategoryResponse(categoryRepository.save(category));
     }
 

@@ -40,6 +40,7 @@ public class CategoryController {
     @PutMapping
     public ResponseEntity<?> update(@Valid @RequestBody CategoryUpdateRequestDTO categoryUpdateRequestDTO) {
         log.info("Update category: {}", categoryUpdateRequestDTO);
+        log.info("Updating category with ID: {}, active: {}", categoryUpdateRequestDTO.getId(), categoryUpdateRequestDTO.isActive());
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(categoryService.update(categoryUpdateRequestDTO));
     }
     @DeleteMapping("/{id}")
