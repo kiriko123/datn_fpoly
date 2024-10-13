@@ -185,16 +185,6 @@ const CategoryModalUpdate = ({ openModalUpdate, setOpenModalUpdate, dataUpdate, 
                                 </Radio.Group>
                             </Form.Item>
                         </Col>
-                        {/*<Col span={24}>*/}
-                        {/*    <Form.Item*/}
-                        {/*        label="Active"*/}
-                        {/*        name="active"*/}
-                        {/*    >*/}
-                        {/*        <Radio.Group>*/}
-                        {/*            <Radio value={true}>Actived</Radio>*/}
-                        {/*        </Radio.Group>*/}
-                        {/*    </Form.Item>*/}
-                        {/*</Col>*/}
                         {!form.getFieldValue('active') && (
                             <Col span={24}>
                                 <Form.Item

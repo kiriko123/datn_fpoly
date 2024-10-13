@@ -223,21 +223,6 @@ const CategoryTable = () => {
         }
     };
 
-    // const handleExportData = () => {
-    //     if (listCategory.length > 0) {
-    //         // Tạo bản sao của listUser và điều chỉnh dữ liệu trước khi xuất
-    //         const exportData = listCategory.map(user => ({
-    //             ...user,
-    //             role: user.role?.name || '', // Lấy giá trị từ role.name hoặc để trống nếu không có
-    //         }));
-    //
-    //         const worksheet = XLSX.utils.json_to_sheet(exportData);
-    //         const workbook = XLSX.utils.book_new();
-    //         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    //         XLSX.writeFile(workbook, "ExportUser.csv");
-    //     }
-    // }
-
     const handleExportData = () => {
         if (listCategory.length > 0) {
             const exportData = listCategory.map(brand => ({

@@ -150,7 +150,7 @@ const CategoryModalCreate = ({ openModalCreate, setOpenModalCreate, fetchCategor
                                 labelCol={{ span: 24 }}
                                 label="Tên danh mục"
                                 name="name"
-                                rules={[{ required: true, message: 'Vui lòng nhập tên thương hiệu!' }]}
+                                rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}
                             >
                                 <Input />
                             </Form.Item>
