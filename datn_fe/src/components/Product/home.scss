@@ -21,8 +21,7 @@
 
         .text {
           padding: 0.5rem 0;
-          font-size: 1.2rem;
-          font-weight: 500;
+          font-size: .9rem;
           height: 50px;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -34,7 +33,7 @@
         .rating {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          gap: 10px;
         }
 
       }

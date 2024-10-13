@@ -428,9 +428,9 @@ const Product = () => {
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <div className='rating' >
+                                                    <div className='rating'>
                                                         <Rate value={5} disabled
-                                                              style={{color: '#ffce3d', fontSize: 10} }/>
+                                                              style={{color: '#ffce3d', fontSize: 10}}/>
                                                         <span>Đã bán {item.sold}</span>
                                                     </div>
                                                 </div>

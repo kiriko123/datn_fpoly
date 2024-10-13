@@ -5,13 +5,9 @@
 *::after {
     padding: 0;
     margin: 0;
-}
-
-body {
-    overflow-x: hidden;
-    font-family: 'Poppins', sans-serif; /* Use Poppins font */
     box-sizing: border-box;
 }
+
 
 .popover-carts .pop-cart-body .pop-cart-content {
     display: flex;
