@@ -48,7 +48,7 @@ const InputSearch = (props) => {
         <Form form={form} name="category_search" style={formStyle} onFinish={onFinish}>
             <Row gutter={24}>
 
-                <Col span={6}>
+                <Col span={8}>
                     <Form.Item
                         labelCol={{ span: 24 }}
                         name="name"
@@ -58,27 +58,7 @@ const InputSearch = (props) => {
                     </Form.Item>
                 </Col>
 
-                {/*<Col span={6}>*/}
-                {/*    <Form.Item*/}
-                {/*        labelCol={{ span: 24 }}*/}
-                {/*        name="thumbnail"*/}
-                {/*        label="Ảnh thu nhỏ"*/}
-                {/*    >*/}
-                {/*        <Input placeholder="Nhập URL ảnh thu nhỏ" />*/}
-                {/*    </Form.Item>*/}
-                {/*</Col>*/}
-
-                {/*<Col span={6}>*/}
-                {/*    <Form.Item*/}
-                {/*        labelCol={{ span: 24 }}*/}
-                {/*        name="description"*/}
-                {/*        label="Mô tả"*/}
-                {/*    >*/}
-                {/*        <Input placeholder="Nhập mô tả danh mục" />*/}
-                {/*    </Form.Item>*/}
-                {/*</Col>*/}
-
-                <Col span={6}>
+                <Col span={8}>
                     <Form.Item
                         labelCol={{ span: 24 }}
                         name="hot"
@@ -91,7 +71,7 @@ const InputSearch = (props) => {
                     </Form.Item>
                 </Col>
 
-                <Col span={6}>
+                <Col span={8}>
                     <Form.Item
                         labelCol={{ span: 24 }}
                         name="active"

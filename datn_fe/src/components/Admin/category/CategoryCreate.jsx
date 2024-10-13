@@ -1,61 +1,121 @@
 import React, { useState } from 'react';
-import { Divider, Form, Input, message, Modal, notification, Radio, Upload, Button } from 'antd';
+import {Col, Divider, Form, Input, message, Modal, notification, Radio, Row, Upload} from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { callCreateCategory, callUploadFile } from '../../../services/api';
-import { UploadOutlined } from '@ant-design/icons';
 
-const CategoryCreate = (props) => {
-    // eslint-disable-next-line react/prop-types
-    const {openModalCreate, setOpenModalCreate} = props;
+const CategoryModalCreate = ({ openModalCreate, setOpenModalCreate, fetchCategory }) => {
     const [isSubmit, setIsSubmit] = useState(false);
-    const [thumbnailUrl, setThumbnailUrl] = useState(null); // Lưu URL của ảnh upload
-
-    // https://ant.design/components/form#components-form-demo-control-hooks
     const [form] = Form.useForm();
 
-    // Hàm upload file (thumbnail)
-    const handleUploadThumbnail = async ({ file, onSuccess, onError }) => {
-        const res = await callUploadFile(file, 'category-thumbnail'); // Gọi API upload
-        if (res && res.data) {
-            const newThumbnail = res.data.fileName;
-            setThumbnailUrl(newThumbnail); // Lưu lại URL của ảnh sau khi upload
-            onSuccess('ok');
-        } else {
-            onError('Upload ảnh thất bại');
-        }
-    };
+    const [loading, setLoading] = useState(false);
+    const [fileList, setFileList] = useState([]);
 
-    const propsUploadThumbnail = {
-        maxCount: 1,
-        multiple: false,
-        customRequest: handleUploadThumbnail,
-        onChange(info) {
-            if (info.file.status === 'done') {
-                message.success('Upload ảnh thành công');
-            } else if (info.file.status === 'error') {
-                message.error('Upload ảnh thất bại');
-            }
-        },
-    };
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
 
     const onFinish = async (values) => {
-        const {name, description, hot} = values;
-        setIsSubmit(true);
-        const res =
-            await callCreateCategory({name, thumbnail:thumbnailUrl, description, hot});
-        if (res && res.data) {
-            message.success('Created successfully');
-            form.resetFields();
-            setOpenModalCreate(false);
-            // eslint-disable-next-line react/prop-types
-            await props.fetchCategory();
+        if (fileList.length === 0) {
+            notification.error({
+                message: 'Lỗi validate',
+                description: 'Vui lòng upload ảnh thumbnail'
+            })
+            return;
+        }
+
+        const { name, description, hot } = values;
+        let thumbnail = '';
+
+        // Kiểm tra xem fileList[0] và fileList[0].url có tồn tại không
+        if (fileList[0] && fileList[0].url) {
+            thumbnail = fileList[0].url.split('/').pop();
+        } else if (fileList[0] && fileList[0].response && fileList[0].response.data) {
+            // Nếu url không tồn tại, thử lấy từ response
+            thumbnail = fileList[0].response.data.fileName;
         } else {
             notification.error({
-                message: 'Đã có lỗi xảy ra',
-                description: res.message
-            })
+                message: 'Lỗi',
+                description: 'Không thể lấy thông tin thumbnail'
+            });
+            return;
         }
-        setIsSubmit(false);
 
+        setIsSubmit(true);
+        try {
+            const res = await callCreateCategory({ name, thumbnail, description, hot});
+            if (res && res.data) {
+                message.success('Thêm mới danh mục thành công');
+                form.resetFields();
+                setFileList([]);
+                setOpenModalCreate(false);
+                await fetchCategory();
+            } else {
+                throw new Error(res.message || 'Không thể tạo danh mục');
+            }
+        } catch (error) {
+            notification.error({
+                message: 'Đã có lỗi xảy ra',
+                description: error.message
+            });
+        } finally {
+            setIsSubmit(false);
+        }
+    };
+
+    const getBase64 = (file) =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+
+    const beforeUpload = (file) => {
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJpgOrPng) {
+            message.error('Bạn chỉ có thể tải lên file JPG/PNG!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 10;
+        if (!isLt2M) {
+            message.error('Hình ảnh phải nhỏ hơn 10MB!');
+        }
+        return isJpgOrPng && isLt2M;
+    };
+
+    const handleChange = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    };
+
+    const handleUploadFileThumbnail = async ({ file, onSuccess, onError }) => {
+        try {
+            const folderName = 'category-thumbnail';
+            const res = await callUploadFile(file, folderName);
+
+            if (res && res.data) {
+                const fileInfo = {
+                    name: file.name,
+                    uid: file.uid,
+                    status: 'done',
+                    url: `${import.meta.env.VITE_BACKEND_URL}/storage/${folderName}/${res.data.fileName}`,
+                    response: res // Lưu toàn bộ response để sử dụng sau này nếu cần
+                };
+                setFileList([fileInfo]);
+                onSuccess(res, file);
+            } else {
+                onError('Đã có lỗi khi upload file');
+            }
+        } catch (error) {
+            onError('Đã có lỗi khi upload file: ' + error.message);
+        }
+    };
+
+    const handlePreview = async (file) => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setPreviewImage(file.url || file.preview);
+        setPreviewOpen(true);
+        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
     };
 
     return (
@@ -63,52 +123,87 @@ const CategoryCreate = (props) => {
             <Modal
                 title="Thêm mới danh mục"
                 open={openModalCreate}
-                onOk={() => {
-                    form.submit()
+                onOk={() => form.submit()}
+                onCancel={() => {
+                    form.resetFields();
+                    setFileList([]);
+                    setOpenModalCreate(false);
                 }}
-                onCancel={() => setOpenModalCreate(false)}
                 okText={"Tạo mới"}
                 cancelText={"Hủy"}
                 confirmLoading={isSubmit}
+                width={"50vw"}
                 centered
+                maskClosable={false}
             >
-                <Divider/>
+                <Divider />
 
                 <Form
-                    form={form} //quy dinh Form la form khi submit cai model se submit form luon
+                    form={form}
                     name="basic"
-                    style={{maxWidth: 600}}
                     onFinish={onFinish}
                     autoComplete="off"
                 >
-                    <Form.Item  label="Name" name="name" rules={[{ required: true, message: 'Vui lòng nhập name!' }]}>
-                        <Input />
-                    </Form.Item>
+                    <Row gutter={15}>
+                        <Col span={24}>
+                            <Form.Item
+                                labelCol={{ span: 24 }}
+                                label="Tên danh mục"
+                                name="name"
+                                rules={[{ required: true, message: 'Vui lòng nhập tên thương hiệu!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={24}>
+                            <Form.Item
+                                labelCol={{ span: 24 }}
+                                label="Hot"
+                                name="hot"
+                                initialValue={'HOT'}
+                                // rules={[{ required: true, message: 'Please select hot(Y/N)!' }]}
+                            >
+                                <Radio.Group>
+                                    <Radio value="true">Yes</Radio>
+                                    <Radio value="false">No</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                        </Col>
+                        <Col span={24}>
+                            <Form.Item
+                                labelCol={{ span: 24 }}
+                                label="Ảnh Thumbnail"
+                                name="thumbnail"
+                            >
+                                <Upload
+                                    name="thumbnail"
+                                    listType="picture-card"
+                                    className="avatar-uploader"
+                                    fileList={fileList}
+                                    maxCount={1}
+                                    customRequest={handleUploadFileThumbnail}
+                                    beforeUpload={beforeUpload}
+                                    onChange={handleChange}
+                                    onPreview={handlePreview}
+                                >
+                                    {fileList.length >= 1 ? null : (
+                                        <div>
+                                            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                                            <div style={{ marginTop: 8 }}>Upload</div>
+                                        </div>
+                                    )}
+                                </Upload>
+                            </Form.Item>
+                        </Col>
 
-                    {/* Upload ảnh Thumbnail */}
-                    {/*rules={[{ required: true, message: 'Thumbnail không được để trống!' }]}*/}
-                    <Form.Item label="Thumbnail" name="thumbnail" >
-                        <Upload {...propsUploadThumbnail}>
-                            <Button icon={<UploadOutlined />}>Upload Thumbnail</Button>
-                        </Upload>
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Hot"
-                        name="hot"
-                        initialValue={'HOT'}
-                        // rules={[{ required: true, message: 'Please select hot(Y/N)!' }]}
-                    >
-                        <Radio.Group>
-                            <Radio value="true">Yes</Radio>
-                            <Radio value="false">No</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-
+                    </Row>
                 </Form>
+            </Modal>
+            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
             </Modal>
         </>
     );
 };
 
-export default CategoryCreate;
+export default CategoryModalCreate;
