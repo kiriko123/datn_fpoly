@@ -46,6 +46,6 @@ khang:
 
     base-uri: file:///D:/datn/datn_fpoly/upload/
     #"D:\datn\datn_fpoly\upload"
-
-
-
+stripe:
+  api:
+    key: sk_test_51Q4i0kCsOTWfrG9wJicEj5K728Kfg51NJRNkHJ6w1OXpkiZttpWvPyzfu8AHGQE2Okk5wYkZjm6Ml8sMIe5w1q9v00UgyWcGqF

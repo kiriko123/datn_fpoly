@@ -21,7 +21,7 @@ const Product = () => {
     const [total, setTotal] = useState(0);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [filter, setFilter] = useState("filter=category.active:'true' and active:'true' and quantity > 0");
+    const [filter, setFilter] = useState("filter=category.active:'true' and brand.active:'true' and active:'true' and quantity > 0");
     const [sortQuery, setSortQuery] = useState("sort=sold,desc");
 
     const [form] = Form.useForm();
@@ -95,7 +95,7 @@ const Product = () => {
     }
 
     const updateFilter = (values) => {
-        let f = "filter=category.active:'true' and active:'true' and quantity > 0"; // Default filter
+        let f = "filter=category.active:'true' and brand.active:'true' and active:'true' and quantity > 0"; // Default filter
 
         // Category filter
         if (values?.category?.length) {

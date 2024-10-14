@@ -142,3 +142,9 @@ export const callFetchProductById = (id) => {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
+//////// check out ///////
+export const callCheckOut = (data) => {
+    return axios.post('/api/v1/payment/create-payment-intent', data);
+}
+
+///////////////////////////////////

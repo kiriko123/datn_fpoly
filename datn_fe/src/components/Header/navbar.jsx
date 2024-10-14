@@ -137,7 +137,7 @@ const Navbar = (props) => {
                         return (
                             <div className='book' key={`book-${index}`}>
                                 <img alt=''
-                                     src={`${import.meta.env.VITE_BACKEND_URL}/storage/book/${book?.detail?.thumbnail}`}/>
+                                     src={`${import.meta.env.VITE_BACKEND_URL}/storage/product/${book?.detail?.thumbnail}`}/>
                                 <div>{book?.detail?.name}</div>
                                 <div className='price'>
                                     {new Intl.NumberFormat('vi-VN', {

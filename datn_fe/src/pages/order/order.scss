@@ -1,0 +1,96 @@
+.order-container {
+  min-height: calc(100vh - 145px);
+
+  .order-book {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+    background: #f9f9f9; /* Màu nền sáng hơn */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Box shadow nhẹ nhàng hơn */
+
+    .book-content {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 50%;
+      justify-content: space-between;
+
+      img {
+        width: 70px;
+        height: 70px;
+      }
+    }
+
+    .action {
+      width: 50%;
+      gap: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .order-book-empty {
+    background: #f9f9f9; /* Màu nền sáng cho phần trống */
+    padding: 20px;
+    border-radius: 5px;
+    min-height: 400px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Box shadow nhẹ hơn cho phần trống */
+  }
+
+  .order-sum {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff; /* Nền trắng cho phần tổng kết */
+    padding: 20px;
+    border-radius: 5px;
+    gap: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Box shadow nhẹ nhàng hơn */
+
+    .calculate {
+      display: flex;
+      justify-content: space-between;
+
+      .sum-final {
+        color: #1e88e5; /* Màu xanh dịu cho tổng giá */
+        font-size: 22px;
+        font-weight: 400;
+      }
+    }
+
+    button {
+      margin-top: 15px;
+      background-color: #1e88e5; /* Màu xanh hiện đại cho nút */
+      color: #fff;
+      border: 1px solid #1e88e5;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Shadow nhỏ hơn cho nút */
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 16px;
+      height: 40px;
+      padding: 0 20px;
+
+      &:hover {
+        background-color: #1565c0; /* Màu tối hơn khi hover */
+      }
+    }
+
+    .info,
+    .method,
+    .address {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  .order-steps {
+    background: #fff; /* Nền trắng cho các bước */
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Box shadow nhẹ */
+  }
+}
