@@ -4,6 +4,8 @@ import {useEffect, useState} from 'react';
 import {callFetchBrand, callFetchCategory, callFetchProduct} from '../../services/api';
 import './home.scss';
 import {useNavigate, useOutletContext} from "react-router-dom";
+// New code
+import { useLocation } from 'react-router-dom';
 
 const Product = () => {
 
@@ -25,6 +27,16 @@ const Product = () => {
     const [sortQuery, setSortQuery] = useState("sort=sold,desc");
 
     const [form] = Form.useForm();
+
+    // New code
+    const location = useLocation();
+    //C1
+    // const queryParams = new URLSearchParams(location.search);
+    // const brand = queryParams.get('brand'); // Lấy thương hiệu từ URL
+
+    //C2
+    const brand = location.state?.brand; // Lấy thương hiệu từ state
+    const category = location.state?.category; // Lấy danh mục từ state
 
     useEffect(() => {
         const initCategory = async () => {
@@ -55,6 +67,21 @@ const Product = () => {
         initBrand();
     }, []);
 
+    // New code
+    useEffect(() => {
+        let values = {}; //Đối tượng chứa các giá trị lọc
+        if(brand){
+            values.brand = [brand];
+        }
+        if(category){
+            values.category = [category];
+        }
+        if(Object.keys(values).length > 0){
+            updateFilter(values);
+        }else{
+            fetchProduct(); //Gọi fetchProduct() nếu không có giá trị lọc
+        }
+    }, [brand, category]);
 
     useEffect(() => {
         fetchProduct();

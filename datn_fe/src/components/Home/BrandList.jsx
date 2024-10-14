@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { callFetchListBrand } from '../../services/api';
+// New code
+import { useNavigate } from 'react-router-dom';
 import './BrandList.css';
 
 const BrandList = () => {
   const [brands, setBrands] = useState([]);
+  const navigate = useNavigate(); // Khởi tạo useNavigate
 
   useEffect(() => {
     fetchBrands();
@@ -26,8 +29,15 @@ const BrandList = () => {
     }
   };
 
+  // const handleBrandClick = (brandName) => {
+  //   console.log('Thương hiệu được chọn:', brandName);
+  //   // New code
+  //   // Điều hướng đến trang sản phẩm và truyền thương hiệu
+  //   navigate(`/product?brand=${encodeURIComponent(brandName)}`);
+  // };
+
   const handleBrandClick = (brandName) => {
-    console.log('Thương hiệu được chọn:', brandName);
+    navigate('/product', { state: { brand: brandName } });
   };
 
   return (
