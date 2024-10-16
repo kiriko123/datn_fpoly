@@ -98,8 +98,8 @@ export const callCreateBrand = ({ name, description, thumbnail }) => {
     return axios.post('/api/v1/brand', { name, description, thumbnail });
 }
 
-export const callUpdateBrand = ({ id, name, description, thumbnail }) => {
-    return axios.put(`/api/v1/brand`, { id, name, description, thumbnail });
+export const callUpdateBrand = ({ id, name, description, thumbnail, active }) => {
+    return axios.put(`/api/v1/brand`, { id, name, description, thumbnail, active });
 }
 
 // Hàm cho Category

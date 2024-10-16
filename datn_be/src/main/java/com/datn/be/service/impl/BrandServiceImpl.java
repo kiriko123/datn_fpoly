@@ -64,6 +64,7 @@ public class BrandServiceImpl implements BrandService {
         brand.setName(brandUpdateRequestDTO.getName());
         brand.setDescription(brandUpdateRequestDTO.getDescription());
         brand.setThumbnail(brandUpdateRequestDTO.getThumbnail());
+        brand.setActive(brandUpdateRequestDTO.getActive());
 
         return BrandRespone.fromBrandToBrandRespone(brandRepository.save(brand));
     }

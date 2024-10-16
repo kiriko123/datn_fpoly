@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Input, Upload, message, Row, Col, Divider, notification } from 'antd';
+import { Modal, Form, Input, Upload, message, Row, Col, Divider, notification, Radio } from 'antd';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { callUpdateBrand, callUploadFile } from '../../../services/api';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,11 +27,12 @@ const BrandModalUpdate = ({ open, setOpen, dataUpdate, setDataUpdate, fetchBrand
                 id: dataUpdate.id,
                 name: dataUpdate.name,
                 description: dataUpdate.description,
-                thumbnail: arrThumbnail
+                thumbnail: arrThumbnail,
+                active: dataUpdate.active // Thêm dòng này để thiết lập giá trị active
             };
             setInitForm(init);
             setDataThumbnail(arrThumbnail);
-            form.setFieldsValue(init);
+            form.setFieldsValue(init); // Thiết lập giá trị cho form
         }
         return () => {
             form.resetFields();
@@ -47,12 +48,12 @@ const BrandModalUpdate = ({ open, setOpen, dataUpdate, setDataUpdate, fetchBrand
             return;
         }
 
-        const { id, name, description } = values;
+        const { id, name, description, active } = values;
         const thumbnail = dataThumbnail[0].name;
 
         setIsSubmit(true);
         try {
-            const res = await callUpdateBrand({ id, name, description, thumbnail });
+            const res = await callUpdateBrand({ id, name, description, thumbnail, active });
             if (res && res.data) {
                 message.success('Cập nhật thương hiệu thành công');
                 form.resetFields();
@@ -200,6 +201,18 @@ const BrandModalUpdate = ({ open, setOpen, dataUpdate, setDataUpdate, fetchBrand
                                         <div style={{ marginTop: 8 }}>Upload</div>
                                     </div>
                                 </Upload>
+                            </Form.Item>
+                        </Col>
+                        <Col span={24}>
+                            <Form.Item
+                                label="Active"
+                                name="active"
+                                rules={[{ required: true, message: 'Vui lòng chọn!' }]}
+                            >
+                                <Radio.Group>
+                                    <Radio value={true}>Active</Radio>
+                                    <Radio value={false}>Disable</Radio>
+                                </Radio.Group>
                             </Form.Item>
                         </Col>
                     </Row>

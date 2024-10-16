@@ -10,17 +10,10 @@ const HotCategories = () => {
     const [loading, setLoading] = useState(true); // Thêm loading state
     const navigate = useNavigate(); // Khởi tạo navigate
 
-    // const convertSlug = (str) => {
-    //     return str.toLowerCase()
-    //         .replace(/\s+/g, '-') // Thay thế khoảng trắng bằng dấu gạch ngang
-    //         .replace(/[^\w\-]+/g, '') // Xóa ký tự không phải chữ cái, số hoặc dấu gạch ngang
-    //         .replace(/\-\-+/g, '-') // Thay thế nhiều dấu gạch ngang liên tiếp bằng một dấu gạch ngang
-    //         .replace(/^-+|-+$/g, ''); // Xóa dấu gạch ngang ở đầu và cuối
-    // };
-
     const handleRedirectCategory = (category) => {
-        const slug = convertSlug(category.name); // Chuyển đổi tên danh mục thành slug
-        navigate(`/category/${slug}`); // Điều hướng đến trang chi tiết danh mục
+        // Cập nhật bộ lọc và điều hướng đến trang sản phẩm
+        const filter = `filter=category.active:'true' and brand.active:'true' and active:'true' and quantity > 0 and category.id:'${category.id}'`;
+        navigate(`/product?filter=${encodeURIComponent(filter)}`); // Điều hướng đến trang sản phẩm với bộ lọc
     };
 
     useEffect(() => {
