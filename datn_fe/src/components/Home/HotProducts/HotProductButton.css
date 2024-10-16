@@ -1,0 +1,19 @@
+.hot-product-btn{
+    display: block;
+    margin: auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    max-width: 200px;
+    margin-bottom: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.hot-product-btn:hover{
+    background-color: #0056b3;
+}
