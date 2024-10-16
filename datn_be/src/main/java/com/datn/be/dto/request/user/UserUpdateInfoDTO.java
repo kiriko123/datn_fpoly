@@ -1,5 +1,6 @@
 package com.datn.be.dto.request.user;
 
+import com.datn.be.util.annotation.PhoneNumber;
 import com.datn.be.util.constant.GenderEnum;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +23,7 @@ public class UserUpdateInfoDTO {
     GenderEnum gender;
     @Min(1)
     int age;
+    @PhoneNumber
     @NotBlank
     String phoneNumber;
     @NotBlank

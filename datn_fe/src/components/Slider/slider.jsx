@@ -39,7 +39,7 @@ const SliderHome = () => {
                             height="100%" // Đặt chiều cao là 100%
                             src={`${import.meta.env.VITE_BACKEND_URL}/storage/slider/${slider.imgUrl}`}
                             alt={slider.title}
-                            style={{ objectFit: 'cover', height: '50rem' }} // Đặt chiều cao cụ thể cho ảnh
+                            style={{ objectFit: 'cover', height: '8rem' }} // Đặt chiều cao cụ thể cho ảnh
                         />
                     </div>
                 ))}
