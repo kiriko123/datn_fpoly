@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, Row, Col } from 'antd';
 import { useTranslation } from 'react-i18next';
 import './About.css'; // Import CSS file
+import BrandList from '../../components/Home/BrandList';
 
 const About = () => {
     const { t } = useTranslation(); // Use translation hook
@@ -9,7 +10,7 @@ const About = () => {
 
     return (
         <div className="about-container">
-            <h1 className="about-title">{t('about_title')}</h1>
+
             <div className="image-container">
                 <Image
                     src={`${backendUrl}/storage/slider/banner.jpg`}
@@ -19,7 +20,9 @@ const About = () => {
                     onError={(e) => { e.target.onerror = null; e.target.src = 'fallback-image-url.jpg'; }}
                 />
             </div>
-            <br />
+            <div style={{ marginTop: '60px', textAlign: 'left' }}>
+                <h2 style={{ fontSize: '30px', marginBottom: '30px' }}>{t('about_title')}</h2>
+            </div>
             <div className="about-content">
                 <p>{t('about_content_1')}</p>
                 <p>{t('about_content_2')}</p>
@@ -89,50 +92,7 @@ const About = () => {
             </div>
             <br />
             <h2 className="section-title">{t('our_partners')}</h2>
-            <div style={{ marginTop: '60px', textAlign: 'center' }}>
-                <Row gutter={[24, 24]}>
-                    <Col xs={24} md={6}>
-                        <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.2)', padding: '10px', borderRadius: '8px' }} className="image-container">
-                            <Image
-                                src={`${backendUrl}/storage/brand/lenovo.png`}
-                                alt="Đối tác 1"
-                                width="35%"
-                                preview={false}
-                            />
-                        </div>
-                    </Col>
-                    <Col xs={24} md={6}>
-                        <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.2)', padding: '10px', borderRadius: '8px' }} className="image-container">
-                            <Image
-                                src={`${backendUrl}/storage/brand/dell.png`}
-                                alt="Đối tác 2"
-                                width="35%"
-                                preview={false}
-                            />
-                        </div>
-                    </Col>
-                    <Col xs={24} md={6}>
-                        <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.2)', padding: '10px', borderRadius: '8px' }} className="image-container">
-                            <Image
-                                src={`${backendUrl}/storage/brand/asus.png`}
-                                alt="Đối tác 3"
-                                width="40%"
-                                preview={false}
-                            />
-                        </div>
-                    </Col>
-                    <Col xs={24} md={6}>
-                        <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.2)', padding: '10px', borderRadius: '8px' }} className="image-container">
-                            <Image
-                                src={`${backendUrl}/storage/brand/hp.png`}
-                                alt="Đối tác 4"
-                                width="20%"
-                                preview={false}
-                            />
-                        </div>
-                    </Col>
-                </Row>
-            </div>
+            <BrandList /> {/* Thêm BrandList vào đây */}
         </div>
     );
 };

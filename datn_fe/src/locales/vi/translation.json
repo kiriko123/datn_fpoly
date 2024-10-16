@@ -14,19 +14,19 @@
   "reset": "Làm mới",
   "edit": "Chỉnh sửa",
   "name": "Tên",
-  "about_title": "Về Chúng Tôi",
+  "about_title": "1. Giới thiệu về Chúng Tôi",
   "about_content_1": "Chúng tôi chuyên cung cấp các sản phẩm máy tính để bàn chất lượng cao, ra đời vào năm 2024, với sứ mệnh phục vụ đa dạng nhu cầu của khách hàng từ văn phòng, học sinh - sinh viên đến game thủ chuyên nghiệp. Chúng tôi cam kết mang đến cho người tiêu dùng những sản phẩm công nghệ tiên tiến nhất, đáp ứng được xu hướng phát triển của công nghệ 4.0.",
   "about_content_2": "Với tầm nhìn dài hạn, chúng tôi không ngừng nỗ lực để cải thiện chất lượng dịch vụ và sản phẩm, đồng thời xây dựng một cộng đồng người tiêu dùng thân thiện và tin tưởng. Qua hơn một thập kỷ hoạt động, chúng tôi đã tích lũy được kinh nghiệm và kiến thức cần thiết để tư vấn và cung cấp cho khách hàng những giải pháp công nghệ phù hợp nhất với nhu cầu của họ.",
   "about_content_3": "Chúng tôi tự hào về đội ngũ nhân viên chuyên nghiệp và tận tâm, luôn sẵn sàng hỗ trợ và giải đáp mọi thắc mắc của khách hàng. Mỗi sản phẩm được cung cấp đều được kiểm tra chất lượng nghiêm ngặt, đảm bảo đạt tiêu chuẩn cao nhất trước khi đến tay người tiêu dùng. Hãy đến với chúng tôi để khám phá những sản phẩm máy tính đẳng cấp, cùng dịch vụ chăm sóc khách hàng chu đáo và tận tình.",
   "about_content_4": "Với khách hàng tin tưởng mỗi năm, chúng tôi tự hào là nơi cung cấp các sản phẩm chính hãng, chất lượng với giá cả hợp lý.",
-  "why_choose_us": "Tại Sao Chọn Chúng Tôi?",
+  "why_choose_us": "2. Tại Sao Chọn Chúng Tôi?",
   "high_quality_products": "Sản Phẩm Chất Lượng Cao",
   "high_quality_description": "Chúng tôi chỉ cung cấp các sản phẩm từ những thương hiệu đáng tin cậy, nổi tiếng về hiệu suất và độ bền.",
   "excellent_service": "Dịch Vụ Khách Hàng Xuất Sắc",
   "excellent_service_description": "Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ bạn với bất kỳ câu hỏi hay vấn đề nào.",
   "fast_safe_delivery": "Giao Hàng Nhanh Và An Toàn",
   "fast_safe_delivery_description": "Chúng tôi đảm bảo giao hàng nhanh chóng và an toàn, để bạn có thể sử dụng sản phẩm của mình sớm nhất có thể.",
-  "warranty_policy": "Chế Độ Bảo Hành - Hậu Mãi",
+  "warranty_policy": "3. Chế Độ Bảo Hành - Hậu Mãi",
   "warranty_description": "Đội ngũ kỹ thuật viên chuyên nghiệp của chúng tôi luôn sẵn sàng hỗ trợ và giải quyết mọi vấn đề liên quan đến sản phẩm một cách nhanh chóng và hiệu quả. Chúng tôi cam kết mang đến sự hài lòng tối đa cho khách hàng qua các dịch vụ bảo hành tận nơi và bảo trì phần mềm từ xa.",
   "warranty_terms": [
     "Bảo hành phần cứng/phần mềm tận nơi 30 ngày đầu.",
@@ -35,5 +35,5 @@
     "Bảo hành 12 tháng cho dòng máy đồng bộ Dell.",
     "Hỗ trợ phần mềm từ xa (Teamviewer/Ultraview) trọn đời sản phẩm."
   ],
-  "our_partners": "Đối Tác Của Chúng Tôi"
+  "our_partners": "4. Đối Tác Của Chúng Tôi"
 }

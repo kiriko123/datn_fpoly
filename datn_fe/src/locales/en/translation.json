@@ -14,19 +14,19 @@
   "reset": "Reset",
   "edit": "Edit",
   "name": "Name",
-  "about_title": "About Us",
+  "about_title": "1. About Us",
   "about_content_1": "We specialize in providing high-quality desktop computer products, established in 2024, with a mission to serve the diverse needs of customers from office workers, students to professional gamers. We are committed to bringing consumers the most advanced technology products that meet the development trends of technology 4.0.",
   "about_content_2": "With a long-term vision, we continually strive to improve the quality of our services and products while building a friendly and trustworthy consumer community. After more than a decade of operation, we have accumulated the necessary experience and knowledge to advise and provide customers with the most suitable technology solutions for their needs.",
   "about_content_3": "We take pride in our professional and dedicated staff, always ready to support and answer any customer questions. Each product provided is rigorously quality checked to ensure it meets the highest standards before reaching consumers. Come to us to discover top-class computer products, along with attentive customer service.",
   "about_content_4": "With loyal customers each year, we are proud to be a supplier of genuine, high-quality products at reasonable prices.",
-  "why_choose_us": "Why Choose Us?",
+  "why_choose_us": "2. Why Choose Us?",
   "high_quality_products": "High-Quality Products",
   "high_quality_description": "We only provide products from trusted brands known for performance and durability.",
   "excellent_service": "Excellent Customer Service",
   "excellent_service_description": "Our support team is always ready to assist you with any questions or issues.",
   "fast_safe_delivery": "Fast and Safe Delivery",
   "fast_safe_delivery_description": "We ensure quick and safe delivery so you can start using your products as soon as possible.",
-  "warranty_policy": "Warranty and After-Sales Service",
+  "warranty_policy": "3. Warranty and After-Sales Service",
   "warranty_description": "Our professional technicians are always ready to assist and resolve any product-related issues quickly and effectively. We are committed to maximizing customer satisfaction through on-site warranty services and remote software maintenance.",
   "warranty_terms": [
     "On-site warranty for hardware/software in the first 30 days.",
@@ -35,5 +35,5 @@
     "12 months warranty for Dell branded systems.",
     "Lifetime remote software support (TeamViewer/UltraViewer)."
   ],
-  "our_partners": "Our Partners"
+  "our_partners": "4. Our Partners"
 }
