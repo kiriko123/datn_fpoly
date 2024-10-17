@@ -1,39 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate và useLocation
 import HotCategoryHeader from './HotCategoryHeader';
 import HotCategoryCard from './HotCategoryCard';
 import { callFetchListCategory } from '../../../services/api';
 import './HotCategories.css';
 
 const HotCategories = () => {
-    const [categories, setCategories] = useState([]); // Đổi tên biến từ products thành categories
-    const [loading, setLoading] = useState(true); // Thêm loading state
-    const navigate = useNavigate(); // Khởi tạo navigate
+    const [categories, setCategories] = useState([]); 
+    const [loading, setLoading] = useState(true); 
+    const navigate = useNavigate(); 
+    const { search } = useLocation(); // Lấy URL params hiện tại
 
     const handleRedirectCategory = (category) => {
-        // Cập nhật bộ lọc và điều hướng đến trang sản phẩm
-        const filter = `filter=category.active:'true' and brand.active:'true' and active:'true' and quantity > 0 and category.id:'${category.id}'`;
-        navigate(`/product?filter=${encodeURIComponent(filter)}`); // Điều hướng đến trang sản phẩm với bộ lọc
-    };
+        // Lấy các filter hiện có từ URL
+        const params = new URLSearchParams(search);
+        const currentFilter = params.get('filter') || "category.active:'true' and brand.active:'true' and active:'true' and quantity > 0";
+    
+        // Thêm filter mới cho category
+        const newFilter = `${currentFilter} and category.name:'${category.name}'`;
+        
+        // Điều hướng đến trang sản phẩm với bộ lọc kết hợp
+        navigate(`/product?filter=${encodeURIComponent(newFilter)}`);
+    };  
+    
 
     useEffect(() => {
         const fetchHotCategories = async () => {
             try {
                 const response = await callFetchListCategory('hot=true');
-                console.log('API Response:', response); // In ra để kiểm tra cấu trúc dữ liệu
-                if (response && response.data) {
-                    // Kiểm tra xem response.data.result có phải là mảng không
-                    if (Array.isArray(response.data.result)) {
-                        // Lấy 3 danh mục hot
-                        setCategories(response.data.result.slice(0, 3)); // Sửa để lấy từ response.data.result
-                    } else {
-                        console.error('response.data.result is not an array:', response.data.result);
-                    }
+                if (response && response.data && Array.isArray(response.data.result)) {
+                    setCategories(response.data.result.slice(0, 3)); 
+                } else {
+                    console.error('response.data.result is not an array:', response.data.result);
                 }
             } catch (error) {
                 console.error('Error fetching hot categories:', error);
             } finally {
-                setLoading(false); // Đặt loading thành false khi hoàn thành
+                setLoading(false); 
             }
         };
 
@@ -44,14 +47,14 @@ const HotCategories = () => {
         <div>
             <HotCategoryHeader />
             <div className="product-container">
-                {loading ? ( // Kiểm tra trạng thái loading
+                {loading ? ( 
                     <div>Loading...</div>
                 ) : (
                     categories.map((category) => (
                         <HotCategoryCard 
                             key={category.id} 
                             category={category}
-                            onClick={() => handleRedirectCategory(category)} // Gọi hàm khi nhấp vào danh mục
+                            onClick={() => handleRedirectCategory(category)} 
                         />
                     ))
                 )}

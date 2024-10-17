@@ -1,9 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate và useLocation để điều hướng
 import { callFetchListBrand } from '../../services/api';
 import './BrandList.css';
 
 const BrandList = () => {
   const [brands, setBrands] = useState([]);
+  const navigate = useNavigate(); // Khởi tạo useNavigate
+  const location = useLocation(); // Khởi tạo useLocation
+  const search = location.search; // Lấy search từ location
+
+  // Hàm xử lý điều hướng khi click vào thương hiệu
+  const handleBrand = (brand) => {
+    // Lấy các filter hiện có từ URL
+    const params = new URLSearchParams(search);
+    const currentFilter = params.get('filter') || "category.active:'true' and brand.active:'true' and active:'true' and quantity > 0";
+
+    // Thêm filter mới cho brand
+    const newFilter = `${currentFilter} and brand.name:'${brand}'`; // Sửa đổi từ category thành brand
+
+    // Điều hướng đến trang sản phẩm với bộ lọc kết hợp
+    navigate(`/product?filter=${encodeURIComponent(newFilter)}`);
+  };  
 
   useEffect(() => {
     fetchBrands();
@@ -28,6 +45,7 @@ const BrandList = () => {
 
   const handleBrandClick = (brandName) => {
     console.log('Thương hiệu được chọn:', brandName);
+    handleBrand(brandName); // Gọi hàm handleBrand khi click vào thương hiệu
   };
 
   return (
@@ -36,7 +54,7 @@ const BrandList = () => {
         <div
           key={brand.name}
           className={`brand-item ${brand.name.toLowerCase()}`}
-          onClick={() => handleBrandClick(brand.name)}
+          onClick={() => handleBrandClick(brand.name)} // Sử dụng handleBrandClick để xử lý click
         >
           <img src={`${import.meta.env.VITE_BACKEND_URL}/storage/brand/${brand.thumbnail}`} alt={brand.name} />
         </div>

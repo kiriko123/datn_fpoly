@@ -1,13 +1,14 @@
-import {FilterTwoTone, ReloadOutlined} from '@ant-design/icons';
-import {Row, Col, Form, Checkbox, Divider, InputNumber, Button, Rate, Tabs, Pagination, Spin} from 'antd';
-import {useEffect, useState} from 'react';
-import {callFetchBrand, callFetchCategory, callFetchProduct} from '../../services/api';
+import { FilterTwoTone, ReloadOutlined } from '@ant-design/icons';
+import { Row, Col, Form, Checkbox, Divider, InputNumber, Button, Rate, Tabs, Pagination, Spin } from 'antd';
+import { useEffect, useState } from 'react';
+import { callFetchBrand, callFetchCategory, callFetchProduct } from '../../services/api';
 import './home.scss';
-import {useNavigate, useOutletContext} from "react-router-dom";
+import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 
 const Product = () => {
 
     // const [searchTerm, setSearchTerm] = useOutletContext();
+    const { search } = useLocation(); // Dùng useLocation để lấy URL params
 
     const [listCategory, setListCategory] = useState([]);
 
@@ -26,15 +27,57 @@ const Product = () => {
 
     const [form] = Form.useForm();
 
+    // Lấy filter từ URL và giữ nguyên các filter trước đó
+    useEffect(() => {
+        const params = new URLSearchParams(search);
+        const urlFilter = params.get('filter') || ''; // Lấy filter từ URL nếu có
+
+        // Kết hợp filter từ URL với filter mặc định
+        let combinedFilter = "filter=category.active:'true' and brand.active:'true' and active:'true' and quantity > 0";
+
+        if (urlFilter) {
+            combinedFilter += ` and (${urlFilter})`;  // Kết hợp filter từ URL với filter mặc định
+        }
+
+        setFilter(combinedFilter);  // Cập nhật filter state
+        console.log("Current Filter: ", urlFilter); // Kiểm tra filter hiện tại
+
+        // Cập nhật form với category tương ứng
+        const categoryMatches = urlFilter.match(/category\.name:'([^']+)'/);
+        if (categoryMatches && categoryMatches[1]) {
+            // Cập nhật giá trị cho category trong form
+            form.setFieldsValue({
+                category: [categoryMatches[1]] // Đặt giá trị cho category
+            });
+        } else {
+            // Nếu không có category nào được chọn, đặt lại giá trị cho category
+            form.setFieldsValue({
+                category: [] // Reset category nếu không có filter
+            });
+        }
+
+
+
+        // Cập nhật form với thương hiệu tương ứng
+        const brandMatches = urlFilter.match(/brand\.name:'([^']+)'/g) || [];
+        const selectedBrandNames = brandMatches.map(match => match.split(':')[1].replace(/'/g, ''));
+
+        // Cập nhật giá trị cho brand trong form
+        form.setFieldsValue({
+            brand: selectedBrandNames // Đặt giá trị cho thương hiệu
+        });
+
+    }, [search]); // Theo dõi khi URL thay đổi
+
+
     useEffect(() => {
         const initCategory = async () => {
             const res = await callFetchCategory();
             if (res && res.data) {
-                console.log(res.data);
                 const d = res.data
-                    .filter(item => item.active)  // Only include items where active is true
+                    .filter(item => item.active)
                     .map(item => {
-                        return {label: item.name, value: item.name};
+                        return { label: item.name, value: item.name };
                     });
                 setListCategory(d);
             }
@@ -42,11 +85,10 @@ const Product = () => {
         const initBrand = async () => {
             const res = await callFetchBrand();
             if (res && res.data) {
-                console.log(res.data);
                 const d = res.data
-                    .filter(item => item.active)  // Only include items where active is true
+                    .filter(item => item.active)
                     .map(item => {
-                        return {label: item.name, value: item.name};
+                        return { label: item.name, value: item.name };
                     });
                 setListBrand(d);
             }
@@ -55,34 +97,28 @@ const Product = () => {
         initBrand();
     }, []);
 
-
     useEffect(() => {
         fetchProduct();
     }, [current, pageSize, filter, sortQuery]); //searchTerm
 
     const fetchProduct = async () => {
-        setIsLoading(true)
+        setIsLoading(true);
         let query = `page=${current}&size=${pageSize}`;
         if (filter) {
             query += `&${filter}`;
         }
-        // if (searchTerm){
-        //     query += ` and name~'${searchTerm}' `;
-        // }
         if (sortQuery) {
             query += `&${sortQuery}`;
         }
 
         const res = await callFetchProduct(query);
 
-        console.log(res)
-
         if (res && res.data) {
             setListProduct(res.data.result);
-            setTotal(res.data.meta.total)
+            setTotal(res.data.meta.total);
         }
-        setIsLoading(false)
-    }
+        setIsLoading(false);
+    };
 
     const handleOnchangePage = (pagination) => {
         if (pagination && pagination.current !== current) {
@@ -209,14 +245,14 @@ const Product = () => {
     }
 
     return (
-        <div style={{background: '#dde8f8', padding: "20px 0"}}>
-            <div className="homepage-container" style={{maxWidth: 1440, margin: '0 auto'}}>
+        <div style={{ background: '#dde8f8', padding: "20px 0" }}>
+            <div className="homepage-container" style={{ maxWidth: 1440, margin: '0 auto' }}>
                 <Row gutter={[20, 20]}>
                     <Col md={4} sm={0} xs={0}>
-                        <div style={{padding: "20px", background: '#fff', borderRadius: 5}}>
-                            <div style={{display: 'flex', justifyContent: "space-between"}}>
-                                <span> <FilterTwoTone/>
-                                    <span style={{fontWeight: 500}}> Bộ lọc tìm kiếm</span>
+                        <div style={{ padding: "20px", background: '#fff', borderRadius: 5 }}>
+                            <div style={{ display: 'flex', justifyContent: "space-between" }}>
+                                <span> <FilterTwoTone />
+                                    <span style={{ fontWeight: 500 }}> Bộ lọc tìm kiếm</span>
                                 </span>
                                 <ReloadOutlined title="Reset" onClick={() => {
                                     form.resetFields();
@@ -224,7 +260,7 @@ const Product = () => {
                                 }}
                                 />
                             </div>
-                            <Divider/>
+                            <Divider />
 
                             <Form
                                 onFinish={onFinish}
@@ -234,13 +270,13 @@ const Product = () => {
                                 <Form.Item
                                     name="category"
                                     label="Danh mục sản phẩm"
-                                    labelCol={{span: 24}}
+                                    labelCol={{ span: 24 }}
                                 >
                                     <Checkbox.Group>
                                         <Row>
                                             {listCategory?.map((item, index) => {
                                                 return (
-                                                    <Col span={24} key={`index-${index}`} style={{padding: '7px 0'}}>
+                                                    <Col span={24} key={`index-${index}`} style={{ padding: '7px 0' }}>
                                                         <Checkbox value={item.value}>
                                                             {item.label}
                                                         </Checkbox>
@@ -250,19 +286,19 @@ const Product = () => {
                                         </Row>
                                     </Checkbox.Group>
                                 </Form.Item>
-                                <Divider/>
+                                <Divider />
 
                                 <Form.Item
                                     name="brand"
                                     label="Thương hiệu"
-                                    labelCol={{span: 24}}
+                                    labelCol={{ span: 24 }}
                                 >
                                     <Checkbox.Group>
                                         <Row>
                                             {listBrand?.map((item, index) => {
                                                 return (
                                                     <Col span={24} key={`index-brand-${index}`}
-                                                         style={{padding: '7px 0'}}>
+                                                        style={{ padding: '7px 0' }}>
                                                         <Checkbox value={item.value}>
                                                             {item.label}
                                                         </Checkbox>
@@ -272,14 +308,14 @@ const Product = () => {
                                         </Row>
                                     </Checkbox.Group>
                                 </Form.Item>
-                                <Divider/>
+                                <Divider />
 
 
                                 <Form.Item
                                     label="Khoảng giá"
-                                    labelCol={{span: 24}}
+                                    labelCol={{ span: 24 }}
                                 >
-                                    <Row gutter={[10, 10]} style={{width: "100%"}}>
+                                    <Row gutter={[10, 10]} style={{ width: "100%" }}>
                                         <Col xl={11} md={24}>
                                             <Form.Item name={["range", 'from']}>
                                                 <InputNumber
@@ -287,7 +323,7 @@ const Product = () => {
                                                     min={0}
                                                     placeholder="đ TỪ"
                                                     // formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    style={{width: '100%'}}
+                                                    style={{ width: '100%' }}
                                                 />
                                             </Form.Item>
                                         </Col>
@@ -301,17 +337,17 @@ const Product = () => {
                                                     min={0}
                                                     placeholder="đ ĐẾN"
                                                     // formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                                    style={{width: '100%'}}
+                                                    style={{ width: '100%' }}
                                                 />
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <div>
                                         <Button onClick={() => form.submit()}
-                                                style={{width: "100%"}} type='primary'>Áp dụng</Button>
+                                            style={{ width: "100%" }} type='primary'>Áp dụng</Button>
                                     </div>
                                 </Form.Item>
-                                <Divider/>
+                                <Divider />
                                 {/*<Form.Item*/}
                                 {/*    label="Đánh giá"*/}
                                 {/*    labelCol={{span: 24}}*/}
@@ -343,7 +379,7 @@ const Product = () => {
 
                     <Col md={20} xs={24}>
                         <Spin spinning={isLoading} tip="Loading...">
-                            <div style={{padding: "20px", background: '#fff', borderRadius: 5}}>
+                            <div style={{ padding: "20px", background: '#fff', borderRadius: 5 }}>
                                 <Row>
                                     <Tabs
                                         defaultActiveKey="sort=-sold"
@@ -351,19 +387,19 @@ const Product = () => {
                                         onChange={(value) => {
                                             setSortQuery(value)
                                         }}
-                                        style={{overflowX: "auto"}}
+                                        style={{ overflowX: "auto" }}
                                     />
                                 </Row>
                                 <Row className='customize-row'>
                                     {listProduct?.map((item, index) => {
                                         return (
                                             <div className="column" key={`product-${index}`}
-                                                 onClick={() => handleRedirectProduct(item)}>
+                                                onClick={() => handleRedirectProduct(item)}>
                                                 <div className='wrapper'>
                                                     <div className='thumbnail'>
                                                         <img
                                                             src={`${import.meta.env.VITE_BACKEND_URL}/storage/product/${item.thumbnail}`}
-                                                            alt="Thumbnail Product"/>
+                                                            alt="Thumbnail Product" />
                                                     </div>
                                                     <div className='text' title={item.name}>{item.name}</div>
                                                     <div className='price'>
@@ -430,7 +466,7 @@ const Product = () => {
                                                     </div>
                                                     <div className='rating'>
                                                         <Rate value={5} disabled
-                                                              style={{color: '#ffce3d', fontSize: 10}}/>
+                                                            style={{ color: '#ffce3d', fontSize: 10 }} />
                                                         <span>Đã bán {item.sold}</span>
                                                     </div>
                                                 </div>
@@ -440,14 +476,14 @@ const Product = () => {
                                     })}
 
                                 </Row>
-                                <div style={{marginTop: 30}}></div>
-                                <Row style={{display: "flex", justifyContent: "center"}}>
+                                <div style={{ marginTop: 30 }}></div>
+                                <Row style={{ display: "flex", justifyContent: "center" }}>
                                     <Pagination
                                         current={current}
                                         total={total}
                                         pageSize={pageSize}
                                         responsive
-                                        onChange={(p, s) => handleOnchangePage({current: p, pageSize: s})}
+                                        onChange={(p, s) => handleOnchangePage({ current: p, pageSize: s })}
                                     />
                                 </Row>
                             </div>
