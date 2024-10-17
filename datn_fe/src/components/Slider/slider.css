@@ -3,7 +3,24 @@
     --white: #ffffff;
     --bg: #f5f5f5;
 }
+/* Thay đổi hình dáng và kích thước cho dots */
+.ant-carousel .slick-dots li {
+    width: 20px; /* Chiều rộng của dấu chấm */
+    height: 5px; /* Chiều cao của dấu chấm */
+    margin: 0 5px; /* Thêm khoảng cách giữa các dấu chấm */
+}
 
+.ant-carousel .slick-dots li button {
+    border-radius: 5px; /* Bo góc cho dấu chấm để tạo thành hình chữ nhật */
+    background: #333333; /* Màu sắc cho dấu chấm */
+    opacity: 0.5; /* Đặt độ mờ cho dấu chấm không hoạt động */
+    transition: background 0.3s, opacity 0.3s; /* Hiệu ứng chuyển đổi khi hover */
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+    background: #333333; /* Màu sắc cho dấu chấm đang hoạt động */
+    opacity: 1; /* Đặt độ mờ cho dấu chấm đang hoạt động */
+}
 .slider-container {
     display: flex; /* Sử dụng Flexbox để tạo 2 cột */
     justify-content: space-between; /* Căn chỉnh không gian giữa các cột */

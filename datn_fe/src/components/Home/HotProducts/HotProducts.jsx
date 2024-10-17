@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import HotProductHeader from './HotProductHeader';
 import HotProductCard from './HotProductCard';
 import HotProductButton from './HotProductButton';
@@ -8,8 +8,8 @@ import './HotProducts.css';
 
 const HotProducts = () => {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true); // Thêm loading state
-    const navigate = useNavigate(); // Initialize navigate
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const convertSlug = (str) => {
         return str.toLowerCase()
@@ -20,20 +20,19 @@ const HotProducts = () => {
     };
 
     const handleRedirectProduct = (product) => {
-        const slug = convertSlug(product.name); // Chuyển đổi tên sản phẩm thành slug
-        navigate(`/product/${slug}?id=${product.id}`); // Điều hướng đến trang chi tiết sản phẩm
+        const slug = convertSlug(product.name);
+        navigate(`/product/${slug}?id=${product.id}`);
     };
 
     useEffect(() => {
         const fetchHotProducts = async () => {
             try {
-                const response = await callFetchProduct('hot=true');
-                console.log('API Response:', response); // In ra để kiểm tra cấu trúc dữ liệu
+                const response = await callFetchProduct('hot=true&active=true');
+                console.log('API Response:', response);
                 if (response && response.data) {
-                    // Kiểm tra xem response.data.result có phải là mảng không
                     if (Array.isArray(response.data.result)) {
-                        // Lấy 4 sản phẩm hot
-                        setProducts(response.data.result.slice(0, 4)); // Sửa để lấy từ response.data.result
+                        const filteredProducts = response.data.result.filter(product => product.hot && product.active);
+                        setProducts(filteredProducts.slice(0, 4)); // Chỉ lấy 4 sản phẩm hot và active
                     } else {
                         console.error('response.data.result is not an array:', response.data.result);
                     }
@@ -41,7 +40,7 @@ const HotProducts = () => {
             } catch (error) {
                 console.error('Error fetching hot products:', error);
             } finally {
-                setLoading(false); // Đặt loading thành false khi hoàn thành
+                setLoading(false);
             }
         };
 
@@ -52,8 +51,10 @@ const HotProducts = () => {
         <div>
             <HotProductHeader />
             <div className="product-container">
-                {loading ? ( // Kiểm tra trạng thái loading
+                {loading ? (
                     <div>Loading...</div>
+                ) : products.length === 0 ? (
+                    <div>No hot products available.</div> // Hiển thị nếu không có sản phẩm hot
                 ) : (
                     products.map((product) => (
                         <HotProductCard 

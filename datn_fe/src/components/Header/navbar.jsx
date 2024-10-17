@@ -170,7 +170,7 @@ const Navbar = (props) => {
 
                         <div className="search-bar">
                             <Input.Search
-                                placeholder="Search books..."
+                                placeholder="Search "
                                 enterButton
                                 value={props.searchTerm}
                                 onChange={(e) => props.setSearchTerm(e.target.value)}
