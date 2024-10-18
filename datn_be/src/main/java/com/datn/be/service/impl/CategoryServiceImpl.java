@@ -45,12 +45,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse update(CategoryUpdateRequestDTO categoryUpdateRequestDTO) {
-
         Category category = this.getCategoryById(categoryUpdateRequestDTO.getId());
         category.setName(categoryUpdateRequestDTO.getName());
         category.setThumbnail(categoryUpdateRequestDTO.getThumbnail());
         category.setDescription(categoryUpdateRequestDTO.getDescription());
         category.setHot(categoryUpdateRequestDTO.isHot());
+        category.setActive(categoryUpdateRequestDTO.isActive());
+
         return CategoryResponse.fromCategoryToCategoryResponse(categoryRepository.save(category));
     }
 

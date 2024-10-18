@@ -1,4 +1,3 @@
-
 import Slider from "../Slider/slider.jsx";
 import ImageLayout from "../Home/ImageLayout/ImageLayout.jsx";
 import HotProducts from "../Home/HotProducts/HotProducts.jsx";

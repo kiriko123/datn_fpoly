@@ -298,7 +298,7 @@ const Product = () => {
                                             {listBrand?.map((item, index) => {
                                                 return (
                                                     <Col span={24} key={`index-brand-${index}`}
-                                                        style={{ padding: '7px 0' }}>
+                                                         style={{ padding: '7px 0' }}>
                                                         <Checkbox value={item.value}>
                                                             {item.label}
                                                         </Checkbox>
@@ -344,7 +344,7 @@ const Product = () => {
                                     </Row>
                                     <div>
                                         <Button onClick={() => form.submit()}
-                                            style={{ width: "100%" }} type='primary'>Áp dụng</Button>
+                                                style={{ width: "100%" }} type='primary'>Áp dụng</Button>
                                     </div>
                                 </Form.Item>
                                 <Divider />
@@ -394,7 +394,7 @@ const Product = () => {
                                     {listProduct?.map((item, index) => {
                                         return (
                                             <div className="column" key={`product-${index}`}
-                                                onClick={() => handleRedirectProduct(item)}>
+                                                 onClick={() => handleRedirectProduct(item)}>
                                                 <div className='wrapper'>
                                                     <div className='thumbnail'>
                                                         <img
@@ -466,7 +466,7 @@ const Product = () => {
                                                     </div>
                                                     <div className='rating'>
                                                         <Rate value={5} disabled
-                                                            style={{ color: '#ffce3d', fontSize: 10 }} />
+                                                              style={{ color: '#ffce3d', fontSize: 10 }} />
                                                         <span>Đã bán {item.sold}</span>
                                                     </div>
                                                 </div>

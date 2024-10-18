@@ -20,7 +20,7 @@ const BrandList = () => {
 
     // Điều hướng đến trang sản phẩm với bộ lọc kết hợp
     navigate(`/product?filter=${encodeURIComponent(newFilter)}`);
-  };  
+  };
 
   useEffect(() => {
     fetchBrands();
@@ -49,17 +49,17 @@ const BrandList = () => {
   };
 
   return (
-    <div className="brand-list">
-      {brands.map((brand) => (
-        <div
-          key={brand.name}
-          className={`brand-item ${brand.name.toLowerCase()}`}
-          onClick={() => handleBrandClick(brand.name)} // Sử dụng handleBrandClick để xử lý click
-        >
-          <img src={`${import.meta.env.VITE_BACKEND_URL}/storage/brand/${brand.thumbnail}`} alt={brand.name} />
-        </div>
-      ))}
-    </div>
+      <div className="brand-list">
+        {brands.map((brand) => (
+            <div
+                key={brand.name}
+                className={`brand-item ${brand.name.toLowerCase()}`}
+                onClick={() => handleBrandClick(brand.name)} // Sử dụng handleBrandClick để xử lý click
+            >
+              <img src={`${import.meta.env.VITE_BACKEND_URL}/storage/brand/${brand.thumbnail}`} alt={brand.name} />
+            </div>
+        ))}
+      </div>
   );
 };
 
