@@ -98,8 +98,8 @@ export const callCreateBrand = ({ name, description, thumbnail }) => {
     return axios.post('/api/v1/brand', { name, description, thumbnail });
 }
 
-export const callUpdateBrand = ({ id, name, description, thumbnail }) => {
-    return axios.put(`/api/v1/brand`, { id, name, description, thumbnail });
+export const callUpdateBrand = ({ id, name, description, thumbnail, active }) => {
+    return axios.put(`/api/v1/brand`, { id, name, description, thumbnail, active });
 }
 
 // Hàm cho Category
@@ -115,8 +115,8 @@ export const callDeleteCategory = (categoryId) => {
     return axios.delete(`/api/v1/category/${categoryId}`);
 }
 
-export const callUpdateCategory = ({ id, name, thumbnail, description, hot, active }) => {
-    return axios.put(`/api/v1/category`, { id, name, thumbnail, description, hot, active });
+export const callUpdateCategory = ({ id, name, thumbnail, description, hot }) => {
+    return axios.put(`/api/v1/category`, { id, name, thumbnail, description, hot });
 }
 ////////////////////////// product crud api//////////////////////////////////
 export const callFetchCategory = () => {
@@ -142,3 +142,9 @@ export const callFetchProductById = (id) => {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
+//////// check out ///////
+export const callCheckOut = (data) => {
+    return axios.post('/api/v1/payment/create-payment-intent', data);
+}
+
+///////////////////////////////////

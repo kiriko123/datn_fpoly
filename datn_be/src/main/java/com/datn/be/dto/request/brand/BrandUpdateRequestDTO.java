@@ -18,4 +18,5 @@ public class BrandUpdateRequestDTO {
     String name;
     String description;
     String thumbnail;
+    Boolean active;
 }

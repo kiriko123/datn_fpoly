@@ -1,8 +1,8 @@
 import React from 'react';
 import './ImageLayout.css';
-import banner1 from '../../assets/images/banner1.jpg';
-import banner3 from '../../assets/images/banner3.jpg';
-import banner4 from '../../assets/images/banner4.jpg';
+import banner1 from '../../../assets/images/banner1.jpg';
+import banner3 from '../../../assets/images/banner3.jpg';
+import banner4 from '../../../assets/images/banner4.jpg';
 
 const ImageLayout = () => {
   return (

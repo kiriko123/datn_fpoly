@@ -1,0 +1,10 @@
+.product-container {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center items horizontally */
+    gap: 20px; /* Space between items, adjust as needed */
+    padding: 20px; /* Optional: padding around the grid */
+    flex-direction: row;
+}
+
+

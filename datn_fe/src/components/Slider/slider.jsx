@@ -2,18 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Carousel, Image, Spin } from 'antd';
 import { callFetchListSlider } from "../../services/api.js";
 import './slider.css'; // Nhập file CSS để áp dụng các kiểu
+import { useNavigate } from 'react-router-dom';
 
 const SliderHome = () => {
-    const [sliders, setSliders] = useState([]);
+    const [slider, setSlider] = useState([]); 
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
+    const handleBuyNow = () => {
+        navigate('/product');
+    }
 
     useEffect(() => {
-        const fetchSliders = async () => {
+        const fetchLatestSlider = async () => {
             setLoading(true);
             try {
-                const res = await callFetchListSlider("page=1&size=5"); // Lấy 5 slider đầu tiên
+                const res = await callFetchListSlider("page=1&size=5"); // Sắp xếp theo createdAt giảm dần
                 if (res && res.data) {
-                    setSliders(res.data.result);
+                    setSlider(res.data.result); // Lấy slider mới nhất
                 }
             } catch (error) {
                 console.error("Error fetching sliders:", error);
@@ -22,29 +28,38 @@ const SliderHome = () => {
             }
         };
 
-        fetchSliders();
+        fetchLatestSlider();
     }, []);
 
     if (loading) {
         return <Spin size="small" />;
     }
 
+    if (!slider) {
+        return <div>No slider available</div>; // Trường hợp không có dữ liệu slider
+    }
+
     return (
-        <div className="slider-container"> {/* Thêm div để kiểm soát kích thước */}
-            <Carousel autoplay autoplaySpeed={1000} dots>
-                {sliders.map(slider => (
-                    <div key={slider.id}>
+        <Carousel autoplay autoplaySpeed={4000} dots>
+        {slider.map((item) => (
+            <div key={slider.id}>
+                <div className="slider-container">
+                    <div className="text-column">
+                        <h2>{item.title}</h2>
+                        <p>{item.description}</p>
+                        <button className="slider-button" onClick={handleBuyNow}>MUA NGAY</button>
+                    </div>
+                    <div className="image-column">
                         <Image
-                            width="100%"
-                            height="100%" // Đặt chiều cao là 100%
-                            src={`${import.meta.env.VITE_BACKEND_URL}/storage/slider/${slider.imgUrl}`}
-                            alt={slider.title}
-                            style={{ objectFit: 'cover', height: '50rem' }} // Đặt chiều cao cụ thể cho ảnh
+                            src={`${import.meta.env.VITE_BACKEND_URL}/storage/slider/${item.imgUrl}`}
+                            alt={item.title}
                         />
                     </div>
-                ))}
-            </Carousel>
-        </div>
+                </div>
+            </div>
+        ))}
+    </Carousel>
+
     );
 };
 

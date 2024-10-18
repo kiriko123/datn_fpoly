@@ -1,0 +1,58 @@
+
+
+.product-card {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 250px;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+.image-container {
+    position: relative; /* Positioning context for the name and search icon */
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+}
+
+.product-name {
+    position: absolute; /* Positioning the name over the image */
+    bottom: 10px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%); /* Center the name horizontally */
+    background-color: rgba(255, 255, 255, 0.7); /* Optional: background for better visibility */
+    padding: 5px; /* Optional: padding for better appearance */
+    border-radius: 5px; /* Optional: rounded corners */
+    font-size: 14px; /* Adjust font size as needed */
+    color: #333; /* Text color */
+    display: none; /* Hide by default */
+}
+
+.product-card:hover .product-name {
+    display: block; /* Show name on hover */
+}
+
+
+
+.search-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+}
+
+.product-card:hover .search-icon {
+    display: block; /* Show icon on hover */
+}

@@ -23,12 +23,14 @@ import ManageBrandPage from './pages/admin/brand/index.jsx';
 import ManageCategoryPage from "./pages/admin/category/index.jsx";
 import ManageSliderPage from "./pages/admin/slider/index.jsx";
 
- // Thêm import cho SliderCRUD
+// Thêm import cho SliderCRUD
 import ViewOrder from "./components/Order/ViewOrder.jsx";
 import ManageProductPage from "./pages/admin/product/index.jsx";
 import Navbar from "./components/Header/navbar.jsx";
 import Product from "./components/Product/index.jsx";
 import ProductDetail from "./pages/productDetail/index.jsx";
+import OrderPage from "./pages/order/index.jsx";
+import About from './pages/about/about.jsx';
 
 
 
@@ -81,15 +83,19 @@ export default function App() {
 
                 {
                     path: "/order", //Làm rùi mà :(
-                    element: <ViewOrder />
+                    element: <OrderPage />
                 },
                 {
                     path: "/product",
-                    element: <Product/>
+                    element: <Product />
+                },
+                {
+                    path: "/about",
+                    element: <About />
                 },
                 {
                     path: "product/:slug",
-                    element: <ProductDetail/>
+                    element: <ProductDetail />
                 },
             ]
 
@@ -134,7 +140,7 @@ export default function App() {
                 },
                 {
                     path: "product",
-                    element: <ManageProductPage/>,
+                    element: <ManageProductPage />,
                 }
 
             ]
