@@ -12,6 +12,7 @@
     max-width: 250px;
     position: relative;
     transition: transform 0.3s;
+    cursor: pointer;
 }
 
 .product-card:hover {

@@ -1,116 +1,71 @@
-/*.brand-list {*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*  gap: 5px;*/
-/*  padding: 20px 50px;*/
-/*  margin-top: 0;*/
-/*  position: sticky;*/
-/*  top: 0;*/
-/*  background-color: #fff;*/
-/*  z-index: 100;*/
-/*  !* Đảm bảo nó nằm trên các phần tử khác *!*/
-/*}*/
+/* Chỉ áp dụng style cho brand-list section */
+.brand-section .brand-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 20px 50px;
+    margin-top: 0;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 100;
+}
 
-/*.brand-item {*/
-/*  flex: 1;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*  margin: 0 5px;*/
-/*  padding: 8px;*/
-/*  background-color: #e0e0e0;*/
-/*  border-radius: 8px;*/
-/*  max-width: 150px;*/
-/*}*/
+/* Chỉ áp dụng cho các phần tử brand-item bên trong .brand-section */
+.brand-section .brand-item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    padding: 8px;
+    background-color: #e0e0e0;  
+    border-radius: 8px;
+    max-width: 150px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
 
-/*.brand-item img {*/
-/*  max-width: 100%;*/
-/*  max-height: 35px;*/
-/*  object-fit: contain;*/
-/*}*/
+.brand-section .brand-item:hover {
+    transform: scale(1.1);
+    background-color: #999999;
+}
 
-/*.image-wrapper:hover .overlay {*/
-/*  opacity: 1;*/
-/*  !* Hiện overlay khi di chuột *!*/
-/*}*/
+.brand-section .brand-item img {
+    max-width: 100%;
+    max-height: 35px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
 
-/*a.brand-list {*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*  gap: 5px;*/
-/*  padding: 20px 50px;*/
-/*  margin-top: 0;*/
-/*  position: sticky;*/
-/*  top: 0;*/
-/*  background-color: #fff;*/
-/*  z-index: 100;*/
-/*  !* Đảm bảo brand-list nằm trên các phần tử khác *!*/
-/*}*/
+.brand-section .brand-item:hover img {
+    transform: scale(1.1);
+}
 
-/*.brand-item {*/
-/*  position: relative;*/
-/*  !* Để sử dụng overlay *!*/
-/*  flex: 1;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*  margin: 0 5px;*/
-/*  padding: 8px;*/
-/*  background-color: #e0e0e0;*/
-/*  border-radius: 8px;*/
-/*  max-width: 150px;*/
-/*  transition: transform 0.3s ease, background-color 0.3s ease;*/
-/*  !* Thêm transition để tạo hiệu ứng mượt mà khi hover *!*/
-/*}*/
+/* Overlay hiệu ứng */
+.brand-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+}
 
-/*.brand-item:hover {*/
-/*  transform: scale(1.1);*/
-/*  !* Phóng to item khi hover *!*/
-/*  background-color: #cfcfcf;*/
-/*  !* Đổi màu nền khi hover *!*/
-/*}*/
+.brand-section .brand-item:hover .overlay {
+    opacity: 1;
+}
 
-/*.brand-item img {*/
-/*  max-width: 100%;*/
-/*  max-height: 35px;*/
-/*  object-fit: contain;*/
-/*  transition: transform 0.3s ease;*/
-/*  !* Thêm hiệu ứng chuyển động cho hình ảnh *!*/
-/*}*/
-
-/*.brand-item:hover img {*/
-/*  transform: scale(1.1);*/
-/*  !* Phóng to hình ảnh khi hover *!*/
-/*}*/
-
-/*!* Overlay hiệu ứng *!*/
-/*.overlay {*/
-/*  position: absolute;*/
-/*  top: 0;*/
-/*  left: 0;*/
-/*  right: 0;*/
-/*  bottom: 0;*/
-/*  background-color: rgba(0, 0, 0, 0.5);*/
-/*  opacity: 0;*/
-/*  transition: opacity 0.3s ease;*/
-/*  border-radius: 8px;*/
-/*  !* Đảm bảo overlay có viền bo tròn giống với brand-item *!*/
-/*}*/
-
-/*.brand-item:hover .overlay {*/
-/*  opacity: 1;*/
-/*  !* Hiển thị overlay khi hover *!*/
-/*}*/
-
-/*.overlay h3 {*/
-/*  color: white;*/
-/*  position: absolute;*/
-/*  top: 50%;*/
-/*  left: 50%;*/
-/*  transform: translate(-50%, -50%);*/
-/*  font-size: 18px;*/
-/*  text-align: center;*/
-/*  !* Định dạng nội dung hiển thị trong overlay *!*/
-/*}*/
+.brand-section .overlay h3 {
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    text-align: center;
+}

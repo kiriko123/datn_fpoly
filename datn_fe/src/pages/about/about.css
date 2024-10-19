@@ -1,58 +1,58 @@
-.about-container {
+.about-page .about-container {
     padding: 40px;
     background-color: #f4f4f4;
 }
 
-.about-title {
+.about-page .about-title {
     text-align: center;
     font-size: 36px;
     margin-bottom: 40px;
 }
 
-.about-content {
+.about-page .about-content {
     text-align: justify;
     font-size: 18px;
     line-height: 1.8;
 }
 
-.section-title {
+.about-page .section-title {
     font-size: 30px;
     margin-bottom: 30px;
 }
 
-.image-container {
+.about-page .image-container {
     border-radius: 8px;
     overflow: hidden;
-    /* Thêm hiệu ứng bo tròn cho hình ảnh */
+   
 }
 
-ul {
+.about-page ul {
     list-style-type: none;
     padding: 0;
 }
 
-ul li {
+.about-page ul li {
     margin: 5px 0;
-    /* Khoảng cách giữa các mục */
+   
 }
 
-.contact-info {
+.about-page .contact-info {
     margin-top: 20px;
 }
 
-.image-wrapper {
+.about-page .image-wrapper {
     position: relative;
     display: inline-block;
 }
 
-.overlay {
+.about-page .overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Màu nền tối với độ trong suốt */
+   
     color: white;
     display: flex;
     justify-content: center;
@@ -62,7 +62,7 @@ ul li {
     transition: opacity 0.3s ease;
 }
 
-.image-wrapper:hover .overlay {
+.about-page .image-wrapper:hover .overlay {
     opacity: 1;
-    /* Hiện overlay khi di chuột */
+    
 }

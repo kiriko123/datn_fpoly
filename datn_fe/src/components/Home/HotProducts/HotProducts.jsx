@@ -22,6 +22,9 @@ const HotProducts = () => {
     const handleRedirectProduct = (product) => {
         const slug = convertSlug(product.name);
         navigate(`/product/${slug}?id=${product.id}`);
+
+        //Cuộn lên đầu trang khi lọc xongs
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
     useEffect(() => {
