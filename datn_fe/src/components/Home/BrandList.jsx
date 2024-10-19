@@ -33,6 +33,8 @@ const BrandList = () => {
         const activeBrands = res.data.result.filter(brand => brand.active === true);
         setBrands(activeBrands);
         console.log('Thương hiệu:', activeBrands);
+
+        
       } else {
         console.error('Invalid data format received from API');
         setBrands([]);
@@ -46,21 +48,30 @@ const BrandList = () => {
   const handleBrandClick = (brandName) => {
     console.log('Thương hiệu được chọn:', brandName);
     handleBrand(brandName); // Gọi hàm handleBrand khi click vào thương hiệu
+
+    //Cuộn lên đầu trang khi lọc xong
+    window.scrollTo({top: 0, behavior: 'smooth'});
   };
 
   return (
+    <div className="brand-section">
       <div className="brand-list">
         {brands.map((brand) => (
-            <div
-                key={brand.name}
-                className={`brand-item ${brand.name.toLowerCase()}`}
-                onClick={() => handleBrandClick(brand.name)} // Sử dụng handleBrandClick để xử lý click
-            >
-              <img src={`${import.meta.env.VITE_BACKEND_URL}/storage/brand/${brand.thumbnail}`} alt={brand.name} />
-            </div>
+          <div
+            key={brand.name}
+            className={`brand-item ${brand.name.toLowerCase()}`}
+            onClick={() => handleBrandClick(brand.name)}
+          >
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}/storage/brand/${brand.thumbnail}`}
+              alt={brand.name}
+            />
+          </div>
         ))}
       </div>
+    </div>
   );
+  
 };
 
 export default BrandList;

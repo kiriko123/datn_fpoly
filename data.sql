@@ -1,4 +1,14 @@
 
+-- Table Users
+INSERT INTO users (first_name, name, password, email, enabled, gender, age, phone_number, address, created_at, updated_at, created_by, role_id, google_account) 
+VALUES 
+('Sy', 'Le', '1234', 'sy@gmail.com', true, 'MALE', 20, '0123456789', '123 Street A', NOW(), NOW(), 'admin', 1, false),
+('Khang', 'Duong', 'khang', 'khangduong@gmail.com', true, 'MALE', 20, '0123456780', '456 Street B', NOW(), NOW(), 'admin', 1, false),
+('Minh', 'Nguyen', 'nhatminh', 'nhatminh@gmail.com', true, 'MALE', 20, '0123456781', '789 Street C', NOW(), NOW(), 'admin', 2, false),
+('Vui', 'Nguyen', '123', 'baovui@gmail.com', true, 'FEMALE', 20, '0123456782', '321 Street D', NOW(), NOW(), 'admin', 2, false),
+('Nhi', 'Nguyen', '1234', 'hongnhi@gmail.com', true, 'FEMALE', 20, '0123456783', '654 Street E', NOW(), NOW(), 'admin', 2, false);
+
+-- Table brand
 INSERT INTO brands (name, thumbnail, description, active, created_at, updated_at, created_by, updated_by)
 VALUES
 ('Dell', 'dell.png', 'Thương hiệu laptop Dell', true, NOW(), NOW(), 'admin', 'admin'),
@@ -7,6 +17,7 @@ VALUES
 ('Asus', 'asus.png', 'Thương hiệu laptop Asus', true, NOW(), NOW(), 'admin', 'admin'),
 ('Lenovo', 'lenovo.png', 'Thương hiệu laptop Lenovo', true, NOW(), NOW(), 'admin', 'admin');
 
+-- Table Categories
 INSERT INTO categories (name, thumbnail, description, hot, active, created_at, updated_at, created_by, updated_by)
 VALUES
 ('Laptop', 'laptop.png', 'Danh mục sản phẩm Laptop', true, true, NOW(), NOW(), 'admin', 'admin'),
@@ -15,6 +26,7 @@ VALUES
 ('Màn hình', 'monitor.png', 'Danh mục màn hình máy tính', true, true, NOW(), NOW(), 'admin', 'admin'),
 ('Tai nghe', 'headset.png', 'Danh mục tai nghe', false, true, NOW(), NOW(), 'admin', 'admin');
 
+-- Table Products
 INSERT INTO products (name, price, discount, thumbnail, quantity, sold, description, active, sale, hot, category_id, brand_id, created_at, updated_at, created_by, updated_by)
 VALUES
 ('Dell XPS 13', 52990000.00, 10.00, 'Dell_XPS_13.jpg', 100, 50, 'Laptop Dell XPS 13 mạnh mẽ', true, true, true, 1, 1, NOW(), NOW(), 'admin', 'admin'),
@@ -46,3 +58,78 @@ VALUES
 ('Tai nghe gaming HyperX Cloud II', 1000000.00, 15.00, 'tai-nghe-bluetooth-chup-tai-havit-h663bt.jpg', 130, 60, 'Tai nghe gaming HyperX Cloud II', true, true, false, 5, 1, NOW(), NOW(), 'admin', 'admin'),
 ('Tai nghe Sony WH-1000XM4', 3500000.00, 0.00, 'tai-nghe-bluetooth-chup-tai-jbl.jpg', 80, 50, 'Tai nghe chống ồn Sony WH-1000XM4', true, false, true, 5, 3, NOW(), NOW(), 'admin', 'admin');
 
+-- Table Payment Method
+INSERT INTO payment_methods (name, description, created_at, updated_at) 
+VALUES 
+('Credit Card', 'Payment by credit card', NOW(), NOW()),
+('Paypal', 'Payment via Paypal', NOW(), NOW()),
+('Cash', 'Cash on delivery', NOW(), NOW()),
+('Zalo Pay', 'Payment by Zalo pay', NOW(), NOW());
+
+
+-- Table Order
+INSERT INTO orders (full_name, email, phone_number, address, total_money, shipping_method, shipping_address, shipping_date, status, description, user_id, payment_method_id, created_at, created_by) 
+VALUES 
+('Lê Văn Sỹ', 'sy@gmail.com', '0123456789', '123 Street A', 500, 'Standard', '123 Street A', NOW(), 'PENDING', 'First order', 1, 1, NOW(), 'admin'),
+('Dương Tấn Khang', 'khangduong@gmail.com', '0123456780', '456 Street B', 200, 'Express', '456 Street B', NOW(), 'SHIPPED', 'Second order', 2, 2, NOW(), 'admin'),
+('Nguyễn Nhật Minh', 'nhatminh@gmail.com', '0123456781', '789 Street C', 150, 'Standard', '789 Street C', NOW(), 'DELIVERED', 'Third order', 3, 3, NOW(), 'admin'),
+('Nguyễn Ngọc Bảo Vui', 'baovui@gmail.com', '0123456782', '321 Street D', 400, 'Standard', '321 Street D', NOW(), 'CANCELLED', 'Fourth order', 4, 4, NOW(), 'admin'),
+('Nguyễn Thị Hồng Nhi', 'hongnhi@gmail.com', '0123456783', '654 Street E', 240, 'Express', '654 Street E', NOW(), 'PENDING', 'Fifth order', 5, 4, NOW(), 'admin');
+
+
+-- Table Order Detail
+INSERT INTO order_details (price, total_money, quantity, order_id, product_id) 
+VALUES 
+(100, 500, 5, 1, 1), 
+(50, 200, 4, 2, 2), 
+(75, 150, 2, 3, 3), 
+(200, 400, 2, 4, 4), 
+(120, 240, 2, 5, 5);
+
+
+-- Table Rating
+INSERT INTO ratings (content, number_stars, user_id, product_id, created_at, updated_at, created_by) 
+VALUES 
+('Great product!', 5, 1, 1, NOW(), NOW(), 'admin'),
+('Not bad', 4, 2, 2, NOW(), NOW(), 'admin'),
+('Could be better', 3, 3, 3, NOW(), NOW(), 'admin'),
+('Terrible', 1, 4, 4, NOW(), NOW(), 'admin'),
+('Absolutely fantastic!', 5, 5, 5, NOW(), NOW(), 'admin');
+
+
+-- Table Slider
+INSERT INTO sliders (img_url, title, description, created_at, updated_at, created_by) 
+VALUES 
+('slider1.jpg', 'Laptop và Phụ Kiện Hiệu Suất Cao', 'Khám phá các dòng laptop và phụ kiện chất lượng từ những thương hiệu hàng đầu. Nâng cao hiệu quả công việc với công nghệ tốt nhất cho mọi nhu cầu.', NOW(), NOW(), 'admin'),
+('slider2.jpg', 'Khuyến Mãi Đặc Biệt', 'Nhận ngay ưu đãi khi mua laptop trong tháng này. Chỉ có tại cửa hàng của chúng tôi!', NOW(), NOW(), 'admin'),
+('slider3.jpg', 'Laptop Gaming Tối Tân', 'Chiến thắng mọi trò chơi với những mẫu laptop gaming được trang bị công nghệ mới nhất.', NOW(), NOW(), 'admin'),
+('slider4.jpg', 'Laptop Văn Phòng Hiện Đại', 'Làm việc hiệu quả với các mẫu laptop văn phòng thiết kế tinh tế, hiệu năng ổn định.', NOW(), NOW(), 'admin'),
+('slider5.jpg', 'Phụ Kiện Hỗ Trợ', 'Khám phá các phụ kiện như bàn phím, chuột và tai nghe giúp nâng cao trải nghiệm sử dụng laptop.', NOW(), NOW(), 'admin');
+
+
+-- Table Cart Detail
+INSERT INTO cart_details (quantity, user_id, product_id) 
+VALUES 
+(2, 1, 1), 
+(1, 2, 2), 
+(3, 3, 3), 
+(4, 4, 4), 
+(5, 5, 5);
+
+-- Table Vouchers
+INSERT INTO vouchers (voucher_code, voucher_value, description, start_date, end_date, active, created_at, updated_at, created_by, updated_by)
+VALUES 
+('VOUCHER1', 10.0, 'Giảm giá 10%', '2024-10-01 00:00:00', '2024-10-31 23:59:59', TRUE, NOW(), NOW(), 'admin', 'admin'),
+('VOUCHER2', 20.0, 'Giảm giá 20%', '2024-10-10 00:00:00', '2024-10-20 23:59:59', TRUE, NOW(), NOW(), 'admin', 'admin'),
+('VOUCHER3', 5.0, 'Giảm giá 5%', '2024-10-15 00:00:00', '2024-10-25 23:59:59', TRUE, NOW(), NOW(), 'admin', 'admin'),
+('VOUCHER4', 15.0, 'Giảm giá 15%', '2024-10-05 00:00:00', '2024-10-15 23:59:59', TRUE, NOW(), NOW(), 'admin', 'admin'),
+('VOUCHER5', 30.0, 'Giảm giá 30%', '2024-10-20 00:00:00', '2024-10-30 23:59:59', TRUE, NOW(), NOW(), 'admin', 'admin');
+
+-- Table VoucherUser
+INSERT INTO voucher_user (user_id, voucher_id, use_date)
+VALUES 
+(1, 1, '2024-10-10 10:00:00'),
+(1, 2, '2024-10-15 11:00:00'),
+(1, 3, '2024-10-18 12:00:00'),
+(1, 4, '2024-10-19 14:00:00'),
+(1, 5, '2024-10-20 09:00:00');
