@@ -15,17 +15,17 @@ const LocationSelect = ({ onAddressChange }) => {
     const [selectedWard, setSelectedWard] = useState(undefined);
 
     useEffect(() => {
-        axios.get("https://provinces.open-api.vn/api/p/")
+        axios.get("https://vapi.vnappmob.com/api/province/")
             .then((response) => {
-                setProvinces(response.data);
+                setProvinces(response.data.results);
             });
     }, []);
 
     useEffect(() => {
         if (selectedProvince) {
-            axios.get(`https://provinces.open-api.vn/api/p/${selectedProvince}?depth=2`)
+            axios.get(`https://vapi.vnappmob.com/api/province/district/${selectedProvince}`)
                 .then((response) => {
-                    setDistricts(response.data.districts);
+                    setDistricts(response.data.results);
                     setWards([]);
                 });
         } else {
@@ -36,9 +36,9 @@ const LocationSelect = ({ onAddressChange }) => {
 
     useEffect(() => {
         if (selectedDistrict) {
-            axios.get(`https://provinces.open-api.vn/api/d/${selectedDistrict}?depth=2`)
+            axios.get(`https://vapi.vnappmob.com/api/province/ward/${selectedDistrict}`)
                 .then((response) => {
-                    setWards(response.data.wards);
+                    setWards(response.data.results);
                 });
         } else {
             setWards([]);
@@ -59,9 +59,9 @@ const LocationSelect = ({ onAddressChange }) => {
     const handleWardChange = (value) => {
         setSelectedWard(value);
         onAddressChange(
-            provinces.find((p) => p.code === selectedProvince)?.name,
-            districts.find((d) => d.code === selectedDistrict)?.name,
-            wards.find((w) => w.code === value)?.name,
+            provinces.find((p) => p.province_id === selectedProvince)?.province_name,
+            districts.find((d) => d.district_id === selectedDistrict)?.district_name,
+            wards.find((w) => w.ward_id === value)?.ward_name,
             street
         );
     };
@@ -69,9 +69,9 @@ const LocationSelect = ({ onAddressChange }) => {
     const handleStreetChange = (e) => {
         setStreet(e.target.value);
         onAddressChange(
-            provinces.find((p) => p.code === selectedProvince)?.name,
-            districts.find((d) => d.code === selectedDistrict)?.name,
-            wards.find((w) => w.code === selectedWard)?.name,
+            provinces.find((p) => p.province_id === selectedProvince)?.province_name,
+            districts.find((d) => d.district_id === selectedDistrict)?.district_name,
+            wards.find((w) => w.ward_id === selectedWard)?.ward_name,
             e.target.value
         );
     };
@@ -85,8 +85,8 @@ const LocationSelect = ({ onAddressChange }) => {
                 style={{ width: '100%', marginBottom: '10px' }}
             >
                 {provinces.map((province) => (
-                    <Option key={province.code} value={province.code}>
-                        {province.name}
+                    <Option key={province.province_id} value={province.province_id}>
+                        {province.province_name}
                     </Option>
                 ))}
             </Select>
@@ -99,8 +99,8 @@ const LocationSelect = ({ onAddressChange }) => {
                 style={{ width: '100%', marginBottom: '10px' }}
             >
                 {districts.map((district) => (
-                    <Option key={district.code} value={district.code}>
-                        {district.name}
+                    <Option key={district.district_id} value={district.district_id}>
+                        {district.district_name}
                     </Option>
                 ))}
             </Select>
@@ -113,8 +113,8 @@ const LocationSelect = ({ onAddressChange }) => {
                 style={{ width: '100%', marginBottom: '10px' }}
             >
                 {wards.map((ward) => (
-                    <Option key={ward.code} value={ward.code}>
-                        {ward.name}
+                    <Option key={ward.ward_id} value={ward.ward_id}>
+                        {ward.ward_name}
                     </Option>
                 ))}
             </Select>

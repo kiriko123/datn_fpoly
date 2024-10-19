@@ -1,6 +1,6 @@
 import { Mutex } from "async-mutex";
 import axiosClient from "axios";
-import { notification } from "antd";
+import {message, notification} from "antd";
 
 /**
  * Creates an initial 'axios' instance with custom settings.
@@ -71,10 +71,11 @@ instance.interceptors.response.use(
 
         if (+error.response.status === 403) {
             console.log(error)
-            notification.error({
-                message: error?.response?.data?.message ?? "",
-                description: error?.response?.data?.error ?? ""
-            });
+            message.info(error?.response?.data?.message ?? "");
+            // notification.error({
+            //     message: error?.response?.data?.message ?? "",
+            //     description: error?.response?.data?.error ?? ""
+            // });
         }
 
         return error?.response?.data ?? Promise.reject(error);

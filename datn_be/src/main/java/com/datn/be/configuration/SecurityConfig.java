@@ -78,6 +78,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authz -> authz
                                 .requestMatchers(whiteList).permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/product").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/brand").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/category").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/category/getAll").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/brand/getAll").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/product").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/user").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.POST, "/api/v1/user/**").hasRole("ADMIN")
 

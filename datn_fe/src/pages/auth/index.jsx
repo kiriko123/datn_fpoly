@@ -36,10 +36,10 @@ export default function Auth() {
   return (
     <AuthContext.Provider value={store}>
         <div className="auth-page">
-          <Helmet>
-            <title>Authentication</title>
-            <meta name="description" content="React App authentication"/>
-          </Helmet>
+          {/*<Helmet>*/}
+          {/*  <title>Authentication</title>*/}
+          {/*  <meta name="description" content="React App authentication"/>*/}
+          {/*</Helmet>*/}
 
           {isTabletOrDesktop ? (
               <div className="auth-page-wrapper">
