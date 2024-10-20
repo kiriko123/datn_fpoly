@@ -17,9 +17,11 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    String productName;
+
     float price;
 
-    float totalMoney;
+    float discount;
 
     int quantity;
 
