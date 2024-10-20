@@ -20,6 +20,12 @@ const Payment = (props) => {
     const [form] = Form.useForm();
     const [fullAddress, setFullAddress] = useState('');
 
+    // Address parts for validation
+    const [selectedProvince, setSelectedProvince] = useState(null);
+    const [selectedDistrict, setSelectedDistrict] = useState(null);
+    const [selectedWard, setSelectedWard] = useState(null);
+    const [street, setStreet] = useState("");
+
     useEffect(() => {
         if (carts && carts.length > 0) {
             const sum = carts.reduce((acc, item) => {
@@ -75,6 +81,14 @@ const Payment = (props) => {
     };
 
     const onFinish = (values) => {
+        if (!selectedProvince || !selectedDistrict || !selectedWard || !street) {
+            notification.error({
+                message: 'Địa chỉ không đầy đủ!',
+                description: 'Vui lòng chọn đầy đủ tỉnh, huyện, xã và nhập số nhà, tên đường.',
+            });
+            return; // Prevent form submission if address is incomplete
+        }
+
         if (paymentMethod === 'cod') {
             handlePlaceOrder();
         } else if (paymentMethod === 'online') {
@@ -83,6 +97,10 @@ const Payment = (props) => {
     };
 
     const handleAddressChange = (province, district, ward, street) => {
+        setSelectedProvince(province);
+        setSelectedDistrict(district);
+        setSelectedWard(ward);
+        setStreet(street)
         let address = `${street ? street + ', ' : ''}${ward ? ward + ', ' : ''}${district ? district + ', ' : ''}${province}`;
         setFullAddress(address.trim().replace(/,\s*$/, ''));
     };
@@ -98,7 +116,7 @@ const Payment = (props) => {
                         <div className='order-book' key={`index-${index}`}>
                             <div className='book-content'>
                                 <img src={`${import.meta.env.VITE_BACKEND_URL}/storage/product/${book?.detail?.thumbnail}`} />
-                                <div className='title'>{book?.detail?.name}</div>
+                                <div className='text-emerald-00 text-lg'>{book?.detail?.name}</div>
                                 <div className='price'>
                                     Giá gốc: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currentBookPrice)}
                                     {discount > 0 && (

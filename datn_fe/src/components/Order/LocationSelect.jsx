@@ -26,7 +26,7 @@ const LocationSelect = ({ onAddressChange }) => {
             axios.get(`https://vapi.vnappmob.com/api/province/district/${selectedProvince}`)
                 .then((response) => {
                     setDistricts(response.data.results);
-                    setWards([]);
+                    setWards([]); // Clear wards when province changes
                 });
         } else {
             setDistricts([]);
@@ -49,31 +49,23 @@ const LocationSelect = ({ onAddressChange }) => {
         setSelectedProvince(value);
         setSelectedDistrict(undefined);
         setSelectedWard(undefined);
+        onAddressChange(value, null, null, street); // Update parent on address change
     };
 
     const handleDistrictChange = (value) => {
         setSelectedDistrict(value);
         setSelectedWard(undefined);
+        onAddressChange(selectedProvince, value, null, street); // Update parent on address change
     };
 
     const handleWardChange = (value) => {
         setSelectedWard(value);
-        onAddressChange(
-            provinces.find((p) => p.province_id === selectedProvince)?.province_name,
-            districts.find((d) => d.district_id === selectedDistrict)?.district_name,
-            wards.find((w) => w.ward_id === value)?.ward_name,
-            street
-        );
+        onAddressChange(selectedProvince, selectedDistrict, value, street); // Update parent on address change
     };
 
     const handleStreetChange = (e) => {
         setStreet(e.target.value);
-        onAddressChange(
-            provinces.find((p) => p.province_id === selectedProvince)?.province_name,
-            districts.find((d) => d.district_id === selectedDistrict)?.district_name,
-            wards.find((w) => w.ward_id === selectedWard)?.ward_name,
-            e.target.value
-        );
+        onAddressChange(selectedProvince, selectedDistrict, selectedWard, e.target.value); // Update parent on address change
     };
 
     return (

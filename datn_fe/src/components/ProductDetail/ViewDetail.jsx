@@ -88,7 +88,7 @@ const ViewDetail = (props) => {
 
                                     <div className=''>Brand: <a href='#'>{dataProduct?.brand?.name}</a></div>
 
-                                    <div className='title'>{dataProduct?.name}</div>
+                                    <div className='text-3xl'>{dataProduct?.name}</div>
                                     <div className='rating'>
                                         <Rate value={5} disabled style={{color: '#ffce3d', fontSize: 12}}/>
                                         <span className='sold'>
@@ -166,14 +166,20 @@ const ViewDetail = (props) => {
                                             <button onClick={() => handleChangeButton('PLUS')}><PlusOutlined/></button>
                                         </span>
                                     </div>
-                                    <div className='buy'>
-                                        <button className='cart'
-                                                onClick={() => handleAddToCart(currentQuantity, dataProduct)}>
-                                            <BsCartPlus className='icon-cart'/>
+                                    <div className='flex space-x-4 mt-4'>
+                                        <button
+                                            className='flex items-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300'
+                                            onClick={() => handleAddToCart(currentQuantity, dataProduct)}
+                                        >
+                                            <BsCartPlus className='mr-2 text-xl'/>
                                             <span>Thêm vào giỏ hàng</span>
                                         </button>
-                                        <button className='now'>Mua ngay</button>
+                                        {/*<button*/}
+                                        {/*    className='bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300'>*/}
+                                        {/*    Mua ngay*/}
+                                        {/*</button>*/}
                                     </div>
+
                                 </Col>
                             </Col>
                         </Row>
