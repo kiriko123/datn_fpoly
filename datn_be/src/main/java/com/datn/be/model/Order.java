@@ -23,24 +23,18 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    String fullName;
+    String receiverName;
 
-    String email;
+    String receiverPhone;
 
-    String phoneNumber;
+    String receiverAddress;
 
-    String address;
-
-    float totalMoney;
-
-    String shippingMethod;
-
-    String shippingAddress;
-
-    Instant shippingDate;
+    float totalPrice;
 
     @Enumerated(EnumType.STRING)
     OrderStatus status;
+
+    String paymentMethod;
 
     String description;
 
@@ -48,14 +42,10 @@ public class Order {
     @JoinColumn(name = "user_id")
     User user;
 
-    @ManyToOne
-    @JoinColumn(name = "payment_method_id")
-    PaymentMethod paymentMethod;
-
     Instant createdAt;
+    Instant updatedAt;
     String createdBy;
-
-
+    String updatedBy;
 
     @PrePersist
     public void handleBeforeCreate() {
@@ -65,6 +55,7 @@ public class Order {
 
     @PreUpdate
     public void handleBeforeUpdate() {
-
+        this.updatedAt = Instant.now();
+        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
     }
 }
