@@ -1,103 +1,139 @@
-/*
-footer
-------
-*/
+.section__padding {
+    padding: 4rem 4rem;
+}
+
 .footer {
+    background-color: #2d2d32;
+}
+
+.sb__footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.sb__footer-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100%;
-    padding: 10px 0;
-    background-color: #f8f8f8;
-    text-align: center;
-    border-top: 1px solid #e0e0e0;
+    text-align: left;
+    margin-top: 2rem;
 }
 
-.footer .logo {
-    font-size: 24px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-bottom: 20px;
-}
-
-.footer .logo i {
-    color: #1890ff;
-    margin-right: 10px;
-    font-size: 28px;
-}
-
-.footer .logo a {
-    color: #333;
-    text-decoration: none;
-}
-
-.footer .socials {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.sb__footer-links_div {
+    width: 150px;
+    margin: 1rem;
     display: flex;
-    gap: 18px;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    color: white;
 }
 
-.footer .socials li {
-    display: inline-block;
-}
-
-.footer .socials a {
-    color: #333;
+a {
+    color: rgb(175, 175, 179);
     text-decoration: none;
-    font-size: 20px;
 }
 
-.footer .socials a:hover {
-    color: #1890ff;
+.socialmedia {
+    display: flex;
+    flex-direction: row;
 }
 
-.footer .copyright {
-    margin-top: 20px;
+.socialmedia img {
+    width: 40px; /* Đặt kích thước cố định, bạn có thể tùy chỉnh */
+    height: 40px; /* Đặt chiều cao cố định để đảm bảo tỉ lệ */
+    object-fit: contain; /* Đảm bảo hình ảnh giữ đúng tỉ lệ, không bị méo */
+    margin-right: 10px; /* Khoảng cách giữa các hình ảnh */
+}
+
+
+.sb__footer-links_div h4 {
     font-size: 14px;
-    color: #777;
+    line-height: 17px;
+    margin-bottom: 0.9rem;
 }
 
-/* BackTop */
-.goTop {
-    width: 40px;
-    height: 40px;
-    background-color: #1890ff;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.sb__footer-links_div p {
+    font-size: 12px;
+    line-height: 15px;
+    margin: 0.5rem 0;
     cursor: pointer;
-    font-size: 20px;
 }
 
-.goTop i {
-    margin: 0;
+.sb__footer-below {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 0.2rem;
 }
 
-.container-fluid {
-    margin: 0 auto;
-    max-width: 1200px;
-    padding: 0 15px;
+.sb__footer-below-links {
+    display: flex;
+    flex-direction: row;
 }
 
-/* Responsive */
-@media only screen and (max-width: 767px) {
-    .footer .logo {
-        font-size: 20px;
-    }
+.sb__footer-below-links p {
+    font-size: 13px;
+    line-height: 15px;
+    margin-left: 2rem;
+    color: white;
+    font-weight: 600;
+}
 
-    .footer .socials a {
-        font-size: 18px;
-    }
+hr {
+    color: white !important;
+    width: 100%;
+}
 
-    .footer .copyright {
-        font-size: 12px;
-    }
+.sb__footer-copyright p {
+    font-size: 13px;
+    line-height: 15px;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+}
 
-    .goTop {
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
+@media screen and (max-width: 850px) {
+    .sb__footer-heading h1 {
+        font-size: 44px;
+        line-height: 50px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .sb__footer-heading h1 {
+        font-size: 34px;
+        line-height: 42px;
+    }
+}
+
+.sb__footer-links div {
+    margin: 1rem 0;
+}
+
+.sb__footer-btn p {
+    font-size: 14px;
+    line-height: 42px;
+}
+
+.sb__footer-below {
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.sb__footer-below-links {
+    flex-direction: column;
+}
+
+.sb__footer-below-links p {
+    margin-left: 0rem;
+    margin-top: 1rem;
+}
+
+@media screen and (max-width: 400px) {
+    .sb__footer-heading h1 {
+        font-size: 27px;
+        line-height: 30px;
     }
 }
