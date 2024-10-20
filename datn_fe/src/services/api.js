@@ -85,7 +85,7 @@ export const callUpdateSlider = ({ id, title, description, imgUrl }) => {
 
 
 
-export const callFetchListBrand = (query) =>{
+export const callFetchListBrand = (query) => {
 
     return axios.get(`/api/v1/brand?${query}`);
 }
@@ -125,16 +125,16 @@ export const callFetchCategory = () => {
 export const callFetchBrand = () => {
     return axios.get(`/api/v1/brand/getAll`);
 }
-export const callFetchProduct = (query) =>{
+export const callFetchProduct = (query) => {
     return axios.get(`/api/v1/product?${query}`);
 }
-export const callCreateProduct = ({name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId}) => {
-    return axios.post('/api/v1/product', {name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId});
+export const callCreateProduct = ({ name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId }) => {
+    return axios.post('/api/v1/product', { name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId });
 }
-export const callUpdateProduct = ({id, name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId, active}) => {
-    return axios.put('/api/v1/product', {id, name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId, active});
+export const callUpdateProduct = ({ id, name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId, active }) => {
+    return axios.put('/api/v1/product', { id, name, price, discount, thumbnail, quantity, sold, description, sale, hot, images, categoryId, brandId, active });
 }
-export const callDeleteProduct = (productId) =>{
+export const callDeleteProduct = (productId) => {
     return axios.delete(`/api/v1/product/${productId}`);
 }
 export const callFetchProductById = (id) => {
@@ -148,3 +148,17 @@ export const callCheckOut = (data) => {
 }
 
 ///////////////////////////////////
+export const callFetchRatings = (productId) => {
+    return axios.get(`/api/v1/ratings/${productId}`);
+};
+
+export const callSubmitRating = (productId, ratingData) => {
+    return axios.post(`/api/v1/ratings/${productId}`, ratingData);
+};
+// Gửi phản hồi từ admin cho đánh giá
+export const callSubmitAdminResponse = (ratingId, responseData) => {
+    return axios.post(`/api/v1/ratings/${ratingId}/response`, {
+        response: responseData, // Gửi phản hồi trong một đối tượng
+    });
+};
+

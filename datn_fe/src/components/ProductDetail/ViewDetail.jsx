@@ -6,8 +6,8 @@ import ModalGallery from './ModalGallery';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { BsCartPlus } from 'react-icons/bs';
 import BookLoader from './BookLoader';
-import {useDispatch} from "react-redux";
-import {doAddBookAction} from "../../redux/order/orderSlice.js";
+import { useDispatch } from "react-redux";
+import { doAddBookAction } from "../../redux/order/orderSlice.js";
 
 const ViewDetail = (props) => {
     const { dataProduct } = props;
@@ -29,27 +29,27 @@ const ViewDetail = (props) => {
         // refGallery?.current?.fullScreen()
     }
 
-    const handleChangeButton = (type) =>{
-        if(type === "MINUS"){
-            if(currentQuantity - 1 <= 0) return;
+    const handleChangeButton = (type) => {
+        if (type === "MINUS") {
+            if (currentQuantity - 1 <= 0) return;
             setCurrentQuantity(currentQuantity - 1)
         }
-        if(type === "PLUS"){
-            if(currentQuantity === +dataProduct.quantity) return;
+        if (type === "PLUS") {
+            if (currentQuantity === +dataProduct.quantity) return;
             setCurrentQuantity(currentQuantity + 1);
         }
     }
 
-    const handleChangeInput = (value) =>{
-        if(!isNaN(value)){
-            if(+value > 0 && +value < +dataProduct.quantity){
+    const handleChangeInput = (value) => {
+        if (!isNaN(value)) {
+            if (+value > 0 && +value < +dataProduct.quantity) {
                 setCurrentQuantity(+value);
             }
         }
     }
 
     const handleAddToCart = (quantity, book) => {
-        dispatch(doAddBookAction({quantity, detail: book, _id: book.id}));
+        dispatch(doAddBookAction({ quantity, detail: book, _id: book.id }));
     }
 
     return (
@@ -90,12 +90,12 @@ const ViewDetail = (props) => {
 
                                     <div className='title'>{dataProduct?.name}</div>
                                     <div className='rating'>
-                                        <Rate value={5} disabled style={{color: '#ffce3d', fontSize: 12}}/>
+                                        <Rate value={5} disabled style={{ color: '#ffce3d', fontSize: 12 }} />
                                         <span className='sold'>
-                                            <Divider type="vertical"/>
+                                            <Divider type="vertical" />
                                             Đã bán {dataProduct.sold}</span>
                                     </div>
-                                    <div className='price' style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
+                                    <div className='price' style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                                         {dataProduct?.discount > 0 ? (
                                             <>
                                                 <span style={{
@@ -160,16 +160,16 @@ const ViewDetail = (props) => {
                                         <span className='left-side'>Số lượng</span>
                                         <span className='right-side'>
                                             <button
-                                                onClick={() => handleChangeButton('MINUS')}><MinusOutlined/></button>
+                                                onClick={() => handleChangeButton('MINUS')}><MinusOutlined /></button>
                                             <input onChange={(even) => handleChangeInput(even.target.value)}
-                                                   value={currentQuantity}/>
-                                            <button onClick={() => handleChangeButton('PLUS')}><PlusOutlined/></button>
+                                                value={currentQuantity} />
+                                            <button onClick={() => handleChangeButton('PLUS')}><PlusOutlined /></button>
                                         </span>
                                     </div>
                                     <div className='buy'>
                                         <button className='cart'
-                                                onClick={() => handleAddToCart(currentQuantity, dataProduct)}>
-                                            <BsCartPlus className='icon-cart'/>
+                                            onClick={() => handleAddToCart(currentQuantity, dataProduct)}>
+                                            <BsCartPlus className='icon-cart' />
                                             <span>Thêm vào giỏ hàng</span>
                                         </button>
                                         <button className='now'>Mua ngay</button>
@@ -178,7 +178,7 @@ const ViewDetail = (props) => {
                             </Col>
                         </Row>
                         :
-                        <BookLoader/>
+                        <BookLoader />
                     }
                 </div>
             </div>
@@ -189,6 +189,7 @@ const ViewDetail = (props) => {
                 items={images}
                 title={dataProduct?.name}
             />
+
         </div>
     )
 }
