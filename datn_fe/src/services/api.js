@@ -146,5 +146,15 @@ export const callFetchProductById = (id) => {
 export const callCheckOut = (data) => {
     return axios.post('/api/v1/payment/create-payment-intent', data);
 }
-
+export const callPlaceOrder = (data) => {
+    return axios.post('/api/v1/order', {
+        ...data
+    })
+}
+export const callOrderHistory = (id) => {
+    return axios.get(`/api/v1/order/${id}`);
+}
+export const callGetAllOrder = (query) => {
+    return axios.get(`/api/v1/order?${query}`);
+}
 ///////////////////////////////////

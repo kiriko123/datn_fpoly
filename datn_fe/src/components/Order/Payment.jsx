@@ -7,6 +7,7 @@ import { Input } from 'antd';
 import { AiOutlineRollback } from "react-icons/ai";
 import CheckoutModal from './CheckoutModal';
 import LocationSelect from "./LocationSelect.jsx";
+import {callPlaceOrder} from "../../services/api.js";
 const { TextArea } = Input;
 
 const Payment = (props) => {
@@ -37,6 +38,7 @@ const Payment = (props) => {
         } else {
             setTotalPrice(0);
         }
+        console.log(carts);
     }, [carts]);
 
     const handlePaymentChange = (e) => {
@@ -46,37 +48,42 @@ const Payment = (props) => {
     const handlePlaceOrder = async (paymentIntent = null) => {
         setIsSubmit(true);
 
-        // const detailOrder = carts.map(item => ({
-        //     bookName: item.detail.name,
-        //     quantity: item.quantity,
-        //     bookId: item._id,
-        //     price: item.detail.price,
-        // }));
-        //
-        // const data = {
-        //     receiverName: form.getFieldValue('name'),
-        //     receiverAddress: fullAddress,
-        //     receiverPhone: form.getFieldValue('phone'),
-        //     totalPrice: totalPrice,
-        //     userId: user.id,
-        //     orderDetails: detailOrder,
-        //     paymentIntentId: paymentIntent?.id ?? null
-        // };
-        //
-        // const res = await callPlaceOrder(data);
-        // if (res && res.data) {
-        //     message.success('Đặt hàng thành công !');
-        //     dispatch(doPlaceOrderAction());
-        //     props.setCurrentStep(2);
-        // } else {
-        //     notification.error({
-        //         message: "Đã có lỗi xảy ra",
-        //         description: res.message
-        //     });
-        // }
+        const detailOrder = carts.map(item => ({
+            productName: item.detail.name,
+            quantity: item.quantity,
+            productId: item._id,
+            price: item.detail.price,
+            discount: item.detail.discount,
+        }));
 
-        props.setCurrentStep(2);
-        dispatch(doPlaceOrderAction());
+        console.log(detailOrder);
+
+        //
+        const data = {
+            receiverName: form.getFieldValue('name'),
+            receiverAddress: fullAddress,
+            receiverPhone: form.getFieldValue('phone'),
+            totalPrice: totalPrice,
+            userId: user.id,
+            status: 'PENDING',
+            paymentMethod: paymentMethod,
+            orderDetails: detailOrder,
+            paymentIntentId: paymentIntent?.id ?? null
+        };
+        console.log(data);
+
+        const res = await callPlaceOrder(data);
+        if (res && res.data) {
+            message.success('Đặt hàng thành công !');
+            dispatch(doPlaceOrderAction());
+            props.setCurrentStep(2);
+        } else {
+            notification.error({
+                message: "Đã có lỗi xảy ra",
+                description: res.message
+            });
+        }
+
         setIsSubmit(false);
     };
 
@@ -96,14 +103,17 @@ const Payment = (props) => {
         }
     };
 
-    const handleAddressChange = (province, district, ward, street) => {
-        setSelectedProvince(province);
-        setSelectedDistrict(district);
-        setSelectedWard(ward);
-        setStreet(street)
-        let address = `${street ? street + ', ' : ''}${ward ? ward + ', ' : ''}${district ? district + ', ' : ''}${province}`;
+    const handleAddressChange = (provinceName, districtName, wardName, street) => {
+        setSelectedProvince(provinceName);
+        setSelectedDistrict(districtName);
+        setSelectedWard(wardName);
+        setStreet(street);
+
+        let address = `${street ? street + ', ' : ''}${wardName ? wardName + ', ' : ''}${districtName ? districtName + ', ' : ''}${provinceName}`;
         setFullAddress(address.trim().replace(/,\s*$/, ''));
     };
+
+
 
     return (
         <Row gutter={[20, 20]}>
