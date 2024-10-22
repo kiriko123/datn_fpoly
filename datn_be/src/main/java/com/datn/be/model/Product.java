@@ -34,6 +34,8 @@ public class Product {
 
     int sold;
 
+    @Lob  // Chỉ định trường này là một cột lớn
+    @Column(columnDefinition = "TEXT")
     String description;
 
     boolean active;

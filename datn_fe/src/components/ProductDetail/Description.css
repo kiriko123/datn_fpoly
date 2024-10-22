@@ -1,0 +1,56 @@
+
+.description {
+    margin-top: 20px;
+    background-color: white ;
+    padding: 50px;
+  }
+  
+  .description h3 {
+    font-size: 26px; /* Kích thước chữ lớn hơn */
+    color: #1c1c1c; /* Màu sắc tối hơn */
+    border-bottom: 2px solid #007bff; /* Đường viền dưới tiêu đề */
+    padding-bottom: 8px; /* Khoảng cách dưới tiêu đề */
+  }
+  
+  .description-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Khoảng cách phía trên bảng */
+  }
+  
+  .description-table tr {
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
+  }
+  
+  .description-table tr:hover {
+    background-color: #f0f8ff; /* Màu nền khi hover */
+  }
+  
+  .description-table th,
+  .description-table td {
+    padding: 12px; /* Khoảng cách bên trong ô */
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Đường viền dưới mỗi ô */
+  }
+  
+  .spec-name {
+    font-weight: bold; /* In đậm tên thông số */
+    color: #555; /* Màu cho tên thông số */
+  }
+  
+  .spec-value {
+    color: #007bff; /* Màu cho giá trị thông số */
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    .description-table th,
+    .description-table td {
+      padding: 10px; /* Điều chỉnh padding cho các ô */
+      font-size: 14px; /* Giảm kích thước chữ */
+    }
+  
+    .description h3 {
+      font-size: 22px; /* Kích thước chữ tiêu đề nhỏ hơn trên màn hình nhỏ */
+    }
+  }
