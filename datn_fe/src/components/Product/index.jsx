@@ -9,7 +9,8 @@ const Product = () => {
 
     // const [searchTerm, setSearchTerm] = useOutletContext();
     const { search } = useLocation(); // Dùng useLocation để lấy URL params
-
+    const location = useLocation();
+    const [searchTerm, setSearchTerm] = useState('');
     const [listCategory, setListCategory] = useState([]);
 
     const [listBrand, setListBrand] = useState([]);
@@ -69,6 +70,15 @@ const Product = () => {
 
     }, [search]); // Theo dõi khi URL thay đổi
 
+    useEffect(() => {
+        const term = location.state?.searchTerm;
+        if (term) {
+            setSearchTerm(term);
+            updateFilter({ searchTerm: term });
+        } else {
+            fetchProduct(); // Gọi API nếu không có từ khóa
+        }
+    }, [location.state?.searchTerm]);
 
     useEffect(() => {
         const initCategory = async () => {
@@ -99,7 +109,7 @@ const Product = () => {
 
     useEffect(() => {
         fetchProduct();
-    }, [current, pageSize, filter, sortQuery]); //searchTerm
+    }, [current, pageSize, filter, sortQuery, searchTerm]); //searchTerm
 
     const fetchProduct = async () => {
         setIsLoading(true);
@@ -158,6 +168,10 @@ const Product = () => {
         // Price range filter
         if (values?.range?.from >= 0 && values?.range?.to >= 0) {
             f += ` and price>:${values.range.from} and price<:${values.range.to}`;
+        }
+        // Name filter
+        if (values?.searchTerm) {
+            f += ` and name~'${values.searchTerm}'`;
         }
 
         setFilter(f); // Update filter
