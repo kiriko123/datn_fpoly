@@ -1,7 +1,7 @@
 package com.datn.be.controller;
 
 import com.datn.be.dto.request.order.OrderCreateDTO;
-import com.datn.be.dto.request.order.OrderUpdateDTO;
+import com.datn.be.dto.request.order.UserOrderUpdateDTO;
 import com.datn.be.model.Order;
 import com.datn.be.service.OrderService;
 import com.turkraft.springfilter.boot.Filter;
@@ -45,9 +45,14 @@ public class OrderController {
         log.info("Get orders");
         return ResponseEntity.ok(orderService.getAll());
     }
-    @PutMapping
-    public ResponseEntity<?> updateOrder(@Valid @RequestBody OrderUpdateDTO orderUpdateDTO) {
+    @PutMapping("/user-update")
+    public ResponseEntity<?> userUpdateOrder(@Valid @RequestBody UserOrderUpdateDTO orderUpdateDTO) {
         log.info("Update order: {}", orderUpdateDTO);
-        return ResponseEntity.ok(orderService.updateOrder(orderUpdateDTO));
+        return ResponseEntity.ok(orderService.UserUpdateOrder(orderUpdateDTO));
+    }
+    @PutMapping("/admin-update")
+    public ResponseEntity<?> adminUpdateOrder(@Valid @RequestBody UserOrderUpdateDTO orderUpdateDTO) {
+        log.info("Update order : {}", orderUpdateDTO);
+        return ResponseEntity.ok(orderService.AdminUpdateOrder(orderUpdateDTO));
     }
 }

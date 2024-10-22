@@ -157,6 +157,31 @@ export const callOrderHistory = (id) => {
 export const callGetAllOrder = (query) => {
     return axios.get(`/api/v1/order?${query}`);
 }
+export const callUserUpdateOrder = (orderData) => {
+    return axios.put('/api/v1/order/user-update', {
+        id: orderData.id,
+        address: orderData.address,
+        currentStatus: orderData.currentStatus,
+        newStatus: orderData.newStatus,
+        description: orderData.description
+    });
+};
+
+// order at admin page
+export const callFetchOrder = (query) => {
+    return axios.get(`/api/v1/order?${query}`);
+}
+//order update at admin
+export const callAdminUpdateOrder = (orderData) => {
+    return axios.put('/api/v1/order/admin-update', {
+        id: orderData.id,
+        address: orderData.address,
+        currentStatus: orderData.currentStatus,
+        newStatus: orderData.newStatus,
+        description: orderData.description
+    });
+};
+
 ///////////////////////////////////
 export const callFetchRatings = (productId) => {
     return axios.get(`/api/v1/ratings/${productId}`);

@@ -1,7 +1,7 @@
 package com.datn.be.service.impl;
 
 import com.datn.be.dto.request.order.OrderCreateDTO;
-import com.datn.be.dto.request.order.OrderUpdateDTO;
+import com.datn.be.dto.request.order.UserOrderUpdateDTO;
 import com.datn.be.dto.response.ResultPaginationResponse;
 import com.datn.be.dto.response.order.OrderResponse;
 import com.datn.be.exception.ResourceNotFoundException;
@@ -12,6 +12,7 @@ import com.datn.be.repository.OrderRepository;
 import com.datn.be.repository.ProductRepository;
 import com.datn.be.repository.UserRepository;
 import com.datn.be.service.OrderService;
+import com.datn.be.util.constant.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -163,10 +164,32 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updateOrder(OrderUpdateDTO orderUpdateDTO) {
+    public Order UserUpdateOrder(UserOrderUpdateDTO orderUpdateDTO) {
         Order currentOrder = orderRepository.findById(orderUpdateDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-        currentOrder.setStatus(orderUpdateDTO.getStatus());
+
+        if(orderUpdateDTO.getCurrentStatus() == OrderStatus.PENDING){
+            currentOrder.setReceiverAddress(orderUpdateDTO.getAddress());
+            currentOrder.setDescription(orderUpdateDTO.getDescription());
+            if(orderUpdateDTO.getCurrentStatus() == OrderStatus.PENDING && orderUpdateDTO.getNewStatus() == OrderStatus.CANCELLED) {
+                currentOrder.setStatus(orderUpdateDTO.getNewStatus());
+            }
+        }else{
+            throw new IllegalArgumentException("User không thể cập nhật trạng thái sau khi đơn hàng đã xử lý.");
+        }
+
+
+        return orderRepository.save(currentOrder);
+    }
+
+    @Override
+    public Order AdminUpdateOrder(UserOrderUpdateDTO orderUpdateDTO) {
+        Order currentOrder = orderRepository.findById(orderUpdateDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        currentOrder.setReceiverAddress(orderUpdateDTO.getAddress());
         currentOrder.setDescription(orderUpdateDTO.getDescription());
+
+        currentOrder.setStatus(orderUpdateDTO.getNewStatus());
+
         return orderRepository.save(currentOrder);
     }
 

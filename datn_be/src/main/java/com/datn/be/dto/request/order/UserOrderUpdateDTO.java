@@ -7,8 +7,10 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderUpdateDTO {
+public class UserOrderUpdateDTO {
     long id;
-    OrderStatus status;
+    String address;
+    OrderStatus currentStatus;
+    OrderStatus newStatus;
     String description;
 }

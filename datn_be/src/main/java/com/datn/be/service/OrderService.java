@@ -1,7 +1,7 @@
 package com.datn.be.service;
 
 import com.datn.be.dto.request.order.OrderCreateDTO;
-import com.datn.be.dto.request.order.OrderUpdateDTO;
+import com.datn.be.dto.request.order.UserOrderUpdateDTO;
 import com.datn.be.dto.response.ResultPaginationResponse;
 import com.datn.be.dto.response.order.OrderResponse;
 import com.datn.be.model.Order;
@@ -15,5 +15,7 @@ public interface OrderService {
     List<OrderResponse> getOrdersByUserId(Long id);
     ResultPaginationResponse findAll(Specification<Order> spec, Pageable pageable);
     List<OrderResponse> getAll();
-    Order updateOrder(OrderUpdateDTO orderUpdateDTO);
+    Order UserUpdateOrder(UserOrderUpdateDTO userOrderUpdateDTO);
+
+    Order AdminUpdateOrder(UserOrderUpdateDTO userOrderUpdateDTO);
 }
