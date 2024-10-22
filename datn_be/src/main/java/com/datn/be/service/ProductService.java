@@ -15,4 +15,6 @@ public interface ProductService {
     ResultPaginationResponse findAll(Specification<Product> spec, Pageable pageable);
 
     void delete(long productId);
+
+
 }

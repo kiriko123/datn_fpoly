@@ -62,6 +62,7 @@ public class SecurityConfig {
                 "/api/v1/auth/verify",
                 "/api/v1/auth/google",
                 "/api/v1/sliders/**",
+                "/api/v1/ratings/**",
                 "/api/v1/auth/forgot",
                 "/api/v1/auth/reset-password",
                 "/api/v1/auth/resend",
