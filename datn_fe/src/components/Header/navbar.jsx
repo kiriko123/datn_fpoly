@@ -37,6 +37,13 @@ const Navbar = (props) => {
 
     const [showManageAccount, setShowManageAccount] = useState(false);
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const handleSearch = (value) => {
+        if(value.trim()){
+            navigate('/product', { state: { searchTerm: value.trim() } });
+        }
+    };
+
     const handleLogout = async () => {
         const res = await callLogout();
         console.log('logout res: ', res);
@@ -172,8 +179,9 @@ const Navbar = (props) => {
                             <Input.Search
                                 placeholder="Search "
                                 enterButton
-                                value={props.searchTerm}
-                                onChange={(e) => props.setSearchTerm(e.target.value)}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onSearch={handleSearch}
                             />
                         </div>
 
