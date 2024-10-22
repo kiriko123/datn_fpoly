@@ -31,6 +31,7 @@ import Product from "./components/Product/index.jsx";
 import ProductDetail from "./pages/productDetail/index.jsx";
 import OrderPage from "./pages/order/index.jsx";
 import About from './pages/about/about.jsx';
+import History from "./components/Order/History.jsx";
 
 
 
@@ -96,6 +97,10 @@ export default function App() {
                 {
                     path: "product/:slug",
                     element: <ProductDetail />
+                },
+                {
+                    path: "history",
+                    element: <History/>
                 },
             ]
 

@@ -49,7 +49,7 @@ const ViewOrder = (props) => {
                         <div className='order-book' key={`index-${index}`}>
                             <div className='book-content'>
                                 <img src={`${import.meta.env.VITE_BACKEND_URL}/storage/product/${book?.detail?.thumbnail}`} />
-                                <div className='title'>
+                                <div className='text-emerald-600 text-lg'>
                                     {book?.detail?.name}
                                 </div>
                                 <div className='price'>

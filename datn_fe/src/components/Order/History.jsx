@@ -1,4 +1,4 @@
-import { Badge, Descriptions, Divider, Space, Table, Tag, Drawer } from "antd";
+import {Badge, Descriptions, Divider, Space, Table, Tag, Drawer, Image} from "antd";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { callOrderHistory } from "../../services/api";
@@ -15,6 +15,7 @@ const History = () => {
         const fetchHistory = async () => {
             const res = await callOrderHistory(user.id);
             if (res && res.data) {
+                console.log(res.data);
                 setOrderHistory(res.data);
             }
         }
@@ -62,15 +63,20 @@ const History = () => {
         },
         {
             title: 'Trạng thái',
-            render: () => (
-                <Tag color={"green"}>
-                    Thành công
-                </Tag>
-            )
+            dataIndex: 'status',
+            // render: () => (
+            //     <Tag color={"green"}>
+            //
+            //     </Tag>
+            // )
+        },
+        {
+            title: 'Phương thức thanh toán',
+            dataIndex: 'paymentMethod',
         },
 
         {
-            title: 'Chi tiết',
+            title: '',
             key: 'action',
             render: (_, record) => (
                 <EyeOutlined onClick={() => showDrawer(record)} style={{ cursor: 'pointer' }} />
@@ -79,8 +85,8 @@ const History = () => {
     ];
 
     return (
-        <div>
-            <div style={{ margin: "15px 0" }}>Lịch sử đặt hàng:</div>
+        <div className='mb-40 mx-10'>
+            <div className="my-6 text-2xl font-bold text-gray-800">Lịch sử đặt hàng</div>
             <Table
                 columns={columns}
                 dataSource={orderHistory}
@@ -98,11 +104,28 @@ const History = () => {
             >
                 {selectedOrder && (
                     <Descriptions bordered>
-                        {selectedOrder.orderDetails.map((item, index) => (
-                            <Descriptions.Item key={index} label={`STT ${index + 1} - ${item.bookName}`} span={3}>
-                                Số lượng: {item.quantity}, Giá: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
-                            </Descriptions.Item>
-                        ))}
+                        {selectedOrder.orderDetails.map((item, index) => {
+                            // Calculate price after discount
+                            const priceAfterDiscount = item.price - (item.price * item.discount / 100);
+
+                            return (
+                                <Descriptions.Item key={index} label={`${index + 1} - Name: ${item.productName}`} span={3}>
+                                    <div>
+                                        {/*<Image*/}
+                                        {/*    src={`${import.meta.env.VITE_BACKEND_URL}/storage/product/${item.productThumbnail}`}*/}
+                                        {/*    alt={item.productName}*/}
+                                        {/*    width={100} // Adjust width as needed*/}
+                                        {/*/>*/}
+                                        <div>
+                                            Số lượng: {item.quantity},
+                                            Giá: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)},
+                                            Discount: {item.discount} %,
+                                            Giá sau giảm: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(priceAfterDiscount)}
+                                        </div>
+                                    </div>
+                                </Descriptions.Item>
+                            );
+                        })}
                     </Descriptions>
                 )}
             </Drawer>

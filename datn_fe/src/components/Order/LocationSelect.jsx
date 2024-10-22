@@ -10,9 +10,9 @@ const LocationSelect = ({ onAddressChange }) => {
     const [wards, setWards] = useState([]);
     const [street, setStreet] = useState("");
 
-    const [selectedProvince, setSelectedProvince] = useState(undefined);
-    const [selectedDistrict, setSelectedDistrict] = useState(undefined);
-    const [selectedWard, setSelectedWard] = useState(undefined);
+    const [selectedProvince, setSelectedProvince] = useState(null); // Use null for initial value
+    const [selectedDistrict, setSelectedDistrict] = useState(null); // Use null for initial value
+    const [selectedWard, setSelectedWard] = useState(null); // Use null for initial value
 
     useEffect(() => {
         axios.get("https://vapi.vnappmob.com/api/province/")
@@ -23,9 +23,11 @@ const LocationSelect = ({ onAddressChange }) => {
 
     useEffect(() => {
         if (selectedProvince) {
-            axios.get(`https://vapi.vnappmob.com/api/province/district/${selectedProvince}`)
+            axios.get(`https://vapi.vnappmob.com/api/province/district/${selectedProvince.province_id}`)
                 .then((response) => {
                     setDistricts(response.data.results);
+                    setSelectedDistrict(null); // Reset district when province changes
+                    setSelectedWard(null); // Reset ward when province changes
                     setWards([]);
                 });
         } else {
@@ -36,51 +38,44 @@ const LocationSelect = ({ onAddressChange }) => {
 
     useEffect(() => {
         if (selectedDistrict) {
-            axios.get(`https://vapi.vnappmob.com/api/province/ward/${selectedDistrict}`)
+            axios.get(`https://vapi.vnappmob.com/api/province/ward/${selectedDistrict.district_id}`)
                 .then((response) => {
                     setWards(response.data.results);
+                    setSelectedWard(null); // Reset ward when district changes
                 });
         } else {
             setWards([]);
         }
     }, [selectedDistrict]);
 
-    const handleProvinceChange = (value) => {
-        setSelectedProvince(value);
-        setSelectedDistrict(undefined);
-        setSelectedWard(undefined);
+    const handleProvinceChange = (provinceId) => {
+        const province = provinces.find(p => p.province_id === provinceId);
+        setSelectedProvince(province);
+        onAddressChange(province?.province_name, null, null, street);
     };
 
-    const handleDistrictChange = (value) => {
-        setSelectedDistrict(value);
-        setSelectedWard(undefined);
+    const handleDistrictChange = (districtId) => {
+        const district = districts.find(d => d.district_id === districtId);
+        setSelectedDistrict(district);
+        onAddressChange(selectedProvince?.province_name, district?.district_name, null, street);
     };
 
-    const handleWardChange = (value) => {
-        setSelectedWard(value);
-        onAddressChange(
-            provinces.find((p) => p.province_id === selectedProvince)?.province_name,
-            districts.find((d) => d.district_id === selectedDistrict)?.district_name,
-            wards.find((w) => w.ward_id === value)?.ward_name,
-            street
-        );
+    const handleWardChange = (wardId) => {
+        const ward = wards.find(w => w.ward_id === wardId);
+        setSelectedWard(ward);
+        onAddressChange(selectedProvince?.province_name, selectedDistrict?.district_name, ward?.ward_name, street);
     };
 
     const handleStreetChange = (e) => {
         setStreet(e.target.value);
-        onAddressChange(
-            provinces.find((p) => p.province_id === selectedProvince)?.province_name,
-            districts.find((d) => d.district_id === selectedDistrict)?.district_name,
-            wards.find((w) => w.ward_id === selectedWard)?.ward_name,
-            e.target.value
-        );
+        onAddressChange(selectedProvince?.province_name, selectedDistrict?.district_name, selectedWard?.ward_name, e.target.value);
     };
 
     return (
         <div style={{ marginBottom: "10px" }}>
             <Select
                 placeholder="Chọn Tỉnh"
-                value={selectedProvince}
+                value={selectedProvince?.province_id} // Use the ID for the Select value
                 onChange={handleProvinceChange}
                 style={{ width: '100%', marginBottom: '10px' }}
             >
@@ -93,7 +88,7 @@ const LocationSelect = ({ onAddressChange }) => {
 
             <Select
                 placeholder="Chọn Huyện"
-                value={selectedDistrict}
+                value={selectedDistrict?.district_id} // Use the ID for the Select value
                 onChange={handleDistrictChange}
                 disabled={!selectedProvince}
                 style={{ width: '100%', marginBottom: '10px' }}
@@ -107,7 +102,7 @@ const LocationSelect = ({ onAddressChange }) => {
 
             <Select
                 placeholder="Chọn Xã"
-                value={selectedWard}
+                value={selectedWard?.ward_id} // Use the ID for the Select value
                 onChange={handleWardChange}
                 disabled={!selectedDistrict}
                 style={{ width: '100%', marginBottom: '10px' }}
@@ -123,7 +118,6 @@ const LocationSelect = ({ onAddressChange }) => {
                 placeholder="Nhập số nhà, tên đường"
                 value={street}
                 onChange={handleStreetChange}
-                disabled={!selectedWard}
                 style={{ width: '100%' }}
             />
         </div>

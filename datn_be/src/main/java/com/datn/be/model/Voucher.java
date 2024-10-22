@@ -16,26 +16,34 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "payment_methods")
-public class PaymentMethod {
+@Table(name = "vouchers")
+public class Voucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    long id;
 
-    String name;
-
+    String voucherCode;
+    float voucherValue;
     String description;
+    Instant startDate;
+    Instant endDate;
+    boolean active;
+
 
     Instant createdAt;
     Instant updatedAt;
+    String createdBy;
+    String updatedBy;
 
     @PrePersist
     public void handleBeforeCreate() {
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
         this.createdAt = Instant.now();
     }
 
     @PreUpdate
     public void handleBeforeUpdate() {
         this.updatedAt = Instant.now();
+        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
     }
 }

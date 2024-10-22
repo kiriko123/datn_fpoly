@@ -165,7 +165,7 @@ const Navbar = (props) => {
                     <div className="nav">
                         <div className="logo">
                             <i className="fas"> <FaBookQuran /> </i>
-                            <a href="" onClick={() => navigate('/')}>UwU</a>
+                            <a href="" onClick={() => navigate('/')}>Electronic Store</a>
                         </div>
 
                         <div className="search-bar">

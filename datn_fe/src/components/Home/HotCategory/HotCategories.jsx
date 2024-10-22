@@ -21,25 +21,33 @@ const HotCategories = () => {
         
         // Điều hướng đến trang sản phẩm với bộ lọc kết hợp
         navigate(`/product?filter=${encodeURIComponent(newFilter)}`);
+
+        //Cuộn lên đầu trang khi lọc xong
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };  
     
 
     useEffect(() => {
         const fetchHotCategories = async () => {
             try {
-                const response = await callFetchListCategory('hot=true');
-                if (response && response.data && Array.isArray(response.data.result)) {
-                    setCategories(response.data.result.slice(0, 3)); 
-                } else {
-                    console.error('response.data.result is not an array:', response.data.result);
+                const response = await callFetchListCategory('hot=true&active=true');
+                console.log('API Response:', response);
+                if (response && response.data) {
+                    if (Array.isArray(response.data.result)) {
+                        // Lọc các category có `hot` và `active` bằng true
+                        const filteredCategories = response.data.result.filter(category => category.hot && category.active);
+                        setCategories(filteredCategories.slice(0, 3)); // Chỉ lấy 3 category hot và active
+                    } else {
+                        console.error('response.data.result is not an array:', response.data.result);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching hot categories:', error);
             } finally {
-                setLoading(false); 
+                setLoading(false);
             }
         };
-
+    
         fetchHotCategories();
     }, []);
 
