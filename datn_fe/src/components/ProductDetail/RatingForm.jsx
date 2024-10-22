@@ -1,36 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { callSubmitRating, callFetchRatings, callSubmitAdminResponse } from '../../services/api'; // Import hàm gọi API
-import './RatingForm.css'; // Thêm CSS để làm đẹp cho form
+import { callSubmitRating, callFetchRatings, callSubmitAdminResponse } from '../../services/api';
+import './RatingForm.css';
+import moment from 'moment';
 
 const RatingForm = ({ productId }) => {
     const [content, setContent] = useState('');
     const [numberStars, setNumberStars] = useState(1);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-    const [ratings, setRatings] = useState([]); // Trạng thái để lưu danh sách đánh giá
+    const [ratings, setRatings] = useState([]);
     const [adminResponse, setAdminResponse] = useState('');
     const [selectedRatingId, setSelectedRatingId] = useState(null);
 
-    // Hàm lấy danh sách đánh giá từ API
+    // Lấy danh sách đánh giá từ API
     const fetchRatings = async () => {
         try {
             const response = await callFetchRatings(productId);
-            console.log(response.data); // Kiểm tra dữ liệu từ API
-
-            // Cập nhật danh sách đánh giá và đảm bảo có trường userName
             const updatedRatings = response.data.map(rating => ({
                 ...rating,
-                userName: rating.userName || 'Người dùng ẩn danh' // Gán giá trị mặc định nếu không có tên
+                userName: rating.userName || 'Người dùng ẩn danh' // Kiểm tra và hiển thị tên người dùng
             }));
-            setRatings(updatedRatings); // Cập nhật danh sách đánh giá
+            setRatings(updatedRatings);
         } catch (err) {
             console.error('Lỗi khi lấy danh sách đánh giá:', err);
         }
     };
 
     useEffect(() => {
-        fetchRatings(); // Gọi hàm lấy danh sách đánh giá khi component được mount
-    }, [productId]); // Gọi lại khi productId thay đổi
+        fetchRatings();
+    }, [productId]);
 
     const handleStarClick = (stars) => {
         setNumberStars(stars);
@@ -43,15 +41,11 @@ const RatingForm = ({ productId }) => {
                 content,
                 numberStars,
             };
-
-            // Gửi yêu cầu POST đến API để thêm đánh giá
             await callSubmitRating(productId, rating);
             setSuccess('Đánh giá của bạn đã được gửi thành công!');
             setContent('');
             setNumberStars(1);
             setError(null);
-
-            // Lấy lại danh sách đánh giá sau khi gửi thành công
             fetchRatings();
         } catch (err) {
             setError('Đã có lỗi xảy ra. Vui lòng thử lại.');
@@ -61,20 +55,18 @@ const RatingForm = ({ productId }) => {
 
     const handleAdminResponseSubmit = async (ratingId) => {
         try {
-            // Gửi phản hồi từ admin đến server
             await callSubmitAdminResponse(ratingId, adminResponse);
-            setAdminResponse(''); // Reset nội dung phản hồi
-            setSelectedRatingId(null); // Reset ID đã chọn
-            fetchRatings(); // Lấy lại danh sách đánh giá
+            setAdminResponse('');
+            setSelectedRatingId(null);
+            fetchRatings();
         } catch (err) {
             console.error('Lỗi khi gửi phản hồi:', err);
-            setError('Đã có lỗi xảy ra khi gửi phản hồi.'); // Cập nhật thông báo lỗi
+            setError('Đã có lỗi xảy ra khi gửi phản hồi.');
         }
     };
 
-    // Hàm đếm số lượng đánh giá cho từng mức sao
     const countRatingsByStars = () => {
-        const counts = [0, 0, 0, 0, 0]; // Mảng để lưu số lượng đánh giá từ 1 đến 5 sao
+        const counts = [0, 0, 0, 0, 0];
         ratings.forEach(rating => {
             counts[rating.numberStars - 1]++;
         });
@@ -87,7 +79,6 @@ const RatingForm = ({ productId }) => {
         <div className="rating-form">
             <h2>Khách hàng nói về sản phẩm</h2>
 
-            {/* Hiển thị thanh tiến độ cho từng mức sao */}
             <div className="average-rating">
                 {starCounts.map((count, index) => (
                     <div key={index} className="progress-bar-wrapper">
@@ -131,7 +122,6 @@ const RatingForm = ({ productId }) => {
             {error && <div className="error">{error}</div>}
             {success && <div className="success">{success}</div>}
 
-            {/* Hiển thị danh sách đánh giá */}
             <div className="ratings-list">
                 {ratings.length === 0 ? (
                     <p>Chưa có đánh giá nào.</p>
@@ -145,16 +135,18 @@ const RatingForm = ({ productId }) => {
                                     </span>
                                 ))}
                             </div>
-                            <p><strong>{rating.userName}</strong>: {rating.content}</p> {/* Hiển thị tên người dùng */}
+                            <p>
+                                <strong>{rating.userName}</strong>{' '} {/* Hiển thị tên người dùng */}
+                                <span className="rating-date">({moment(rating.createdAt).format('DD/MM/YYYY HH:mm')})</span>:
+                                {rating.content}
+                            </p>
 
-                            {/* Hiển thị phản hồi của admin nếu có */}
                             {rating.adminResponse && (
                                 <div className="admin-response">
                                     <strong>Phản hồi từ admin:</strong> {rating.adminResponse}
                                 </div>
                             )}
 
-                            {/* Khung bình luận trả lời cho admin */}
                             <div className="admin-reply">
                                 {selectedRatingId === rating.id ? (
                                     <>
@@ -167,7 +159,7 @@ const RatingForm = ({ productId }) => {
                                     </>
                                 ) : (
                                     <button className="reply-button" onClick={() => { setSelectedRatingId(rating.id); setAdminResponse(''); }}>
-                                        <span className="arrow">➤</span> {/* Biểu tượng mũi tên */}
+                                        <span className="arrow">➤</span>
                                         Trả lời
                                     </button>
                                 )}
