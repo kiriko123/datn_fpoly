@@ -34,6 +34,7 @@ public class Product {
 
     int sold;
 
+    @Lob  // Chỉ định trường này là một cột lớn
     String description;
 
     boolean active;

@@ -164,6 +164,9 @@ const BookTable = () => {
             title: 'Description',
             dataIndex: 'description',
             sorter: true,
+            render: (text) =>{
+                return text.length > 50 ? `${text.slice(0, 50)}...` : text;
+            },
         },
         selectedColumns.createdAt && {
             title: 'CreatedAt',
