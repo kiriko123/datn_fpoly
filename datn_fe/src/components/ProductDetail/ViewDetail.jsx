@@ -76,12 +76,15 @@ const ViewDetail = ({ dataProduct }) => {
                                     <div>Brand: <a href='#'>{dataProduct?.brand?.name}</a></div>
                                     <div className='text-3xl'>{dataProduct?.name}</div>
                                     <div className='rating'>
-                                        <Rate value={5} disabled style={{ color: '#ffce3d', fontSize: 12 }} />
+                                        <Rate value={5} disabled style={{color: '#ffce3d', fontSize: 12}}/>
                                         <span className='sold'>
-                                            <Divider type="vertical" /> Đã bán {dataProduct.sold}
+                                            <Divider type="vertical"/> Đã bán {dataProduct.sold}
+                                        </span>
+                                        <span className='sold'>
+                                            <Divider type="vertical"/> Còn {dataProduct.quantity}
                                         </span>
                                     </div>
-                                    <div className='price' style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                                    <div className='price' style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
                                         {dataProduct?.discount > 0 ? (
                                             <>
                                                 <span style={{ textDecoration: 'line-through', color: '#a9a9a9' }}>
