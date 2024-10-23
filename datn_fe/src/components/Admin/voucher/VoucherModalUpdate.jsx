@@ -10,16 +10,15 @@ const VoucherModalUpdate = (props) => {
 
     useEffect(() => {
         if (dataUpdate?.id) {
-            const init = {
-                id: dataUpdate.id,
-                voucherCode: dataUpdate.voucherCode,
-                voucherValue: dataUpdate.voucherValue,
+            // Thiết lập giá trị cho form
+            form.setFieldsValue({
+                voucherCode: dataUpdate.voucherCode || '',
+                voucherValue: dataUpdate.voucherValue || 0,
                 startDate: dataUpdate.startDate ? moment(dataUpdate.startDate) : null,
                 endDate: dataUpdate.endDate ? moment(dataUpdate.endDate) : null,
                 active: dataUpdate.active,
-                description: dataUpdate.description || '',
-            };
-            form.setFieldsValue(init);
+                description: dataUpdate.description || '', // Thêm mô tả nếu có
+            });
         }
         return () => {
             form.resetFields();
@@ -28,18 +27,13 @@ const VoucherModalUpdate = (props) => {
 
     const onFinish = async (values) => {
         setIsSubmit(true);
-
-        if (!values.voucherCode) {
-            message.error('Vui lòng nhập mã voucher!');
-            setIsSubmit(false);
-            return;
-        }
-
-        const isoStartDate = values.startDate.toISOString();
-        const isoEndDate = values.endDate.toISOString();
-
+    
+        const isoStartDate = values.startDate.toISOString(); // Chuyển đổi ngày bắt đầu sang định dạng ISO
+        const isoEndDate = values.endDate.toISOString();     // Chuyển đổi ngày kết thúc sang định dạng ISO
+    
         try {
             const res = await callUpdateVoucher({
+                id: dataUpdate.id, // Thêm ID vào yêu cầu
                 voucherCode: values.voucherCode,
                 voucherValue: values.voucherValue,
                 description: values.description,
@@ -47,7 +41,7 @@ const VoucherModalUpdate = (props) => {
                 endDate: isoEndDate,
                 active: values.active,
             });
-
+    
             if (res && res.data) {
                 message.success('Cập nhật voucher thành công');
                 form.resetFields();
@@ -56,18 +50,19 @@ const VoucherModalUpdate = (props) => {
             } else {
                 notification.error({
                     message: 'Đã có lỗi xảy ra',
-                    description: res.message,
+                    description: res.message || 'Vui lòng thử lại sau!',
                 });
             }
         } catch (error) {
             notification.error({
                 message: 'Lỗi khi cập nhật voucher',
-                description: error.message,
+                description: error.message || 'Vui lòng thử lại sau!',
             });
         } finally {
             setIsSubmit(false);
         }
     };
+    
 
     return (
         <Modal
