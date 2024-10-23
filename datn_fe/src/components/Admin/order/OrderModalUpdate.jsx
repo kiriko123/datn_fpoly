@@ -119,4 +119,3 @@ const OrderModalUpdate = (props) => {
 };
 
 export default OrderModalUpdate;
-
