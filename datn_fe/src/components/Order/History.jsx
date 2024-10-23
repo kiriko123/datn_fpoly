@@ -1,9 +1,11 @@
 import {Badge, Descriptions, Divider, Space, Table, Tag, Drawer, Image} from "antd";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { callOrderHistory } from "../../services/api";
 import { useSelector } from "react-redux";
-import { EyeOutlined } from '@ant-design/icons';
+import {EditTwoTone, EyeOutlined} from '@ant-design/icons';
+import CategoryUpdate from "../Admin/category/CategoryUpdate.jsx";
+import UserOrderUpdate from "./UserOrderUpdate.jsx";
 
 const History = () => {
     const [orderHistory, setOrderHistory] = useState([]);
@@ -11,17 +13,20 @@ const History = () => {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const user = useSelector(state => state.account.user);
 
+    const [openModalUpdate, setOpenModalUpdate] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState(null);
+
     useEffect(() => {
-        const fetchHistory = async () => {
-            const res = await callOrderHistory(user.id);
-            if (res && res.data) {
-                console.log(res.data);
-                setOrderHistory(res.data);
-            }
-        }
+
         fetchHistory();
     }, [user.id]);
-
+    const fetchHistory = async () => {
+        const res = await callOrderHistory(user.id);
+        if (res && res.data) {
+            console.log(res.data);
+            setOrderHistory(res.data);
+        }
+    }
     const showDrawer = (record) => {
         setSelectedOrder(record);
         setOpenDrawer(true);
@@ -62,7 +67,7 @@ const History = () => {
             dataIndex: 'receiverAddress',
         },
         {
-            title: 'Trạng thái',
+            title: 'Status',
             dataIndex: 'status',
             // render: () => (
             //     <Tag color={"green"}>
@@ -71,15 +76,30 @@ const History = () => {
             // )
         },
         {
-            title: 'Phương thức thanh toán',
+            title: 'Payment method',
             dataIndex: 'paymentMethod',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
         },
 
         {
             title: '',
             key: 'action',
             render: (_, record) => (
-                <EyeOutlined onClick={() => showDrawer(record)} style={{ cursor: 'pointer' }} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
+                    <EyeOutlined onClick={() => showDrawer(record)} style={{ cursor: 'pointer' }} />
+                    <EditTwoTone
+                        twoToneColor="#f57800" style={{cursor: "pointer"}}
+                        onClick={() => {
+                            setDataUpdate(record);
+                            setOpenModalUpdate(true);
+                        }}
+                    />
+                </div>
+
+
             ),
         },
     ];
@@ -111,11 +131,11 @@ const History = () => {
                             return (
                                 <Descriptions.Item key={index} label={`${index + 1} - Name: ${item.productName}`} span={3}>
                                     <div>
-                                        {/*<Image*/}
-                                        {/*    src={`${import.meta.env.VITE_BACKEND_URL}/storage/product/${item.productThumbnail}`}*/}
-                                        {/*    alt={item.productName}*/}
-                                        {/*    width={100} // Adjust width as needed*/}
-                                        {/*/>*/}
+                                        <Image
+                                            src={`${import.meta.env.VITE_BACKEND_URL}/storage/product/${item.thumbnail}`}
+                                            alt={item.productName}
+                                            width={50}
+                                        />
                                         <div>
                                             Số lượng: {item.quantity},
                                             Giá: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)},
@@ -129,6 +149,14 @@ const History = () => {
                     </Descriptions>
                 )}
             </Drawer>
+
+            <UserOrderUpdate
+                openModalUpdate={openModalUpdate}
+                setOpenModalUpdate={setOpenModalUpdate}
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
+                fetchCategory={fetchHistory}
+            />
         </div>
     );
 }

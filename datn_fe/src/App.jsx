@@ -32,6 +32,7 @@ import ProductDetail from "./pages/productDetail/index.jsx";
 import OrderPage from "./pages/order/index.jsx";
 import About from './pages/about/about.jsx';
 import History from "./components/Order/History.jsx";
+import ManageOrderPage from "./pages/admin/order/index.jsx";
 
 
 
@@ -146,6 +147,10 @@ export default function App() {
                 {
                     path: "product",
                     element: <ManageProductPage />,
+                },
+                {
+                    path: "order",
+                    element: <ManageOrderPage />,
                 }
 
             ]

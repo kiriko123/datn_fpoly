@@ -1,4 +1,4 @@
-import { Row, Col, Rate, Divider, Button } from 'antd';
+import {Row, Col, Rate, Divider, Button, message} from 'antd';
 import './book.scss';
 import ImageGallery from 'react-image-gallery';
 import { useRef, useState } from 'react';
@@ -6,7 +6,7 @@ import ModalGallery from './ModalGallery';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { BsCartPlus } from 'react-icons/bs';
 import BookLoader from './BookLoader';
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import './Description.css'
 import { doAddBookAction } from "../../redux/order/orderSlice.js";
 
@@ -21,6 +21,7 @@ const ViewDetail = (props) => {
     const dispatch = useDispatch();
 
     const [currentQuantity, setCurrentQuantity] = useState(1);
+    const user = useSelector(state => state.account.user);
 
     //Xử lý description
     const parseDescriptionToTable = (description) => {
@@ -66,6 +67,10 @@ const ViewDetail = (props) => {
     };
 
     const handleAddToCart = (quantity, book) => {
+        if(user?.role?.id === 1){
+            message.info("Not support for admin");
+            return;
+        }
         dispatch(doAddBookAction({ quantity, detail: book, _id: book.id }));
     };
 
@@ -106,12 +111,17 @@ const ViewDetail = (props) => {
 
                                     <div className='text-3xl'>{dataProduct?.name}</div>
                                     <div className='rating'>
-                                        <Rate value={5} disabled style={{ color: '#ffce3d', fontSize: 12 }} />
+                                        <Rate value={5} disabled style={{color: '#ffce3d', fontSize: 12}}/>
                                         <span className='sold'>
-                                            <Divider type="vertical" />
-                                            Đã bán {dataProduct.sold}</span>
+
+                                            <Divider type="vertical"/> Đã bán {dataProduct.sold}
+                                        </span>
+                                        <span className='sold'>
+                                            <Divider type="vertical"/> Còn {dataProduct.quantity}
+                                        </span>
+
                                     </div>
-                                    <div className='price' style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                                    <div className='price' style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
                                         {dataProduct?.discount > 0 ? (
                                             <>
                                                 <span style={{

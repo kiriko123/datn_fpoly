@@ -56,6 +56,7 @@ public class OrderResponse {
         float price;
         float discount;
         int quantity;
+        String thumbnail;
 
         public static OrderDetailResponse fromOrderDetail(OrderDetail orderDetail) {
             return OrderDetailResponse.builder()
@@ -64,6 +65,7 @@ public class OrderResponse {
                     .price(orderDetail.getPrice())
                     .discount(orderDetail.getDiscount())
                     .quantity(orderDetail.getQuantity())
+                    .thumbnail(orderDetail.getProduct().getThumbnail())
                     .build();
         }
     }
