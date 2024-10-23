@@ -80,6 +80,7 @@ const InputSearch = (props) => {
                                 onFinish(values);
                             }}
                         >
+
                             <Option value="PENDING">PENDING</Option>
                             <Option value="PROCESSING">PROCESSING</Option>
                             <Option value="SHIPPING">SHIPPING</Option>
