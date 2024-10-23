@@ -8,13 +8,16 @@ import {
     DeleteTwoTone,
     EditTwoTone
 } from '@ant-design/icons';
-import { callDeleteUser, callFetchListUser } from "../../../services/api.js";
+import { callFetchOrder } from "../../../services/api.js";
 import { FaEye } from "react-icons/fa";
-import InputSearch from './InputSearch';
+import InputSearch from "./InputSearch.jsx";
 import * as XLSX from "xlsx";
+import OrderViewDetail from "./OrderViewDetail.jsx";
+import OrderModalUpdate from "./OrderModalUpdate.jsx";
+import moment from "moment/moment.js";
 
 const OrderTable = () => {
-    const [listUser, setListUser] = useState([]);
+    const [listOrder, setListOrder] = useState([]);
     const [current, setCurrent] = useState(1);
     const [pageSize, setPageSize] = useState(2);
     const [total, setTotal] = useState(0);
@@ -23,25 +26,21 @@ const OrderTable = () => {
     const [sortQuery, setSortQuery] = useState("");
     const [openViewDetail, setOpenViewDetail] = useState(false);
     const [dataViewDetail, setDataViewDetail] = useState(null);
-    const [openModalCreate, setOpenModalCreate] = useState(false);
-
-    const [openModalImport, setOpenModalImport] = useState(false);
-
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
     const [dataUpdate, setDataUpdate] = useState(null);
 
     useEffect(() => {
-        fetchUsers();
+        fetchOrders();
     }, [current, pageSize, filter, sortQuery]);
 
-    const fetchUsers = async () => {
+    const fetchOrders = async () => {
         setIsLoading(true);
         let query = `page=${current}&size=${pageSize}`;
         if (filter) query += `&${filter}`;
         if (sortQuery) query += `&${sortQuery}`;
-        const res = await callFetchListUser(query);
+        const res = await callFetchOrder(query);
         if (res && res.data) {
-            setListUser(res.data.result);
+            setListOrder(res.data.result);
             setTotal(res.data.meta.total);
         }
         setIsLoading(false);
@@ -49,20 +48,18 @@ const OrderTable = () => {
 
     const [selectedColumns, setSelectedColumns] = useState({
         id: true,
-        name: true,
-        email: true,
-        age: true,
-        firstName: true,
-        gender: true,
-        address: false,
-        role: true,
-        phoneNumber: true,
-        enabled: false,
-        imageUrl: false,
-        createdAt: false,
+        receiverName: true,
+        receiverPhone: false,
+        receiverAddress: true,
+        totalPrice: true,
+        status: true,
+        paymentMethod: true,
+        user: false,
+        createdAt: true,
         updatedAt: false,
         createdBy: false,
         updatedBy: false,
+        description: true,
         action: true,
     });
 
@@ -100,81 +97,53 @@ const OrderTable = () => {
 
     const columns = [
         selectedColumns.id && {
-            title: 'Id',
+            title: 'STT',
             dataIndex: 'id',
             sorter: true,
         },
-        selectedColumns.firstName && {
-            title: 'Firstname',
-            dataIndex: 'firstName',
-            sorter: true,
-        },
-        selectedColumns.name && {
-            title: 'Lastname',
-            dataIndex: 'name',
-            sorter: true,
-        },
-        selectedColumns.email && {
-            title: 'Email',
-            dataIndex: 'email',
-            sorter: true,
-        },
-        selectedColumns.age && {
-            title: 'Age',
-            dataIndex: 'age',
-            sorter: true,
-        },
-        selectedColumns.gender && {
-            title: 'Gender',
-            dataIndex: 'gender',
-            sorter: true,
-        },
-        selectedColumns.address && {
-            title: 'Address',
-            dataIndex: 'address',
-            sorter: true,
-        },
-        selectedColumns.phoneNumber && {
-            title: 'Phone number',
-            dataIndex: 'phoneNumber',
-            sorter: true,
-        },
-        selectedColumns.enabled && {
-            title: 'Enabled',
-            dataIndex: 'enabled',
-            sorter: true,
-            render: (enabled) => (enabled ? 'Enabled' : 'Disabled'), // Chuyển đổi giá trị true/false
-        },
-        selectedColumns.imageUrl && {
-            title: 'ImageUrl',
-            dataIndex: 'imageUrl',
-            sorter: true,
-        },
         selectedColumns.createdAt && {
-            title: 'CreatedAt',
+            title: 'Thời gian',
             dataIndex: 'createdAt',
+            render: (item) => {
+                return moment(item).format('DD-MM-YYYY hh:mm:ss');
+            },
             sorter: true,
         },
-        selectedColumns.updatedAt && {
-            title: 'UpdatedAt',
-            dataIndex: 'updatedAt',
+        selectedColumns.totalPrice && {
+            title: 'Tổng số tiển',
+            dataIndex: 'totalPrice',
+            render: (item) => {
+                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item);
+            },
             sorter: true,
         },
-        selectedColumns.createdBy && {
-            title: 'CreatedBy',
-            dataIndex: 'createdBy',
+        selectedColumns.receiverName && {
+            title: 'Người Nhận',
+            dataIndex: 'receiverName',
             sorter: true,
         },
-        selectedColumns.updatedBy && {
-            title: 'UpdatedBy',
-            dataIndex: 'updatedBy',
+        selectedColumns.receiverAddress && {
+            title: 'Địa chỉ',
+            dataIndex: 'receiverAddress',
             sorter: true,
         },
-        selectedColumns.role && {
-            title: 'Role',
-            dataIndex: ['role', 'name'],
+
+        selectedColumns.status && {
+            title: 'Trạng thái',
+            dataIndex: 'status',
             sorter: true,
         },
+        selectedColumns.paymentMethod && {
+            title: 'Payment Method',
+            dataIndex: 'paymentMethod',
+            sorter: true,
+        },
+        selectedColumns.description && {
+            title: 'Description',
+            dataIndex: 'description',
+            sorter: true,
+        },
+
         selectedColumns.action && {
             title: 'Action',
             render: (text, record) => (
@@ -183,18 +152,6 @@ const OrderTable = () => {
                         setDataViewDetail(record);
                         setOpenViewDetail(true);
                     }} />
-                    {/*<Popconfirm*/}
-                    {/*    placement="leftTop"*/}
-                    {/*    title="Xác nhận xóa user"*/}
-                    {/*    description="Bạn có chắc chắn muốn xóa user này?"*/}
-                    {/*    onConfirm={() => handleDeleteUser(record.id)}*/}
-                    {/*    okText="Xác nhận"*/}
-                    {/*    cancelText="Hủy"*/}
-                    {/*>*/}
-                    {/*    <span style={{ cursor: 'pointer' }}>*/}
-                    {/*        <DeleteTwoTone twoToneColor="#ff4d4f" />*/}
-                    {/*    </span>*/}
-                    {/*</Popconfirm>*/}
                     <EditTwoTone
                         twoToneColor="#f57800" style={{cursor: "pointer"}}
                         onClick={() => {
@@ -219,31 +176,16 @@ const OrderTable = () => {
         }
     };
 
-    const handleDeleteUser = async (userId) => {
-        const res = await callDeleteUser(userId);
-        if (res?.data?.statusCode === 204) {
-            message.success('Xóa user thành công');
-            fetchUsers();
-        } else {
-            notification.error({
-                message: 'Có lỗi xảy ra',
-                description: res.message,
-            });
-        }
-    };
-
     const handleExportData = () => {
-        if (listUser.length > 0) {
-            // Tạo bản sao của listUser và điều chỉnh dữ liệu trước khi xuất
-            const exportData = listUser.map(user => ({
-                ...user,
-                role: user.role?.name || '', // Lấy giá trị từ role.name hoặc để trống nếu không có
+        if (listOrder.length > 0) {
+            const exportData = listOrder.map(order => ({
+                ...order,
             }));
 
             const worksheet = XLSX.utils.json_to_sheet(exportData);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-            XLSX.writeFile(workbook, "ExportUser.csv");
+            XLSX.writeFile(workbook, "ExportOrder.csv");
         }
     }
 
@@ -292,7 +234,7 @@ const OrderTable = () => {
                         title={renderHeader}
                         loading={isLoading}
                         columns={columns}
-                        dataSource={listUser}
+                        dataSource={listOrder}
                         onChange={onChange}
                         rowKey="id"
                         scroll={{ x: 800 }}
@@ -305,19 +247,20 @@ const OrderTable = () => {
                         }}
                     />
                 </Col>
-                {/*<UserViewDetail*/}
-                {/*    openViewDetail={openViewDetail}*/}
-                {/*    setOpenViewDetail={setOpenViewDetail}*/}
-                {/*    dataViewDetail={dataViewDetail}*/}
-                {/*    setDataViewDetail={setDataViewDetail}*/}
-                {/*/>*/}
-                {/*<UserModalUpdate*/}
-                {/*    openModalUpdate={openModalUpdate}*/}
-                {/*    setOpenModalUpdate={setOpenModalUpdate}*/}
-                {/*    dataUpdate={dataUpdate}*/}
-                {/*    setDataUpdate={setDataUpdate}*/}
-                {/*    fetchUser={fetchUsers}*/}
-                {/*/>*/}
+                <OrderViewDetail
+                    openViewDetail={openViewDetail}
+                    setOpenViewDetail={setOpenViewDetail}
+                    dataViewDetail={dataViewDetail}
+                    setDataViewDetail={setDataViewDetail}
+                    fetchOrder={fetchOrders}
+                />
+                <OrderModalUpdate
+                    openModalUpdate={openModalUpdate}
+                    setOpenModalUpdate={setOpenModalUpdate}
+                    dataUpdate={dataUpdate}
+                    setDataUpdate={setDataUpdate}
+                    fetchOrder={fetchOrders}
+                />
             </Row>
         </>
     );
