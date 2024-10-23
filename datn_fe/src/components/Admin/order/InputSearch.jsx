@@ -20,31 +20,18 @@ const InputSearch = (props) => {
     const onFinish = (values) => {
         let queryParts = [];
 
-        if (values.fullName) {
-            queryParts.push(`name~%27${values.fullName}%27`);
+        if (values.receiverName) {
+            queryParts.push(`receiverName~%27${values.receiverName}%27`);
         }
-        if (values.firstName) {
-            queryParts.push(`firstName~%27${values.firstName}%27`);
+        if (values.receiverAddress) {
+            queryParts.push(`receiverAddress~%27${values.receiverAddress}%27`);
         }
-        if (values.email) {
-            queryParts.push(`email~%27${values.email}%27`);
+        if (values.status) {
+            queryParts.push(`status~%27${values.status}%27`);
         }
-        if (values.phoneNumber) {
-            queryParts.push(`phoneNumber~%27${values.phoneNumber}%27`);
+        if (values.paymentMethod) {
+            queryParts.push(`paymentMethod~%27${values.paymentMethod}%27`);
         }
-        if (values.address) {
-            queryParts.push(`address~%27${values.address}%27`);
-        }
-        if (values.enabled) {
-            queryParts.push(`enabled~%27${values.enabled}%27`);
-        }
-        if (values.role) {
-            queryParts.push(`role.id~%27${values.role}%27`);
-        }
-        if (values.gender) {
-            queryParts.push(`gender:%27${values.gender}%27`);
-        }
-
         if (queryParts.length > 0) {
             const query = `filter=${queryParts.join('%20and%20')}`;
             console.log("Search query:", query);
@@ -59,48 +46,73 @@ const InputSearch = (props) => {
                 <Col xs={12} sm={12} md={12} lg={5}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`phoneNumber`}
-                        label={`Phone number`}
+                        name={`receiverName`}
+                        label={`Người nhận`}
                     >
-                        <Input placeholder="Please input phone number!" />
+                        <Input placeholder="Please input receiver name!" />
                     </Form.Item>
                 </Col>
 
                 <Col xs={12} sm={12} md={12} lg={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`address`}
-                        label={`Address`}
+                        name={`receiverAddress`}
+                        label={`Địa chỉ`}
                     >
-                        <Input placeholder="Please input address!" />
+                        <Input placeholder="Please input receiver address!" />
                     </Form.Item>
                 </Col>
 
-                <Col xs={12} sm={12} md={8} lg={4}>
+                <Col xs={12} sm={12} md={12} lg={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`enabled`}
-                        label={`Status`}
+                        name={`status`}
+                        label={`Trạng thái`}
                     >
-                        <Select placeholder="Select status">
-                            <Option value="true">Active</Option>
-                            <Option value="false">Disable</Option>
+                        <Select
+                            placeholder="Chọn trạng thái"
+                            onChange={(value) => {
+                                // Lấy giá trị form hiện tại
+                                const values = form.getFieldsValue();
+                                // Cập nhật trạng thái mới
+                                values.status = value;
+                                // Gọi hàm onFinish để search luôn
+                                onFinish(values);
+                            }}
+                        >
+
+                            <Option value="PENDING">PENDING</Option>
+                            <Option value="PROCESSING">PROCESSING</Option>
+                            <Option value="SHIPPING">SHIPPING</Option>
+                            <Option value="DELIVERED">DELIVERED</Option>
+                            <Option value="CANCELLED">CANCELLED</Option>
                         </Select>
                     </Form.Item>
                 </Col>
 
+                {/*<Col xs={12} sm={12} md={12} lg={6}>*/}
+                {/*    <Form.Item*/}
+                {/*        labelCol={{ span: 24 }}*/}
+                {/*        name={`status`}*/}
+                {/*        label={`Trạng thái`}*/}
+                {/*    >*/}
+                {/*        <Select placeholder="Chọn trạng thái">*/}
+                {/*            <Option value="PENDING">PENDING</Option>*/}
+                {/*            <Option value="PROCESSING">PROCESSING</Option>*/}
+                {/*            <Option value="SHIPPING">SHIPPING</Option>*/}
+                {/*            <Option value="DELIVERED">DELIVERED</Option>*/}
+                {/*            <Option value="CANCELLED">CANCELLED</Option>*/}
+                {/*        </Select>*/}
+                {/*    </Form.Item>*/}
+                {/*</Col>*/}
 
-                <Col xs={12} sm={12} md={8} lg={4}>
+                <Col xs={12} sm={12} md={12} lg={6}>
                     <Form.Item
                         labelCol={{ span: 24 }}
-                        name={`gender`}
-                        label={`Gender`}
+                        name={`paymentMethod`}
+                        label={`Phương thức thanh toán`}
                     >
-                        <Select placeholder="Select gender">
-                            <Option value="MALE">Male</Option>
-                            <Option value="FEMALE">Female</Option>
-                            <Option value="OTHER">Other</Option>
-                        </Select>
+                        <Input placeholder="Please input payment method!" />
                     </Form.Item>
                 </Col>
             </Row>
