@@ -1,4 +1,4 @@
-import { Row, Col, Rate, Divider, Button } from 'antd';
+import {Row, Col, Rate, Divider, Button, message} from 'antd';
 import './book.scss';
 import ImageGallery from 'react-image-gallery';
 import { useRef, useState } from 'react';
@@ -6,7 +6,7 @@ import ModalGallery from './ModalGallery';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { BsCartPlus } from 'react-icons/bs';
 import BookLoader from './BookLoader';
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import './Description.css'
 import { doAddBookAction } from "../../redux/order/orderSlice.js";
 
@@ -21,6 +21,7 @@ const ViewDetail = (props) => {
     const dispatch = useDispatch();
 
     const [currentQuantity, setCurrentQuantity] = useState(1);
+    const user = useSelector(state => state.account.user);
 
     //Xử lý description
     const parseDescriptionToTable = (description) => {
@@ -66,6 +67,10 @@ const ViewDetail = (props) => {
     };
 
     const handleAddToCart = (quantity, book) => {
+        if(user?.role?.id === 1){
+            message.info("Not support for admin");
+            return;
+        }
         dispatch(doAddBookAction({ quantity, detail: book, _id: book.id }));
     };
 

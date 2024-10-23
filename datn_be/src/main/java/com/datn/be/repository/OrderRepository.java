@@ -10,23 +10,30 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
     List<Order> findAllByUserId(Long userId);
 
-//    @Query("SELECT new com.bookstore.be.dto.response.statistics.RevenueStatistics(YEAR(o.createdAt), SUM(o.totalPrice)) " +
-//            "FROM Order o " +
-//            "GROUP BY YEAR ( o.createdAt) ORDER BY YEAR ( o.createdAt)")
-//    List<RevenueStatistics> findRevenueStatisticsByYear();
-//
-//    @Query("SELECT new com.bookstore.be.dto.response.statistics.RevenueStatisticsByDate(DATE(o.createdAt), SUM(o.totalPrice)) " +
-//            "FROM Order o " +
-//            "GROUP BY DATE (o.createdAt) " +
-//            "ORDER BY DATE (o.createdAt)")
-//    List<RevenueStatisticsByDate> findRevenueStatisticsByDay();
-//
-//    @Query("SELECT sum(o.totalPrice) from Order o")
-//    Double findTotalPrice();
-//
-//    @Query("SELECT new com.bookstore.be.dto.response.statistics.RevenueStatisticsByMonthAndYear(CONCAT(FUNCTION('LPAD', CAST(MONTH(o.createdAt) AS STRING), 2, '0'), '-', YEAR(o.createdAt)), SUM(o.totalPrice)) " +
-//            "FROM Order o " +
-//            "GROUP BY YEAR(o.createdAt), MONTH(o.createdAt), CONCAT(FUNCTION('LPAD', CAST(MONTH(o.createdAt) AS STRING), 2, '0'), '-', YEAR(o.createdAt)) " +
-//            "ORDER BY YEAR(o.createdAt), MONTH(o.createdAt)")
-//    List<RevenueStatisticsByMonthAndYear> findRevenueStatisticsByMonthAndYear();
+    @Query(value = "select sum(orders.total_price) from orders where orders.status = 'DELIVERED'", nativeQuery = true)
+    Double findTotalPrice();
+
+    @Query(value = "SELECT " +
+            " YEAR(created_at) AS year, " +
+            " SUM(total_price) AS total_revenue" +
+            " FROM orders" +
+            " WHERE status = 'DELIVERED'" +
+            " GROUP BY YEAR(created_at)", nativeQuery = true)
+    List<Object[]> findTotalPriceByYear();
+
+    @Query(value = "SELECT " +
+            "    DATE_FORMAT(created_at, '%Y-%m') AS 'year_month', " +
+            "    SUM(total_price) AS total_revenue" +
+            " FROM orders" +
+            " WHERE status = 'DELIVERED'" +
+            " GROUP BY DATE_FORMAT(created_at, '%Y-%m')", nativeQuery = true)
+    List<Object[]> findTotalPriceByMonth();
+
+    @Query(value = "SELECT " +
+            "    DATE(created_at) AS day, " +
+            "    SUM(total_price) AS total_revenue" +
+            " FROM orders" +
+            " WHERE status = 'DELIVERED'" +
+            "GROUP BY DATE(created_at)", nativeQuery = true)
+    List<Object[]> findTotalPriceByDate();
 }

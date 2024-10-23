@@ -5,14 +5,14 @@ import { UserOutlined, ShoppingCartOutlined, BookOutlined } from "@ant-design/ic
 
 import RevenueStatistics from "../../components/Admin/dashboard/RevenueStatistics.jsx";
 import RevenueStatisticsByDate from "../../components/Admin/dashboard/RevenueStatisticsByDate.jsx";
-// import {callCountAllUserOrderAndTotalPrice} from "../../services/api.js";
-import CountBookSold from "../../components/Admin/dashboard/CountBookSold.jsx";
+import {callCountAll} from "../../services/api.js";
+import RevenueStatisticsByMonth from "../../components/Admin/dashboard/RevenueStatisticsByMonth.jsx";
 
 const AdminPage = () => {
     const [dataDashboard, setDataDashboard] = useState({
-        totalOrder: 10,
-        totalUser: 20,
-        totalPrice: 9999999999,
+        totalOrder: 0,
+        totalUser: 0,
+        totalPrice: 0,
     });
 
     useEffect(() => {
@@ -20,10 +20,10 @@ const AdminPage = () => {
     }, []);
 
     const initDashboard = async () => {
-        // const res = await callCountAllUserOrderAndTotalPrice();
-        // if (res && res.data) {
-        //     setDataDashboard(res.data);
-        // }
+        const res = await callCountAll();
+        if (res && res.data) {
+            setDataDashboard(res.data);
+        }
     };
 
     const formatter = (value) => <CountUp end={value} separator="," />;
@@ -94,12 +94,12 @@ const AdminPage = () => {
                     <RevenueStatistics />
                 </Col>
                 <Col xs={24} sm={24} md={12}>
-                    <h3 style={{ textAlign: "center", margin: "20px 0" }}>Biểu đồ Doanh Thu Theo Ngày</h3>
-                    <RevenueStatisticsByDate />
+                    <h3 style={{ textAlign: "center", margin: "20px 0" }}>Biểu đồ Doanh Thu Theo Tháng</h3>
+                    <RevenueStatisticsByMonth/>
                 </Col>
                 <Col xs={24} sm={24} md={24}>
-                    <h3 style={{ textAlign: "center", margin: "20px 0" }}>Biểu đồ số lượng bán được theo sách</h3>
-                    <CountBookSold />
+                    <h3 style={{ textAlign: "center", margin: "20px 0" }}>Biểu đồ Doanh Thu Theo Ngày</h3>
+                    <RevenueStatisticsByDate />
                 </Col>
             </Row>
         </>

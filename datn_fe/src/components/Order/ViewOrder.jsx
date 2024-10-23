@@ -8,6 +8,7 @@ const ViewOrder = (props) => {
     const carts = useSelector(state => state.order.carts);
     const [totalPrice, setTotalPrice] = useState(0);
     const dispatch = useDispatch();
+    const user = useSelector(state => state.account.user);
 
     useEffect(() => {
         if (carts && carts.length > 0) {
@@ -31,6 +32,10 @@ const ViewOrder = (props) => {
     };
 
     const handlePurchase = () => {
+        if(user?.role?.id === 1){
+            message.info("Not support for admin");
+            return;
+        }
         if (carts.length === 0) {
             message.error('Oops, không có gì hết nè!!!');
         } else {

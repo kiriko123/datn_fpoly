@@ -181,6 +181,21 @@ export const callAdminUpdateOrder = (orderData) => {
         description: orderData.description
     });
 };
+//////////////////////
+//Thong ke
+export const callCountAll = () => {
+    return axios.get(`/api/v1/statistics/count-all`);
+}
+export const callTotalPriceByYear = () => {
+    return axios.get(`/api/v1/statistics/total-price-by-year`);
+}
+export const callTotalPriceByMonth = () => {
+    return axios.get(`/api/v1/statistics/total-price-by-month`);
+}
+export const callTotalPriceByDate = () => {
+    return axios.get(`/api/v1/statistics/total-price-by-date`);
+}
+//////////////////////
 
 ///////////////////////////////////
 export const callFetchRatings = (productId) => {
