@@ -192,7 +192,7 @@ const OrderTable = () => {
 
     const renderHeader = () => (
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 15 }}>
-            <span>Table Users</span>
+            <span>Table Orders</span>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 15 }}>
                 <Dropdown
                     overlay={columnSelector}
