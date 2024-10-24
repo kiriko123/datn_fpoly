@@ -1,5 +1,6 @@
 
-SHOW COLUMNS FROM products LIKE 'description';
+
+-- SHOW COLUMNS FROM products LIKE 'description';
 
 ALTER TABLE products MODIFY description TEXT;
 
@@ -332,3 +333,9 @@ VALUES
 (1, 3, '2024-10-18 12:00:00'),
 (1, 4, '2024-10-19 14:00:00'),
 (1, 5, '2024-10-20 09:00:00');
+
+
+
+update orders
+set created_at = '2023-01-01 00:00:00', updated_at = '2023-01-10 00:00:00'
+where id = 1;

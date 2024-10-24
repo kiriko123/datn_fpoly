@@ -55,6 +55,11 @@ public class RatingServiceImpl implements RatingService {
         Rating existingRating = ratingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Rating not found"));
         existingRating.setContent(rating.getContent());
         existingRating.setNumberStars(rating.getNumberStars());
+        // Cập nhật phản hồi từ admin (nếu có)
+        if (rating.getAdminRespone() != null) {
+            existingRating.setAdminRespone(rating.getAdminRespone());
+        }
+
         existingRating.setUpdatedAt(Instant.now());
         ratingRepository.save(existingRating);
         return existingRating;
