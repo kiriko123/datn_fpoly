@@ -1,7 +1,7 @@
 import {Row, Col, Rate, Divider, Button, message} from 'antd';
 import './book.scss';
 import ImageGallery from 'react-image-gallery';
-import { useRef, useState } from 'react';
+import { useRef, useState,} from 'react';
 import ModalGallery from './ModalGallery';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { BsCartPlus } from 'react-icons/bs';
@@ -22,7 +22,7 @@ const ViewDetail = (props) => {
 
     const [currentQuantity, setCurrentQuantity] = useState(1);
     const user = useSelector(state => state.account.user);
-
+    const authenticated = useSelector(state => state.account.isAuthenticated);
     //Xử lý description
     const parseDescriptionToTable = (description) => {
         const parse = new DOMParser();
@@ -67,6 +67,10 @@ const ViewDetail = (props) => {
     };
 
     const handleAddToCart = (quantity, book) => {
+        if(!authenticated) {
+            message.info("Please login");
+            return;
+        }
         if(user?.role?.id === 1){
             message.info("Not support for admin");
             return;
