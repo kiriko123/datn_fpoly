@@ -3,10 +3,14 @@ package com.datn.be.controller;
 import com.datn.be.model.User;
 import com.datn.be.repository.UserRepository;
 import com.datn.be.service.AccountService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController // Đổi @Controller thành @RestController để trả về JSON
+@Controller
 @RequestMapping("/api/v1/auth")
 public class PasswordResetController {
     private final AccountService signupService;
@@ -18,30 +22,38 @@ public class PasswordResetController {
     }
 
     @GetMapping("/reset-password")
-    public ResponseEntity<?> checkResetCode(@RequestParam("code") String code) {
-        User user = userRepository.findByVerificationCode(code);
+    public String showResetPasswordForm(@RequestParam("code") String code, Model model) {
+        System.out.println(code);
 
-        if (user == null) {
-            return ResponseEntity.badRequest().body("Invalid verification code");
+        User user =  userRepository.findByVerificationCode(code);
+
+        if(user == null) {
+            model.addAttribute("error", "Invalid verification code");
+            return "error";
         }
 
-        // Nếu code hợp lệ, trả về 200 OK với message
-        return ResponseEntity.ok("Verification code is valid");
+        model.addAttribute("code", code);
+        return "reset_password"; // This will render the password reset form
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(@RequestParam("code") String code,
-                                           @RequestParam("password") String password,
-                                           @RequestParam("confirmPassword") String confirmPassword) {
+    public String resetPassword(@RequestParam("code") String code,
+                                @RequestParam("password") String password,
+                                @RequestParam("confirmPassword") String confirmPassword,
+                                Model model) {
         if (!password.equals(confirmPassword)) {
-            return ResponseEntity.badRequest().body("Mật khẩu không chính xác!");
+            // Sử dụng redirect để giữ nguyên code trên URL
+            return "redirect:/api/v1/auth/reset-password?code=" + code + "&error=Passwords do not match";
         }
 
         try {
             signupService.resetPassword(code, password);
-            return ResponseEntity.ok("Đổi mật khẩu thành công!");
+            return "changepassword_success";
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            // Truyền lỗi thông qua query string và giữ lại code
+            return "redirect:/api/v1/auth/reset-password?code=" + code + "&error=" + e.getMessage();
         }
     }
+
+
 }
