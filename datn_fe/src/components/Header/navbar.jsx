@@ -9,6 +9,7 @@ import { doLogoutAction } from "../../redux/account/accountSlice.js";
 import './navbar.css'
 import { FaHome } from "react-icons/fa";
 import { MdContactSupport } from "react-icons/md";
+import { MdContactPhone  } from "react-icons/md";
 import { RiLoginCircleFill } from "react-icons/ri";
 import { RiAdminFill } from "react-icons/ri";
 import { FaUserEdit } from "react-icons/fa";
@@ -188,19 +189,22 @@ const Navbar = (props) => {
                         <div className="mobileHidden">
                             <nav>
                                 <div>
-                                    <span onClick={() => navigate('/')}> <FaHome /> <p>{t('home')}</p></span>
+                                    <span onClick={() => navigate('/')}> <FaHome/> <p>{t('home')}</p></span>
                                 </div>
                                 <div>
-                                    <span onClick={() => navigate('/product')}> <GrProductHunt /> <p>{t('product')}</p></span>
+                                    <span onClick={() => navigate('/product')}> <GrProductHunt/> <p>{t('product')}</p></span>
                                 </div>
                                 <div>
-                                    <span onClick={() => navigate('/about')}> <MdContactSupport /> <p>{t('about')}</p></span>
+                                    <span onClick={() => navigate('/about')}> <MdContactSupport/> <p>{t('about')}</p></span>
+                                </div>
+                                <div>
+                                    <span onClick={() => navigate('/contact')}> <MdContactPhone /> <p>{t('contact')}</p></span>
                                 </div>
 
                                 <div>
                                     {!isAuthenticated || user === null ?
                                         <span
-                                            onClick={() => navigate('/auth')}><RiLoginCircleFill /> <p>{t('login_register')}</p></span>
+                                            onClick={() => navigate('/auth')}><RiLoginCircleFill/> <p>{t('login_register')}</p></span>
                                         :
 
 
@@ -224,17 +228,17 @@ const Navbar = (props) => {
                                                         showZero
                                                         color={"#214167"}
                                                     >
-                                                        <FiShoppingCart size={'23px'} className='icon-cart' />
+                                                        <FiShoppingCart size={'23px'} className='icon-cart'/>
                                                     </Badge>
                                                 </Popover>
 
                                             </div>
-                                            <Dropdown menu={{ items }} trigger={['click']}>
-                                                <Space style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                                    <Avatar src={urlAvatar} />
+                                            <Dropdown menu={{items}} trigger={['click']}>
+                                                <Space style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                                                    <Avatar src={urlAvatar}/>
                                                     <span>
                                                         <span> {user?.name} </span>
-                                                        <DownOutlined />
+                                                        <DownOutlined/>
                                                     </span>
                                                 </Space>
                                             </Dropdown>
@@ -248,7 +252,7 @@ const Navbar = (props) => {
 
                         <div className="mobileVisible">
                             <Button type="primary" onClick={showDrawer}>
-                                <i className="fas fa-bars"></i>
+                            <i className="fas fa-bars"></i>
                             </Button>
                             <Drawer
                                 placement="right"
@@ -264,8 +268,8 @@ const Navbar = (props) => {
                                         alignItems: 'center',
                                         paddingBottom: '10px',
                                     }}>
-                                        <Space style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                            <Avatar src={urlAvatar} />
+                                        <Space style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                                            <Avatar src={urlAvatar}/>
                                             <span>
                                                 <span> {user?.name} </span>
                                             </span>
@@ -276,7 +280,7 @@ const Navbar = (props) => {
                                             showZero
                                         >
                                             <FiShoppingCart onClick={() => navigate('/order')} className='icon-cart'
-                                                size={'23px'} />
+                                                            size={'23px'}/>
                                         </Badge>
                                     </div>
                                 )}
@@ -288,8 +292,8 @@ const Navbar = (props) => {
                                     cursor: 'pointer',
                                     marginTop: '10px'
                                 }}
-                                    onClick={() => navigate('/')}>
-                                    <FaHome />
+                                     onClick={() => navigate('/')}>
+                                    <FaHome/>
                                     <p>{t('home')}</p>
                                 </div>
 
@@ -300,8 +304,8 @@ const Navbar = (props) => {
                                     cursor: 'pointer',
                                     marginTop: '10px'
                                 }}
-                                    onClick={() => navigate('/product')}>
-                                    <FaHome />
+                                     onClick={() => navigate('/product')}>
+                                    <FaHome/>
                                     <p>Product</p>
                                 </div>
 
@@ -312,9 +316,21 @@ const Navbar = (props) => {
                                     margin: '10px 0 10px 0',
                                     cursor: 'pointer'
                                 }}
-                                    onClick={() => navigate('/about')}>
-                                    <MdContactSupport />
+                                     onClick={() => navigate('/about')}>
+                                    <MdContactSupport/>
                                     <p>{t('about')}</p>
+                                </div>
+
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '10px',
+                                    margin: '10px 0 10px 0',
+                                    cursor: 'pointer'
+                                }}
+                                     onClick={() => navigate('/contact')}>
+                                    <MdContactPhone />
+                                    <p>{t('contact')}</p>
                                 </div>
 
                                 {!isAuthenticated || user === null ?
@@ -325,8 +341,8 @@ const Navbar = (props) => {
                                             gap: '10px',
                                             cursor: 'pointer'
                                         }}
-                                            onClick={() => navigate('/auth')}>
-                                            <RiLoginCircleFill />
+                                             onClick={() => navigate('/auth')}>
+                                            <RiLoginCircleFill/>
                                             <p>{t('login_register')}</p>
                                         </div>
                                     </nav>
