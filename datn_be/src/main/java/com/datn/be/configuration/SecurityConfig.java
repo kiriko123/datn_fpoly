@@ -80,6 +80,7 @@ public class SecurityConfig {
                         authz -> authz
                                 .requestMatchers(whiteList).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/product").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/product/{id}").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/brand").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/category").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/category/getAll").permitAll()
