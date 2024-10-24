@@ -52,15 +52,13 @@
 }
 
 .star {
-    font-size: 30px;
-    color: #e0e0e0;
-    /* Màu sắc sao mặc định */
+    color: gray; /* Màu xám cho sao chưa được chọn */
+    cursor: pointer;
     transition: color 0.2s;
 }
 
 .star.filled {
-    color: #f39c12;
-    /* Màu sắc sao khi được chọn */
+    color: gold; /* Màu vàng cho sao được chọn */
 }
 
 textarea {

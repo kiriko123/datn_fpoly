@@ -45,6 +45,24 @@ public class RatingController {
 //        Rating updatedRating = ratingService.updateRating(id, rating);
 //        return ResponseEntity.ok(updatedRating);
 //    }
+@PutMapping("/{id}")
+public ResponseEntity<Rating> updateRating(
+        @PathVariable Long id,
+        @RequestBody Rating rating) {
+    // Kiểm tra người dùng hiện tại (nếu cần thiết)
+    String username = SecurityUtil.getCurrentUserLogin().orElse(null);
+    if (username == null) {
+        return ResponseEntity.status(403).body(null); // Trả về lỗi 403 nếu không có người dùng
+    }
+
+    // Gọi service để cập nhật đánh giá
+    Rating updatedRating = ratingService.updateRating(id, rating);
+
+    // Trả về đối tượng đã cập nhật
+    return ResponseEntity.ok(updatedRating);
+}
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRating(@PathVariable Long id) {

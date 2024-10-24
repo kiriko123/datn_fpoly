@@ -33,6 +33,7 @@ import OrderPage from "./pages/order/index.jsx";
 import About from './pages/about/about.jsx';
 import History from "./components/Order/History.jsx";
 import ManageOrderPage from "./pages/admin/order/index.jsx";
+import ManageStatisticsPage from './pages/admin/statistics/index.jsx';
 
 
 
@@ -151,6 +152,10 @@ export default function App() {
                 {
                     path: "order",
                     element: <ManageOrderPage />,
+                },
+                {
+                    path: "statistics",
+                    element: <ManageStatisticsPage/>,
                 }
 
             ]

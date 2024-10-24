@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { callSubmitRating, callFetchRatings, callSubmitAdminResponse } from '../../services/api';
 import './RatingForm.css';
 import moment from 'moment';
+import { message } from 'antd'; // Thêm dòng này nếu chưa có
+import {useDispatch, useSelector} from "react-redux"
+
 
 const RatingForm = ({ productId }) => {
     const [content, setContent] = useState('');
-    const [numberStars, setNumberStars] = useState(1);
+    const [updatedContent, setUpdatedContent] = useState('');
+    const [numberStars, setNumberStars] = useState(0);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [ratings, setRatings] = useState([]);
@@ -13,6 +17,10 @@ const RatingForm = ({ productId }) => {
     const [selectedRatingId, setSelectedRatingId] = useState(null);
     const [showAllRatings, setShowAllRatings] = useState(false); // Trạng thái hiển thị tất cả đánh giá
     const [collapsed, setCollapsed] = useState(true); // Trạng thái thu gọn danh sách đánh giá
+
+    const user = useSelector(state => state.account.user);
+
+
 
     // Lấy danh sách đánh giá từ API
     const fetchRatings = async () => {
@@ -38,12 +46,27 @@ const RatingForm = ({ productId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(user.email === ""){
+            message.info("Vui lòng đăng nhập!");
+            console.log("User: ",user);
+        return;
+        }
+       
+
+        // Kiểm tra nếu người dùng chưa chọn số sao
+    if (numberStars < 1) {
+        message.info("Vui lòng chọn số sao đánh giá!");
+        return;
+    }
+
+
         try {
             const rating = { content, numberStars };
             await callSubmitRating(productId, rating);
             setSuccess('Đánh giá của bạn đã được gửi thành công!');
             setContent('');
-            setNumberStars(1);
+            setNumberStars(0);
             setError(null);
             fetchRatings();
         } catch (err) {
@@ -54,7 +77,12 @@ const RatingForm = ({ productId }) => {
 
     const handleAdminResponseSubmit = async (ratingId) => {
         try {
-            await callSubmitAdminResponse(ratingId, adminResponse);
+            const ratingData = {
+                content: updatedContent, // Các trường khác nếu cần
+                adminRespone: adminResponse, // Phản hồi admin
+            };
+
+            await callSubmitAdminResponse(ratingId, ratingData);
             setAdminResponse('');
             setSelectedRatingId(null);
             fetchRatings();

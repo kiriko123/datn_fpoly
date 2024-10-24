@@ -26,6 +26,8 @@ public class Rating {
 
     int numberStars;
 
+    String adminRespone;
+
     @ManyToOne
     @JoinColumn(name = "user_id ")
     User user;

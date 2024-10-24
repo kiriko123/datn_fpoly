@@ -7,6 +7,7 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     DownOutlined,
+    BarChartOutlined,
 } from '@ant-design/icons';
 import {Layout, Menu, Dropdown, Space, message, Avatar} from 'antd';
 import {Outlet, useNavigate, Link, useLocation} from 'react-router-dom';
@@ -63,6 +64,11 @@ const items = [
         key: 'order',
         icon: <DollarCircleOutlined/>
     },
+    {
+        label: <Link to='/admin/statistics'>statistics</Link>,
+        key: 'statistics',
+        icon: <BarChartOutlined/>
+    },
 ];
 
 const LayoutAdmin = () => {
@@ -91,6 +97,7 @@ const LayoutAdmin = () => {
         if (path.includes('/admin/category')) return 'category';
         if (path.includes('/admin/slider')) return 'slider';
         if (path.includes('/admin/brand')) return 'brand';
+        if (path.includes('/admin/statistics')) return 'statistics';
         return 'dashboard';
     };
 
