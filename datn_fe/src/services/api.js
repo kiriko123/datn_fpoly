@@ -195,6 +195,16 @@ export const callTotalPriceByMonth = () => {
 export const callTotalPriceByDate = () => {
     return axios.get(`/api/v1/statistics/total-price-by-date`);
 }
+// Thống kê đơn hàng theo năm
+export const callOrdersByYear = (year) => {
+    return axios.get(`/api/v1/statistics/orders-by-year/${year}`);
+}
+
+// Thống kê đơn hàng theo tháng
+export const callOrdersByMonth = (year, month) => {
+    return axios.get(`/api/v1/statistics/orders-by-month/${year}/${month}`);
+}
+
 //////////////////////
 
 ///////////////////////////////////
@@ -207,8 +217,8 @@ export const callSubmitRating = (productId, ratingData) => {
 };
 // Gửi phản hồi từ admin cho đánh giá
 export const callSubmitAdminResponse = (ratingId, responseData) => {
-    return axios.post(`/api/v1/ratings/${ratingId}/response`, {
-        response: responseData, // Gửi phản hồi trong một đối tượng
+    return axios.put(`/api/v1/ratings/${ratingId}`, {
+        adminRespone: responseData, // Gửi phản hồi admin
     });
 };
 

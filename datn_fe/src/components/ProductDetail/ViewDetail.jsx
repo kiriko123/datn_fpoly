@@ -67,6 +67,7 @@ const ViewDetail = (props) => {
     };
 
     const handleAddToCart = (quantity, book) => {
+
         if(!authenticated) {
             message.info("Please login");
             return;
@@ -75,6 +76,7 @@ const ViewDetail = (props) => {
             message.info("Not support for admin");
             return;
         }
+
         dispatch(doAddBookAction({ quantity, detail: book, _id: book.id }));
     };
 
