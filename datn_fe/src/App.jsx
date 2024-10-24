@@ -31,6 +31,7 @@ import Product from "./components/Product/index.jsx";
 import ProductDetail from "./pages/productDetail/index.jsx";
 import OrderPage from "./pages/order/index.jsx";
 import About from './pages/about/about.jsx';
+import Contact from './pages/contact/contact.jsx';
 import History from "./components/Order/History.jsx";
 import ManageOrderPage from "./pages/admin/order/index.jsx";
 
@@ -94,6 +95,10 @@ export default function App() {
                 {
                     path: "/about",
                     element: <About />
+                },
+                {
+                    path: "/contact",
+                    element: <Contact />
                 },
                 {
                     path: "product/:slug",
