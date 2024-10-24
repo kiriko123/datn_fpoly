@@ -54,7 +54,7 @@ const VoucherTable = () => {
             render: (active) => (active ? 'Đang áp dụng' : 'Ngừng hoạt động'),
         },
         {
-            title: '',
+            title: 'Action',
             render: (text, record) => (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
                     <FaEye style={{ cursor: 'pointer' }} onClick={() => {
